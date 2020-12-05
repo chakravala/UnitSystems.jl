@@ -208,7 +208,7 @@ julia> planckreduced(CGS) # erg⋅s⋅rad⁻¹
 $(planckreduced(CGS))
 
 julia> lightspeed(CGS) # cm⋅s⁻¹
-$(lightspeed(Metric))
+$(lightspeed(CGS))
 
 julia> permeability(CGS) # erg⋅A⁻²⋅cm⁻¹
 $(permeability(CGS))
@@ -257,7 +257,7 @@ julia> lightspeed(SI2019) # m⋅s⁻¹
 $(lightspeed(SI2019))
 
 julia> permeability(SI2019) # H⋅m⁻¹
-$(permeability(CODATA))
+$(permeability(SI2019))
 
 julia> electronmass(SI2019) # kg
 $(electronmass(SI2019))
