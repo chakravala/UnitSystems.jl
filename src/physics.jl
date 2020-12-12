@@ -3,6 +3,65 @@
 #   UnitSystems Copyright (C) 2020 Michael Reed
 
 @doc """
+    μₑᵤ, μₚᵤ, μₚₑ, αinv, αG
+
+Physical measured dimensionless values with uncertainty are the electron to proton mass ratio `μₑᵤ`, proton to atomic mass ratio `μₚᵤ`, proton to electron mass ratio `μₚₑ`, inverted fine structure constant `αinv`, and the gravitaional coupling constant `αG`.
+
+```Julia
+julia> μₑᵤ
+$μₑᵤ
+
+julia> μₚᵤ
+$μₚᵤ
+
+julia> μₚₑ
+$μₚₑ
+
+julia> αinv
+$αinv
+
+julia> αG
+$αG
+```
+""" μₑᵤ, μₚᵤ, μₚₑ, αinv, αG, meu, mpu, mpe, ainv, aG
+
+@pure hyperfine(U::UnitSystem) = frequency(ΔνCs,U)
+@doc """
+    hyperfine(U::UnitSystem) = frequency($ΔνCs,U)
+
+Unperturbed groundstate hyperfine transition frequency `ΔνCs` of caesium-133 atom (Hz).
+```Julia
+julia> hyperfine(Metric) # Hz
+$(hyperfine(Metric))
+```
+""" hyperfine, ΔνCs
+
+@doc """
+```Julia
+luminousefficacy(U::UnitSystem{1}) = 1
+luminousefficacy(U::UnitSystem) = $(Kcd)power(U)
+```
+
+Luminous efficacy of monochromatic radiation `Kcd` of frequency 540 THz (lm⋅W⁻¹).
+```Julia
+julia> luminousefficacy(Metric) # lm⋅W⁻¹
+$(luminousefficacy(Metric))
+
+julia> luminousefficacy(CODATA) # lm⋅W⁻¹
+$(luminousefficacy(CODATA))
+
+julia> luminousefficacy(Conventional) # lm⋅W⁻¹
+$(luminousefficacy(Conventional))
+
+julia> luminousefficacy(CGS) # lm⋅s⋅erg⁻¹
+$(luminousefficacy(CGS))
+
+julia> luminousefficacy(English) # lm⋅s³⋅slug⋅ft⁻²
+$(luminousefficacy(English))
+```
+""" luminousefficacy, Kcd
+
+@doc """
     molarmass(U::UnitSystem) = avogadro(U)*electronmass(U)/μₑᵤ # 1/μₑᵤ = $(1/μₑᵤ-2e-13)
 
 Molar mass constant `Mᵤ` is the ratio of the `molarmass` and `relativemass` of a chemical.
@@ -18,11 +77,8 @@ $(molarmass(Metric))
 
 julia> molarmass(SI2019) # kg⋅mol⁻¹
 $(molarmass(SI2019))
-
-julia> molarmass(English) # slug⋅slug-mol⁻¹
-$(molarmass(English))
 ```
-""" molarmass, Mᵤ
+""" molarmass, Mᵤ, Mu
 
 @pure avogadro(U::UnitSystem) = μₑᵤ*molarmass(U)/electronmass(U)
 @doc """
@@ -127,8 +183,8 @@ $(boltzmann(CGS))
 julia> boltzmann(SI2019)/calᵢₜ # calᵢₜ⋅K⁻¹
 $(boltzmann(SI2019)/calᵢₜ)
 
-julia> boltzmann(SI2019)/rankine/calᵢₜ # calᵢₜ⋅°R⁻¹
-$(boltzmann(SI2019)/rankine/calᵢₜ)
+julia> boltzmann(SI2019)*rankine/calᵢₜ # calᵢₜ⋅°R⁻¹
+$(boltzmann(SI2019)*rankine/calᵢₜ)
 
 julia> boltzmann(English) # ft⋅lb⋅°R⁻¹
 $(boltzmann(English))
@@ -145,7 +201,7 @@ $(10log10(boltzmann(SI2019)))
 """ boltzmann, kB
 
 @doc """
-    lightspeed(U::UnitSystem) = 1/sqrt(permeability(U)*permittivity(U))
+    lightspeed(U::UnitSystem) = 1/sqrt(permeability(U)*permittivity(U)*lorentz(U)^2)
 
 Speed of light in a vacuum `𝘤` for massless particles (m⋅s⁻¹ or ft⋅s⁻¹).
 
@@ -159,14 +215,11 @@ $(lightspeed(English))
 """ lightspeed, 𝘤, cc
 
 @doc """
-    permeability(U::UnitSystem) = 1/permittivity(U)/lightspeed(U)
+    permeability(U::UnitSystem) = 1/permittivity(U)/(lightspeed(U)*lorentz(U))^2
 
 Magnetic permeability in a classical vacuum defined as `μ₀` in SI units (H⋅m⁻¹, kg⋅m²⋅C⁻²).
 
 ```Julia
-julia> permeability(CGS) # abhenry⋅cm⁻¹
-$(permeability(CGS))
-
 julia> permeability(Metric) # H⋅m⁻¹
 $(permeability(Metric))
 
@@ -178,8 +231,45 @@ $(permeability(CODATA))
 
 julia> permeability(SI2019) # H⋅m⁻¹
 $(permeability(SI2019))
+
+julia> permeability(EMU) # abH⋅cm⁻¹
+$(permeability(EMU))
+
+julia> permeability(ESU) # statH⋅cm⁻¹
+$(permeability(ESU))
 ```
 """ permeability, μ₀, m0
+
+@doc """
+    lorentz(U::UnitSystem) = 4π*biotsavart(U)/permeability(U)/rationalization(U)
+
+Electromagnetic proportionality constant `αL` for the Lorentz's law force (?).
+
+```Julia
+julia> lorentz(Metric)
+$(lorentz(Metric))
+
+julia> lorentz(Thomson)
+$(lorentz(Thomson))
+
+julia> lorentz(Gauss)
+$(lorentz(Gauss))
+```
+""" lorentz, αL, aL
+
+@doc """
+    rationalization(U::UnitSystem) = 4π*biotsavart(U)/permeability(U)/lorentz(U)
+
+Constant of magnetization and polarization density or `4π*coulomb(U)*permittivity(U)` (?).
+
+```Julia
+julia> rationalization(Metric)
+$(rationalization(Metric))
+
+julia> rationalization(Gauss)
+$(rationalization(Gauss))
+```
+""" rationalization
 
 @doc """
     electronmass(U::UnitSystem) = protonmass(U)/$μₚₑ # αinv^2*R∞*2𝘩/𝘤
@@ -285,7 +375,7 @@ $(newton(English))
 @doc """
     einstein(U::UnitSystem) = 8π*newton(U)/lightspeed(U)^4
 
-Einstein's gravitational constant from the Einstein field equations (? or ?).
+Einstein's gravitational constant from the Einstein field equations (s⋅²⋅m⁻¹⋅kg⁻¹).
 ```Julia
 julia> einstein(Metric) # s⋅²⋅m⁻¹⋅kg⁻¹
 $(einstein(Metric))
@@ -363,9 +453,9 @@ $(radiationdensity(English))
 """
 @pure radiationdensity(U::UnitSystem) = 4stefan(U)/lightspeed(U)
 
-@pure permittivity(U::UnitSystem) = inv(permeability(U)*lightspeed(U)^2)
+@pure permittivity(U::UnitSystem) = inv(permeability(U)*(lightspeed(U)*lorentz(U))^2)
 @doc """
-    permittivity(U::UnitSystem) = 1/permeability(U)/lightspeed(U)^2
+    permittivity(U::UnitSystem) = 1/permeability(U)/(lightspeed(U)*lorentz(U))^2
 
 Dielectric permittivity constant `ε₀` of a classical vacuum (C²⋅N⁻¹⋅m⁻²).
 
@@ -382,14 +472,20 @@ $(permittivity(CODATA))
 julia> permittivity(SI2019) # F⋅m⁻¹
 $(permittivity(SI2019))
 
+julia> permittivity(EMU) # abF⋅cm⁻¹
+$(permittivity(EMU))
+
+julia> permittivity(ESU) # statF⋅cm⁻¹
+$(permittivity(ESU))
+
 julia> permittivity(SI2019)/charge(SI2019) # 𝘦²⋅eV⁻¹⋅m⁻¹
 $(permittivity(SI2019)/charge(SI2019))
 ```
-""" permittivity, ε₀, e0
+""" permittivity, ε₀, ϵ₀, e0
 
-@pure coulomb(U::UnitSystem) = inv(4π*permittivity(U))
+@pure coulomb(U::UnitSystem) = rationalization(U)/4π/permittivity(U)
 @doc """
-    coulomb(U::UnitSystem) = 1/4π/permittivity(U)
+    coulomb(U::UnitSystem) = rationalization(U)/4π/permittivity(U)
 
 Electrostatic proportionality constant `kₑ` for the Coulomb's law force (N⋅m²⋅C⁻²).
 
@@ -397,22 +493,91 @@ Electrostatic proportionality constant `kₑ` for the Coulomb's law force (N⋅m
 julia> coulomb(Metric) # N⋅m²⋅C⁻²
 $(coulomb(Metric))
 
-julia> coulomb(Metric)/lightspeed(Metric)^2 # (N·s²⋅C⁻²)⋅𝘤²
-$(coulomb(Metric)/lightspeed(Metric)^2)
+julia> coulomb(CODATA) # N·m²⋅C⁻²
+$(coulomb(CODATA))
 
-julia> coulomb(Conventional)/lightspeed(Conventional)^2 # (N·s²⋅C⁻²)⋅𝘤²
-$(coulomb(Conventional)/lightspeed(Conventional)^2)
+julia> coulomb(SI2019) # N·m²⋅C⁻²
+$(coulomb(SI2019))
 
-julia> coulomb(CODATA)/lightspeed(CODATA)^2 # (N·s²⋅C⁻²)⋅𝘤²
-$(coulomb(CODATA)/lightspeed(CODATA)^2)
+julia> coulomb(Conventional) # N·m²⋅C⁻²
+$(coulomb(Conventional))
 
-julia> coulomb(SI2019)/lightspeed(SI2019)^2 # (N·s²⋅C⁻²)⋅𝘤²
-$(coulomb(SI2019)/lightspeed(SI2019)^2)
+julia> coulomb(EMU) # dyn⋅cm²⋅abC⁻²
+$(coulomb(EMU))
+
+julia> coulomb(ESU) # dyn⋅cm²⋅statC⁻²
+$(coulomb(ESU))
+
+julia> coulomb(HLU) # dyn⋅cm²⋅hlC⁻²
+$(coulomb(HLU))
 ```
 """ coulomb, kₑ, ke
 
+@pure biotsavart(U::UnitSystem) = permeability(U)*lorentz(U)*(rationalization(U)/4π)
 @doc """
-    impedance(U::UnitSystem) = permeability(U)*lightspeed(U)
+    biotsavart(U::UnitSystem) = permeability(U)*lorentz(U)*rationalization(U)/4π
+
+Matnetostatic proportionality constant `αB` for the Biot-Savart's law (?).
+
+```Julia
+julia> biotsavart(Metric)
+$(biotsavart(Metric))
+
+julia> biotsavart(CODATA)
+$(biotsavart(CODATA))
+
+julia> biotsavart(SI2019)
+$(biotsavart(SI2019))
+
+julia> biotsavart(Conventional)
+$(biotsavart(Conventional))
+
+julia> biotsavart(EMU)
+$(biotsavart(EMU))
+
+julia> biotsavart(ESU)
+$(biotsavart(ESU))
+
+julia> biotsavart(Gauss)
+$(biotsavart(Gauss))
+
+julia> biotsavart(HLU)
+$(biotsavart(HLU))
+```
+""" biotsavart, αB, aB
+
+@pure ampere(U::UnitSystem) = lorentz(U)*biotsavart(U)
+@doc """
+    ampere(U::UnitSystem) = lorentz(U)*biotsavart(U) # coulomb(U)/lightspeed(U)^2
+
+Magnetic proportionality constant `kₘ` for the Ampere's law force (N·s²⋅C⁻²).
+
+```Julia
+julia> ampere(Metric) # N·s²⋅C⁻²
+$(ampere(Metric))
+
+julia> ampere(CODATA) # N·s²⋅C⁻²
+$(ampere(CODATA))
+
+julia> ampere(SI2019) # N·s²⋅C⁻²
+$(ampere(SI2019))
+
+julia> ampere(Conventional) # N·s²⋅C⁻²
+$(ampere(Conventional))
+
+julia> ampere(EMU) # dyn·s²⋅abC⁻²
+$(ampere(EMU))
+
+julia> ampere(ESU) # dyn·s²⋅statC⁻²
+$(ampere(ESU))
+
+julia> ampere(HLU) # dyn·s²⋅hlC⁻²
+$(ampere(HLU))
+```
+""" ampere, kₘ, km
+
+@doc """
+    impedance(U::UnitSystem) = permeability(U)*lightspeed(U)*rationalization(U)*lorentz(U)^2
 
 Vacuum impedance of free space `Z₀` is magnitude ratio of electric to magnetic field (Ω).
 ```Julia
@@ -430,6 +595,15 @@ $(impedance(SI2019))
 
 julia> 120π # 3e8*μ₀ # Ω
 $(120π)
+
+julia> impedance(EMU) # abΩ
+$(impedance(EMU))
+
+julia> impedance(ESU) # statΩ
+$(impedance(ESU))
+
+julia> impedance(HLU) # hlΩ
+$(impedance(HLU))
 ```
 """ impedance, Z₀, Z0
 
@@ -450,8 +624,11 @@ $(charge(CODATA))
 julia> charge(Conventional) # C
 $(charge(Conventional))
 
-julia> 10lightspeed(Metric)*charge(metric) # statC
-$(10lightspeed(Metric)*charge(Metric))
+julia> charge(EMU) # abC
+$(charge(EMU))
+
+julia> charge(ESU) # statC
+$(charge(ESU))
 
 julia> charge(Planck) # sqrt(4π/αinv)
 $(charge(Planck))
@@ -476,6 +653,12 @@ $(faraday(CODATA))
 julia> faraday(Conventional) # C⋅mol⁻¹
 $(faraday(Conventional))
 
+julia> faraday(EMU) # abC⋅mol⁻¹
+$(faraday(EMU))
+
+julia> faraday(ESU) # statC⋅mol⁻¹
+$(faraday(ESU))
+
 julia> faraday(Metric)/kcal # kcal⋅(V-g-e)⁻¹
 $(faraday(Metric)/kcal)
 
@@ -484,9 +667,9 @@ $(faraday(Metric)/3600)
 ```
 """ faraday, 𝔉, FF
 
-@pure josephson(U::UnitSystem) = 2charge(U)/planck(U)
+@pure josephson(U::UnitSystem) = 2charge(U)*lorentz(U)/planck(U)
 @doc """
-    josephson(U::UnitSystem) = 2charge(U)/planck(U) # 1/magneticflux(U)
+    josephson(U::UnitSystem) = 2charge(U)*lorentz(U)/planck(U) # 1/magneticflux(U)
 
 Josephson constant `KJ` relating potential difference to irradiation frequency (Hz⋅V⁻¹).
 ```Julia
@@ -501,12 +684,18 @@ $(josephson(Conventional))
 
 julia> josephson(CODATA) # Hz⋅V⁻¹
 $(josephson(CODATA))
+
+julia> josephson(EMU) # Hz⋅abV⁻¹
+$(josephson(EMU))
+
+julia> josephson(ESU) # Hz⋅statV⁻¹
+$(josephson(ESU))
 ```
 """ josephson, KJ
 
 @pure magneticflux(U::UnitSystem) = inv(josephson(U))
 @doc """
-    magneticflux(U::UnitSystem) = planck(U)/2charge(U)
+    magneticflux(U::UnitSystem) = planck(U)/2charge(U)/lorentz(U)
 
 Magnetic flux quantum `Φ₀` is `1/josephson(U)` (Wb).
 ```Julia
@@ -519,8 +708,11 @@ $(magneticflux(Metric))
 julia> magneticflux(Conventional) # Wb
 $(magneticflux(Conventional))
 
-julia> magneticflux(CODATA) # Wb
-$(magneticflux(CODATA))
+julia> magneticflux(EMU) # Mx
+$(magneticflux(EMU))
+
+julia> magneticflux(ESU) # statWb
+$(magneticflux(ESU))
 ```
 """ magneticflux, Φ₀
 
@@ -541,12 +733,18 @@ $(klitzing(Conventional))
 
 julia> klitzing(CODATA) # Ω
 $(klitzing(CODATA))
+
+julia> klitzing(EMU) # abΩ
+$(klitzing(EMU))
+
+julia> klitzing(ESU) # statΩ
+$(klitzing(ESU))
 ```
 """ klitzing, RK
 
 @pure conductance(U::UnitSystem) = 2charge(U)^2/planck(U)
 @doc """
-    conductance(U::UnitSystem) = 2charge(U)^2/𝘩 # 2/klitzing(U)
+    conductance(U::UnitSystem) = 2charge(U)^2/planck(U) # 2/klitzing(U)
 
 Conductance quantum `G₀` is a quantized unit of electrical conductance (S).
 ```Julia
@@ -561,6 +759,12 @@ $(conductance(Conventional))
 
 julia> conductance(CODATA) # S
 $(conductance(CODATA))
+
+julia> conductance(EMU) # abS
+$(conductance(EMU))
+
+julia> conductance(ESU) # statS
+$(conductance(ESU))
 ```
 """ conductance, G₀, G0
 
@@ -635,7 +839,6 @@ $(1/rydberg(Metric)/2π)
 Precision measurements of the Rydberg constants are within a relative standard uncertainty of under 2 parts in 10¹², and is chosen to constrain values of other physical constants.
 """ rydberg, R∞, RH, Ry
 
-@pure plancklength(U::UnitSystem) = sqrt(planckreduced(U)*newton(U)/lightspeed(U)^3)
 @pure bohr(U::UnitSystem) = αinv*planckreduced(U)/electronmass(U)/lightspeed(U)
 @doc """
     bohr(U) = $αinv*planckreduced(U)/electronmass(U)/lightspeed(U)
@@ -648,13 +851,13 @@ $(bohr(Metric))
 julia> 12bohr(English) # in
 $(12bohr(English))
 
-julia> bohr(Metric)/plancklength(Metric) # ℓP
-$(bohr(Metric)/plancklength(Metric))
+julia> bohr(Metric)/length(PlanckGauss) # ℓP
+$(bohr(Metric)/length(PlanckGauss))
 ```
 """ bohr, a₀, a0
 
 """
-    bohrreduced(U::UnitSystem) = electronmass(U)/bohr(U)/$μₚₑ
+    bohrreduced(U::UnitSystem) = bohr(U)*(1+1/$μₚₑ)
 
 Reduced Bohr radius including the effect of reduced mass in hydrogen atom (m).
 ```Julia
@@ -684,9 +887,9 @@ $(electronradius(Conventional))
 ```
 """ electronradius, rₑ, re
 
-@pure magneton(U::UnitSystem) = charge(U)*planckreduced(U)/2electronmass(U)
+@pure magneton(U::UnitSystem) = charge(U)*planckreduced(U)*lorentz(U)/2electronmass(U)
 """
-    magneton(U::UnitSystem) = charge(U)*planckreduced(U)/2electronmass(U)
+    magneton(U::UnitSystem) = charge(U)*planckreduced(U)*lorentz(U)/2electronmass(U)
 
 Bohr magneton `μB` natural unit for expressing magnetic moment of electron (J⋅T⁻¹).
 ```Julia
@@ -702,8 +905,11 @@ $(magneton(CODATA))
 julia> magneton(Conventional) # J⋅T⁻¹
 $(magneton(Conventional))
 
-julia> magneton(CGS2019) # erg⋅T⁻¹
-$(magneton(CGS2019))
+julia> magneton(EMU2019) # erg⋅G⁻¹
+$(magneton(EMU2019))
+
+julia> magneton(ESU2019) # statA⋅cm²
+$(magneton(ESU2019))
 
 julia> magneton(SI2019)/charge(SI2019) # eV⋅T⁻¹
 $(magneton(SI2019)/charge(SI2019))
