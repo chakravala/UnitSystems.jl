@@ -194,7 +194,7 @@ julia> electricinduction(Metric,SI2019) # C⋅C⁻¹
 $(electricinduction(Metric,SI2019))
 ```
 """
-@pure electricinduction(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/area(U,S))
+@pure electricinduction(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*rationalization(U,S)/area(U,S))
 
 """
 $(convertext(:chargedensity,"charge(U,S)/volume(U,S)"))
@@ -286,7 +286,23 @@ $(permeability(Metric,SI2019))
 """ permeability(::UnitSystem,::UnitSystem)
 
 """
-    electricfield # V⋅m⁻¹
+$(convertext(:electricfield,"voltage(U,S)/length(U,S)"))
+
+Surface `electricflux` density or `electricfield` (V⋅m⁻¹), unit conversion factor.
+
+```Julia
+julia> electricfield(EMU,Metric) # V⋅cm⋅abV⁻¹⋅m⁻¹
+$(electricfield(EMU,Metric))
+
+julia> electricfield(EMU,ESU) # statV⋅abV⁻¹
+$(electricfield(EMU,ESU))
+
+julia> electricfield(ESU,Metric) # V⋅cm⋅statV⁻¹⋅m⁻¹
+$(electricfield(ESU,Metric))
+
+julia> electricfield(Metric,SI2019) # V⋅V⁻¹
+$(electricfield(Metric,SI2019))
+```
 """
 @pure electricfield(U::UnitSystem,S::UnitSystem) = unit(voltage(U,S)/length(U,S))
 
@@ -408,7 +424,7 @@ $(mobility(Metric,SI2019))
 """
 $(convertext(:reluctance,"1/inductance(U,S)"))
 
-Magnetic `reluctance` or magnetic resistance (H⁻¹), unit conversion factor.
+Magnetic `reluctance` or magnetic resistance (H⁻¹, Gb⋅Mx⁻¹), unit conversion factor.
 
 ```Julia
 julia> reluctance(EMU,Metric) # abH⋅H⁻¹
@@ -420,8 +436,8 @@ $(reluctance(ESU,Metric))
 julia> reluctance(Metric,SI2019) # H⋅H⁻¹
 $(reluctance(Metric,SI2019))
 ```
-"""
-@pure reluctance(U::UnitSystem,S::UnitSystem) = inductance(S,U)
+""" # reciprocal: permeance -- different concept from inductace but same units
+@pure reluctance(U::UnitSystem,S::UnitSystem) = unit(inductance(S,U)*rationalization(U,S)*lorentz(U,S)^2)
 
 """
 $(convertext(:vectorpotential,"magneticflux(U,S)/length(U,S)"))
@@ -495,9 +511,9 @@ $(susceptibility(Metric,SI2019))
 """
 @pure susceptibility(U::UnitSystem,S::UnitSystem) = permeability(S,U)
 
-# WARNING unchecked: rigidity, magneticmoment, vectorpotential, reluctance, mobility, electricflux, linearchargedensity, exposure, currentdensity, chargedensity, conductivity
+# WARNING unchecked: rigidity, magneticmoment, vectorpotential, mobility, electricflux, linearchargedensity, exposure
 
-# CGS extra
+# CGS extra: magneticmoment, magneticpolarization, electricpolarization
 
 """
 $(convertext(:electricflux,"voltage(U,S)*length(U,S)"))

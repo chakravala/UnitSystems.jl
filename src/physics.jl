@@ -201,7 +201,7 @@ $(10log10(boltzmann(SI2019)))
 """ boltzmann, kB
 
 @doc """
-    lightspeed(U::UnitSystem) = 1/sqrt(permeability(U)*permittivity(U)*lorentz(U)^2)
+    lightspeed(U::UnitSystem) = 1/sqrt(permeability(U)*permittivity(U))/lorentz(U)
 
 Speed of light in a vacuum `𝘤` for massless particles (m⋅s⁻¹ or ft⋅s⁻¹).
 
@@ -243,7 +243,7 @@ $(permeability(ESU))
 @doc """
     lorentz(U::UnitSystem) = 4π*biotsavart(U)/permeability(U)/rationalization(U)
 
-Electromagnetic proportionality constant `αL` for the Lorentz's law force (?).
+Electromagnetic proportionality constant `αL` for the Lorentz's law force (dimensionless).
 
 ```Julia
 julia> lorentz(Metric)
@@ -260,7 +260,7 @@ $(lorentz(Gauss))
 @doc """
     rationalization(U::UnitSystem) = 4π*biotsavart(U)/permeability(U)/lorentz(U)
 
-Constant of magnetization and polarization density or `4π*coulomb(U)*permittivity(U)` (?).
+Constant of magnetization and polarization density or `4π*coulomb(U)*permittivity(U)`.
 
 ```Julia
 julia> rationalization(Metric)
@@ -517,31 +517,31 @@ $(coulomb(HLU))
 @doc """
     biotsavart(U::UnitSystem) = permeability(U)*lorentz(U)*rationalization(U)/4π
 
-Matnetostatic proportionality constant `αB` for the Biot-Savart's law (?).
+Matnetostatic proportionality constant `αB` for the Biot-Savart's law (H/m).
 
 ```Julia
-julia> biotsavart(Metric)
+julia> biotsavart(Metric) # H⋅m⁻¹
 $(biotsavart(Metric))
 
-julia> biotsavart(CODATA)
+julia> biotsavart(CODATA) # H⋅m⁻¹
 $(biotsavart(CODATA))
 
-julia> biotsavart(SI2019)
+julia> biotsavart(SI2019) # H⋅m⁻¹
 $(biotsavart(SI2019))
 
-julia> biotsavart(Conventional)
+julia> biotsavart(Conventional) # H⋅m⁻¹
 $(biotsavart(Conventional))
 
-julia> biotsavart(EMU)
+julia> biotsavart(EMU) # abH⋅cm⁻¹
 $(biotsavart(EMU))
 
-julia> biotsavart(ESU)
+julia> biotsavart(ESU) # statH⋅cm⁻¹
 $(biotsavart(ESU))
 
-julia> biotsavart(Gauss)
+julia> biotsavart(Gauss) # abH⋅cm⁻¹
 $(biotsavart(Gauss))
 
-julia> biotsavart(HLU)
+julia> biotsavart(HLU) # hlH⋅cm⁻¹
 $(biotsavart(HLU))
 ```
 """ biotsavart, αB, aB
@@ -553,25 +553,25 @@ $(biotsavart(HLU))
 Magnetic proportionality constant `kₘ` for the Ampere's law force (N·s²⋅C⁻²).
 
 ```Julia
-julia> ampere(Metric) # N·s²⋅C⁻²
+julia> ampere(Metric) # H⋅m⁻¹
 $(ampere(Metric))
 
-julia> ampere(CODATA) # N·s²⋅C⁻²
+julia> ampere(CODATA) # H⋅m⁻¹
 $(ampere(CODATA))
 
-julia> ampere(SI2019) # N·s²⋅C⁻²
+julia> ampere(SI2019) # H⋅m⁻¹
 $(ampere(SI2019))
 
-julia> ampere(Conventional) # N·s²⋅C⁻²
+julia> ampere(Conventional) # H⋅m⁻¹
 $(ampere(Conventional))
 
-julia> ampere(EMU) # dyn·s²⋅abC⁻²
+julia> ampere(EMU) # abH⋅m⁻¹
 $(ampere(EMU))
 
-julia> ampere(ESU) # dyn·s²⋅statC⁻²
+julia> ampere(ESU) # statH⋅m⁻¹
 $(ampere(ESU))
 
-julia> ampere(HLU) # dyn·s²⋅hlC⁻²
+julia> ampere(HLU) # hlH⋅m⁻¹
 $(ampere(HLU))
 ```
 """ ampere, kₘ, km

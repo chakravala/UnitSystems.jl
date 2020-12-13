@@ -8,7 +8,7 @@
 [![Coverage Status](https://coveralls.io/repos/chakravala/UnitSystems.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/chakravala/UnitSystems.jl?branch=master)
 [![codecov.io](https://codecov.io/github/chakravala/UnitSystems.jl/coverage.svg?branch=master)](https://codecov.io/github/chakravala/UnitSystems.jl?branch=master)
 
-Specifications for dimensional units are in the [UnitSystems.jl](https://github.com/chakravala/UnitSystems.jl) and [UnitfulSystems.jl](httsp://github.com/chakravala/UnitfulSystems.jl) repositories.
+Specifications for dimensional units are in the [UnitSystems.jl](https://github.com/chakravala/UnitSystems.jl) and [UnitfulSystems.jl](https://github.com/chakravala/UnitfulSystems.jl) repositories.
 The two packages are designed so that they can be interchanged if compatibility with [Unitful.jl](https://github.com/PainterQubits/Unitful.jl) is desired or not.
 However, the `UnitfulSystems` package has fewer `UnitSystem` specifications available than the `UnitSystems` package due to limitations in combination with the `Unitful` package.
 Specifically, `Metric`, `SI2019`, `CODATA`, `Conventional`, `MTS`, `EMU2019`, `English`, and `EnglishUS` can have `Unitful` values; while `Gauss`, `LorentzHeaviside`, `Thomson`, `EMU`, `ESU`, `ESU2019`, `IAU`, `FFF`, `Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal` are plain valued.
