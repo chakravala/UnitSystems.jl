@@ -10,17 +10,18 @@ export slugs, kilograms, lbm, meters, feet, rankine, kelvin, moles, molecules
 export UnitSystem, US, SI, CGS, CGS2019, CGSm, CGSe, HLU, FFF
 
 const Systems = (:Metric,:SI2019,:CODATA,:Conventional,:MTS,:English,:EnglishUS,:IAU,:SI1976,:Mixed,:ESU2019,:EMU2019,:EMU,:ESU,:Gauss,:LorentzHeaviside,:Thomson,:Kennelly,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
-const Constants = (:boltzmann,:planck,:planckreduced,:lightspeed,:permeability,:luminousefficacy,:hyperfine,:lorentz,:rationalization,:molarmass,:electronmass)
-const Physics = (:protonmass,:atomicmass,:planckmass,:stefan,:radiationdensity,:einstein,:impedance,:charge,:faraday,:josephson,:klitzing,:hartree,:rydberg,:bohr,:bohrreduced,:electronradius,:conductance,:magneticflux,:magneton,:hyperfine,:ampere,:biotsavart,:coulomb,:permittivity,:universal,:newton,:avogadro)
+const Constants = (:hyperfine,:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:boltzmann,:permeability,:rationalization,:lorentz,:luminousefficacy)
+const Physics = (:atomicmass,:protonmass,:planckmass,:newton,:einstein,:hartree,:rydberg,:bohr,:bohrreduced,:electronradius,:avogadro,:universal,:stefan,:radiationdensity,:permittivity,:coulomb,:ampere,:biotsavart,:charge,:faraday,:impedance,:conductance,:klitzing,:josephson,:magneticflux,:magneton)
 const Kinematic = (:time,:length,:area,:volume,:wavenumber,:fuelefficiency,:frequency,:frequencydrift,:speed,:acceleration,:jerk,:snap,:volumeflow)
-const Mechanical = (:mass,:energy,:power,:force,:pressure,:momentum,:angularmomentum,:yank,:areadensity,:density,:specificvolume,:action,:specificenergy,:stiffness,:irradiance,:diffusivity,:viscosity,:lineardensity,:massflow,:radiantflux,:powerdensity,:compressibility,:fluence,:rotationalinertia)
-const Molar = (:molarmass,:molality,:mole,:molarity,:molarvolume,:molarentropy,:molarenergy,:molarconductivity,:catalysis,:specificity)
-const Electromagnetic = (:charge,:current,:voltage,:capacitance,:impedance,:conductance,:magneticflux,:magneticinduction,:inductance,:electricinduction,:chargedensity,:currentdensity,:conductivity,:permittivity,:permeability,:electricfield,:magneticfield,:exposure,:resistivity,:linearchargedensity,:magneticdipolemoment,:mobility,:reluctance,:vectorpotential,:magneticmoment,:rigidity,:susceptibility,:electricflux,:electricdipolemoment)
+const Mechanical = (:mass,:massflow,:lineardensity,:areadensity,:density,:specificvolume,:force,:stiffness,:pressure,:compressibility,:viscosity,:diffusivity,:rotationalinertia,:momentum,:angularmomentum,:yank,:energy,:specificenergy,:action,:fluence,:power,:powerdensity,:intensity,:spectralflux,:soundexposure,:impedance,:specificimpedance,:admittance,:compliance,:inertance)
+const Electromagnetic = (:charge,:chargedensity,:linearchargedensity,:exposure,:mobility,:current,:currentdensity,:resistance,:conductance,:resistivity,:conductivity,:capacitance,:inductance,:reluctance,:permeance,:permittivity,:permeability,:susceptibility,:specificsusceptibility,:demagnetizingfactor,:vectorpotential,:electricpotential,:magneticpotential,:electricfield,:magneticfield,:electricflux,:magneticflux,:electricfluxdensity,:magneticfluxdensity,:electricdipolemoment,:magneticdipolemoment,:electricpolarizability,:magneticpolarizability,:magneticmoment,:magnetizability,:magnetization,:specificmagnetization,:rigidity,:polestrength)
+const Thermodynamic = (:temperature,:entropy,:specificentropy,:volumeheatcapacity,:thermalconductivity,:thermalconductance,:thermalresistance,:thermalexpansion,:lapserate)
+const Molar = (:molarmass,:molality,:mole,:molarity,:molarvolume,:molarentropy,:molarenergy,:molarconductivity,:molarsusceptibility,:catalysis,:specificity)
 const Photometric = (:luminousflux,:luminance,:luminousenergy,:luminousexposure,:luminousefficacy)
-const Thermodynamic = (:temperature,:entropy,:specificentropy,:thermalconductivity,:thermalconductance,:thermalresistance,:thermalexpansion,:lapserate)
-const Convert = [Kinematic...,Mechanical...,Molar...,Electromagnetic...,Photometric...,Thermodynamic...]
+const Mechanics = [Kinematic...,Mechanical...]
+const Convert = [Mechanics...,Electromagnetic...,Thermodynamic...,Molar...,Photometric...]
 
-listext(x) = join(x,"`, `","`, and `")
+listext(x) = join(x,"`, `")
 
 # unit systems
 
@@ -34,13 +35,12 @@ additional constants `molarmass`, `hyperfine`, `luminousefficacy`, `stefan`, `ra
 
 Additional reference `UnitSystem` variants: `EMU`, `ESU`, `Gauss`, `LorentzHeaviside`, `MTS`, `SI2019`, `CODATA`, `Conventional`, `IAU`, `EnglishUS`; and natural atomic units based on gravitational coupling `αG` and the fine structure `1/αinv` constant (`Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal`).
 
-**Unit conversions:**
-Kinematic: `$(listext(Kinematic))`;
-Mechanical: `$(listext(Mechanical))`;
-Electromagnetic: `$(listext(Electromagnetic))`;
-Thermodynamic: `$(listext(Thermodynamic))`;
-Molar: `$(listext(Molar))`;
-Photometric: `$(listext(Photometric))`.
+**Derived unit conversions:**
+
+Mechanics: `$(listext(Kinematic))`, `$(listext(Mechanical))`;
+Electromagnetics: `$(listext(Electromagnetic))`;
+Thermodynamics: `$(listext(Thermodynamic))`,
+`$(listext(Molar))`, `$(listext(Photometric))`.
 """ #`Rᵤ,mᵤ,σ,ħ,μ₀,ε₀,kₑ,𝘦,𝔉,RK,Z₀,G₀`
 struct UnitSystem{kB,ħ,𝘤,μ₀,mₑ,λ,αL} end
 @pure UnitSystem{k,ħ,𝘤,μ,m,λ}() where {k,ħ,𝘤,μ,m,λ} = UnitSystem{k,ħ,𝘤,μ,m,λ,1}()
@@ -109,7 +109,7 @@ const kcal = kcalₜₕ; const cal = kcal/1000 # calₜₕ thermal calorie
 const ΔνCs,Kcd,mP = 9192631770.0,683.002,2.176434e-8 # planck mass (kg)
 const NA,kB,𝘩,𝘤,𝘦 = 6.02214076e23,1.380649e-23,6.62607015e-34,299792458.,1.602176634e-19
 const μₑᵤ,μₚᵤ,αinv,R∞ = 1/1822.888486209,1.007276466621,137.035999084,10973731.5681601
-const μ₀ = 2𝘩/𝘤/αinv/𝘦^2 # ≈ 4π*(1e-7+5.5e-17), exact charge
+const αL,μ₀ = 0.01/𝘤,2𝘩/𝘤/αinv/𝘦^2 # ≈ 4π*(1e-7+5.5e-17), exact charge
 const ħ,δμ₀,μₚₑ,Rᵤ,mₑ = 𝘩/2π,μ₀-4π*1e-7,μₚᵤ/μₑᵤ,NA*kB,electronmass(𝘩)
 const RK1990,RK2014,KJ1990,KJ2014 = 25812.807,25812.8074555,4.835979e14,4.835978525e14
 const ħ1990,ħ2014 = 2/RK1990/KJ1990^2/π,2/RK2014/KJ2014^2/π
@@ -234,11 +234,11 @@ const BTUJ = energy(English)*BTUftlb # BTU⋅J⁻¹
 # constant aliases
 
 const mpe, meu, mpu, ainv, aG = μₚₑ, μₑᵤ, μₚᵤ, αinv, αG
-const Mu,Ru,SB,hh,cc,m0,e0,ke,me,mp,mu,ee,FF,Z0,G0,Eh,a0,re,g0,lP,ϵ₀ = Mᵤ,Rᵤ,σ,𝘩,𝘤,μ₀,ε₀,kₑ,mₑ,mₚ,mᵤ,𝘦,𝔉,Z₀,G₀,Eₕ,a₀,rₑ,g₀,ℓP,ε₀
+const Mu,Ru,SB,hh,cc,m0,e0,ke,me,mp,mu,ee,FF,Z0,G0,Eh,a0,re,g0,lP,aL,ϵ₀ = Mᵤ,Rᵤ,σ,𝘩,𝘤,μ₀,ε₀,kₑ,mₑ,mₚ,mᵤ,𝘦,𝔉,Z₀,G₀,Eₕ,a₀,rₑ,g₀,ℓP,αL,ε₀
 export κ, GG, NA, kB, Rᵤ, σ, 𝘩, ħ, 𝘤, μ₀, ε₀, kₑ, mₑ, mₚ, mᵤ, 𝘦, 𝔉, Φ₀, Z₀, G₀, Eₕ, R∞, a₀, rₑ, KJ, RK, Ru, SB, hh, cc, m0, e0, ke, me, mp, mu, ee, FF, Z0, G0, Eh, a0, re, μB
 export αG, αinv, μₚₑ, μₑᵤ, μₚᵤ, mpe, meu, mpu, mP, δμ₀, Mᵤ, Mu, RH, Ry, ΔνCs, Kcd, ainv
 export cal, kcal, calₜₕ, kcalₜₕ, calᵢₜ, kcalᵢₜ, ℓP, g₀, g0, atm, lbm, BTUJ, BTUftlb, aG
-export lP, tP, TP, lS, tS, mS, qS, lA, tA, mA, qA, lQCD, tQCD, mQCD, ϵ₀
+export lP, tP, TP, lS, tS, mS, qS, lA, tA, mA, qA, lQCD, tQCD, mQCD, ϵ₀, αL, aL
 
 # engineering unit systems docs
 

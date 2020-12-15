@@ -65,11 +65,6 @@ $unit(v::Real,U::UnitSystem,S::UnitSystem) = v/$unit(U,S)
 ```
 """
 
-# derived unit conversions
-
-#@pure heatcapacity(U::UnitSystem,S::UnitSystem) = (boltzmann(S)/boltzmann(U))/volume(U,S)
-#@pure acoustic(U::UnitSystem,S::UnitSystem) = (planckreduced(S)^3*electronmass(U)^2*lightspeed(U)^4)/(planckreduced(U)^3*electronmass(S)^2*lightspeed(S)^4)
-
 # spacetime
 
 @pure length(U::UnitSystem,S::UnitSystem,l=1) = unit((planckreduced(S)*electronmass(U)*lightspeed(U))/(planckreduced(U)*electronmass(S)*lightspeed(S)),l)
@@ -570,7 +565,7 @@ $(action(English,Metric))
 @pure action(U::UnitSystem,S::UnitSystem) = unit(momentum(U,S)*length(U,S))
 
 """
-$(convertext(:stiffness,"energy(U,S)/area(U,S)"))
+$(convertext(:stiffness,"mass(U,S)/time(U,S)^2"))
 
 Amount of `force` per `length` or `stiffness` (N⋅m⁻¹, J⋅m⁻², kg⋅s⁻²), unit conversion factor.
 
@@ -588,22 +583,22 @@ $(stiffness(English,Metric))
 @pure stiffness(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/area(U,S))
 
 """
-$(convertext(:irradiance,"power(U,S)/area(U,S)"))
+$(convertext(:intensity,"power(U,S)/area(U,S)"))
 
-Heat flux density or `power` per `area` or `irradiance` (W⋅m⁻², kg⋅s⁻³), unit conversion factor.
+Heat flux density or irradiance or `power` per `area` (W⋅m⁻², kg⋅s⁻³), unit conversion factor.
 
 ```Julia
-julia> irradiance(CGS,Metric) # kg⋅g⁻¹
-$(irradiance(CGS,Metric))
+julia> intensity(CGS,Metric) # kg⋅g⁻¹
+$(intensity(CGS,Metric))
 
-julia> irradiance(CGS,English) # slug⋅g⁻¹
-$(irradiance(CGS,English))
+julia> intensity(CGS,English) # slug⋅g⁻¹
+$(intensity(CGS,English))
 
-julia> irradiance(English,Metric) # kg⋅slug⁻¹
-$(irradiance(English,Metric))
+julia> intensity(English,Metric) # kg⋅slug⁻¹
+$(intensity(English,Metric))
 ```
 """
-@pure irradiance(U::UnitSystem,S::UnitSystem) = unit(power(U,S)/area(U,S))
+@pure intensity(U::UnitSystem,S::UnitSystem) = unit(power(U,S)/area(U,S))
 
 """
 $(convertext(:diffusivity,"planck(U,S)/mass(U,S)"))
@@ -678,22 +673,22 @@ $(massflow(English,Metric))
 @pure massflow(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)/time(U,S))
 
 """
-$(convertext(:radiantflux,"power(U,S)/length(U,S)"))
+$(convertext(:spectralflux,"power(U,S)/length(U,S)"))
 
-Spectral power or `radiantflux` (W⋅m⁻¹), unit conversion factor.
+Spectral power or `radiantflux` per wave `length` (W⋅m⁻¹), unit conversion factor.
 
 ```Julia
-julia> radiantflux(CGS,Metric) # kg⋅m⋅g⁻¹⋅cm⁻¹
-$(radiantflux(CGS,Metric))
+julia> spectralflux(CGS,Metric) # kg⋅m⋅g⁻¹⋅cm⁻¹
+$(spectralflux(CGS,Metric))
 
-julia> radiantflux(CGS,English) # slug⋅ft⋅g⁻¹⋅cm⁻¹
-$(radiantflux(CGS,English))
+julia> spectralflux(CGS,English) # slug⋅ft⋅g⁻¹⋅cm⁻¹
+$(spectralflux(CGS,English))
 
-julia> radiantflux(English,Metric) # kg⋅m⋅slug⁻¹⋅ft⁻¹
-$(radiantflux(English,Metric))
+julia> spectralflux(English,Metric) # kg⋅m⋅slug⁻¹⋅ft⁻¹
+$(spectralflux(English,Metric))
 ```
 """
-@pure radiantflux(U::UnitSystem,S::UnitSystem) = unit(power(U,S)/length(U,S))
+@pure spectralflux(U::UnitSystem,S::UnitSystem) = unit(power(U,S)/length(U,S))
 
 """
 $(convertext(:powerdensity,"power(U,S)/volume(U,S)"))
@@ -769,3 +764,101 @@ $(rotationalinertia(English,Metric))
 ```
 """
 @pure rotationalinertia(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)*area(U,S))
+
+# acoustic
+
+"""
+$(convertext(:soundexposure,"pressure(U,S)^2*time(U,S)"))
+
+Square of `pressure` by `time` or `soundexposure` (Pa²⋅s, N²⋅m⁻⁴), unit conversion factor.
+
+```Julia
+julia> soundexposure(CGS,Metric) # Pa²⋅Ba⁻²
+$(soundexposure(CGS,Metric))
+
+julia> soundexposure(English,Metric) # Pa²⋅ft⁴⋅lb⁻²
+$(soundexposure(English,Metric))
+```
+"""
+@pure soundexposure(U::UnitSystem,S::UnitSystem) = pressure(U,S)^2/time(U,S)
+
+"""
+$(convertext(:specificimpedance,"pressure(U,S)/speed(U,S)"))
+
+Characteristic specific acoustic impedance (Rayl, Pa⋅s⋅m⁻¹), unit conversion factor.
+
+```Julia
+julia> specificimpedance(CGS,Metric) # Pa⋅cm⋅m⁻¹⋅Ba⁻¹
+$(specificimpedance(CGS,Metric))
+
+julia> specificimpedance(English,Metric) # Pa⋅ft³⋅m⁻¹⋅lb⁻¹
+$(specificimpedance(English,Metric))
+```
+"""
+@pure specificimpedance(U::UnitSystem,S::UnitSystem) = unit(pressure(U,S)/speed(U,S))
+
+"""
+$(convertext(:impedance,"specificimpedance(U,S)/area(U,S)"))
+
+Acoustic `impedance` (Rayl⋅m⁻², Pa⋅s⋅m⁻³, kg⋅s⁻¹⋅m⁻⁴), unit conversion factor.
+
+```Julia
+julia> impedance(CGS,Metric) # Pa⋅cm³⋅m⁻³⋅Ba⁻¹
+$(impedance(CGS,Metric))
+
+julia> impedance(English,Metric) # Pa⋅ft⁵⋅m⁻³⋅lb⁻¹
+$(impedance(English,Metric))
+```
+"""
+@pure impedance(U::UnitSystem,S::UnitSystem) = unit(specificimpedance(U,S)/area(U,S))
+
+"""
+$(convertext(:admittance,"area(U,S)/specificimpedance(U,S)"))
+
+Acoustic `admittance` (m²⋅Rayl⁻¹, m³⋅s⁻¹⋅Pa⁻¹, m⁴⋅s⋅kg⁻¹), unit conversion factor.
+
+```Julia
+julia> admittance(CGS,Metric) # Ba⋅m³⋅cm⁻³⋅Pa⁻¹
+$(admittance(CGS,Metric))
+
+julia> admittance(English,Metric) # lb⋅m³⋅ft⁻⁵⋅Pa⁻¹
+$(admittance(English,Metric))
+```
+"""
+@pure admittance(U::UnitSystem,S::UnitSystem) = unit(area(U,S)/specificimpedance(U,S))
+
+"""
+$(convertext(:compliance,"time(U,S)^2/mass(U,S)"))
+
+Acoustic `compliance` is reciprocal of `stiffness` (m⋅N⁻¹, m³⋅Pa⁻¹), unit conversion factor.
+
+```Julia
+julia> compliance(CGS,Metric) # kg⋅g⁻¹
+$(compliance(CGS,Metric))
+
+julia> compliance(CGS,English) # slug⋅g⁻¹
+$(compliance(CGS,English))
+
+julia> compliance(English,Metric) # kg⋅slug⁻¹
+$(compliance(English,Metric))
+```
+"""
+@pure compliance(U::UnitSystem,S::UnitSystem) = unit(time(U,S)^2/mass(U,S))
+
+"""
+$(convertext(:inertance,"mass(U,S)/length(U,S)^4"))
+
+Acoustic mass or `inertance` (kg⋅m⁴, Pa⋅s²⋅m⁻³), unit conversion factor.
+
+```Julia
+julia> inertance(CGS,Metric) # kg⋅cm⁴⋅g⁻¹⋅m⁻⁴
+$(inertance(CGS,Metric))
+
+julia> inertance(CGS,English) # slug⋅cm⁴⋅g⁻¹⋅ft⁻⁴
+$(inertance(CGS,English))
+
+julia> inertance(English,Metric) # kg⋅ft⁴⋅slug⁻¹⋅m⁻⁴
+$(inertance(English,Metric))
+```
+"""
+@pure inertance(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)/length(U,S)^4)

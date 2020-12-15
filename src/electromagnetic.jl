@@ -3,7 +3,7 @@
 #   UnitSystems Copyright (C) 2020 Michael Reed
 
 """
-$(convertext(:charge,"sqrt(planck(U,S)*current(U,S)/voltage(U,S))"))
+$(convertext(:charge,"sqrt(planck(U,S)*current(U,S)/electricpotential(U,S))"))
 
 Electric `charge` quantization (C, A⋅s), unit conversion factor.
 
@@ -11,10 +11,10 @@ Electric `charge` quantization (C, A⋅s), unit conversion factor.
 julia> charge(EMU,Metric) # C⋅abC⁻¹
 $(charge(EMU,Metric))
 
-julia> charge(EMU,ESU) # statC⋅abC⁻¹
+julia> charge(EMU,ESU) # stC⋅abC⁻¹
 $(charge(EMU,ESU))
 
-julia> charge(ESU,Metric) # C⋅statC⁻¹
+julia> charge(ESU,Metric) # C⋅stC⁻¹
 $(charge(ESU,Metric))
 
 julia> charge(Metric,SI2019) # C⋅C⁻¹
@@ -48,66 +48,67 @@ $(current(Metric,SI2019))
 @pure current(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/time(U,S))
 
 """
-$(convertext(:voltage,"energy(U,S)/charge(U,S)"))
+$(convertext(:electricpotential,"energy(U,S)/charge(U,S)"))
 
-Electric potential difference or `energy` per `charge` (V, J⋅C⁻¹), unit conversion factor.
+Voltage or `electricpotential` or `energy` per `charge` (V, J⋅C⁻¹), unit conversion factor.
 
 ```Julia
-julia> voltage(EMU,Metric) # V⋅abV⁻¹
-$(voltage(EMU,Metric))
+julia> electricpotential(EMU,Metric) # V⋅abV⁻¹
+$(electricpotential(EMU,Metric))
 
-julia> voltage(EMU,ESU) # statV⋅abV⁻¹
-$(voltage(EMU,ESU))
+julia> electricpotential(EMU,ESU) # statV⋅abV⁻¹
+$(electricpotential(EMU,ESU))
 
-julia> voltage(ESU,Metric) # V⋅statV⁻¹
-$(voltage(ESU,Metric))
+julia> electricpotential(ESU,Metric) # V⋅statV⁻¹
+$(electricpotential(ESU,Metric))
 
-julia> voltage(Metric,SI2019) # V⋅V⁻¹
-$(voltage(Metric,SI2019))
+julia> electricpotential(Metric,SI2019) # V⋅V⁻¹
+$(electricpotential(Metric,SI2019))
 ```
 """
-@pure voltage(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/charge(U,S))
+@pure electricpotential(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/charge(U,S))
+const voltage = electricpotential
 
 """
-$(convertext(:capacitance,"charge(U,S)/voltage(U,S)"))
+$(convertext(:capacitance,"charge(U,S)/electricpotential(U,S)"))
 
-Electrical `capactiance` or `charge` per `voltage` (F, C⋅V⁻¹), unit conversion factor.
+Electrical `capactiance` or `charge` per `electricpotential` (F, C⋅V⁻¹), unit conversion factor.
 
 ```Julia
 julia> capacitance(EMU,Metric) # F⋅abF⁻¹
 $(capacitance(EMU,Metric))
 
-julia> capacitance(ESU,Metric) # F⋅statF⁻¹
+julia> capacitance(ESU,Metric) # F⋅cm⁻¹
 $(capacitance(ESU,Metric))
 
 julia> capactiance(Metric,SI2019) # F⋅F⁻¹
 $(capacitance(Metric,SI2019))
 ```
 """
-@pure capacitance(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/voltage(U,S))
+@pure capacitance(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/electricpotential(U,S))
 
 """
-$(convertext(:impedance,"voltage(U,S)/current(U,S)"))
+$(convertext(:resistance,"electricpotential(U,S)/current(U,S)"))
 
-Electrical `impedance` or `voltage` per `current` (Ω, S⁻¹, V⋅A⁻¹), unit conversion factor.
+Electrical `resistance` or `electricpotential` per `current` (Ω, S⁻¹, V⋅A⁻¹), unit conversion factor.
 
 ```Julia
-julia> impedance(EMU,Metric) # Ω⋅abΩ⁻¹
-$(impedance(EMU,Metric))
+julia> resistance(EMU,Metric) # Ω⋅abΩ⁻¹
+$(resistance(EMU,Metric))
 
-julia> impedance(ESU,Metric) # Ω⋅statΩ⁻¹
-$(impedance(ESU,Metric))
+julia> resistance(ESU,Metric) # Ω⋅statΩ⁻¹
+$(resistance(ESU,Metric))
 
-julia> impedance(Metric,SI2019) # Ω⋅Ω⁻¹
-$(impedance(Metric,SI2019))
+julia> resistance(Metric,SI2019) # Ω⋅Ω⁻¹
+$(resistance(Metric,SI2019))
 ```
 """
-@pure impedance(U::UnitSystem,S::UnitSystem) = unit(voltage(U,S)/current(U,S))
+@pure resistance(U::UnitSystem,S::UnitSystem) = unit(electricpotential(U,S)/current(U,S))
 
 """
-$(convertext(:conductance,"voltage(U,S)/current(U,S)"))
+$(convertext(:conductance,"electricpotential(U,S)/current(U,S)"))
 
-Electrical `conductance` or `current` per `voltage` (S, Ω⁻¹, A⋅V⁻¹), unit conversion factor.
+Electrical `conductance` or `current` per `electricpotential` (S, Ω⁻¹, A⋅V⁻¹), unit conversion factor.
 
 ```Julia
 julia> conductance(EMU,Metric) # S⋅abS⁻¹
@@ -120,7 +121,7 @@ julia> conductance(Metric,SI2019) # S⋅S⁻¹
 $(conductance(Metric,SI2019))
 ```
 """
-@pure conductance(U::UnitSystem,S::UnitSystem) = unit(current(U,S)/voltage(U,S))
+@pure conductance(U::UnitSystem,S::UnitSystem) = unit(current(U,S)/electricpotential(U,S))
 
 """
 $(convertext(:magneticflux,"energy(U,S)/lorentz(U,S)/current(U,S)"))
@@ -141,22 +142,22 @@ $(magneticflux(Metric,SI2019))
 @pure magneticflux(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/lorentz(U,S)/current(U,S))
 
 """
-$(convertext(:magneticinduction,"mass(U,S)/lorentz(U,S)/current(U,S)/time(U,S)^2"))
+$(convertext(:magneticfluxdensity,"mass(U,S)/lorentz(U,S)/current(U,S)/time(U,S)^2"))
 
-Magnetic `magneticinduction` or `magneticflux` per `area` (T, Wb⋅m⁻²), unit conversion factor.
+Magnetic induction or surface `magneticfluxdensity` (T, Wb⋅m⁻²), unit conversion factor.
 
 ```Julia
-julia> magneticinduction(EMU,Metric) # T⋅G⁻¹
-$(magneticinduction(EMU,Metric))
+julia> magneticfluxdensity(EMU,Metric) # T⋅G⁻¹
+$(magneticfluxdensity(EMU,Metric))
 
-julia> magneticinduction(EMU,ESU) # statT⋅G⁻¹
-$(magneticinduction(EMU,ESU))
+julia> magneticfluxdensity(EMU,ESU) # statT⋅G⁻¹
+$(magneticfluxdensity(EMU,ESU))
 
-julia> magneticinduction(Metric,SI2019) # T⋅T⁻¹
-$(magneticinduction(Metric,SI2019))
+julia> magneticfluxdensity(Metric,SI2019) # T⋅T⁻¹
+$(magneticfluxdensity(Metric,SI2019))
 ```
 """
-@pure magneticinduction(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)/lorentz(U,S)/current(U,S)/time(U,S)^2)
+@pure magneticfluxdensity(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)/lorentz(U,S)/current(U,S)/time(U,S)^2)
 
 """
 $(convertext(:inductance,"mass(U,S)*area(U,S)/charge(U,S)"))
@@ -179,22 +180,22 @@ $(inductance(Metric,SI2019))
 # electromagnetics
 
 """
-$(convertext(:electricinduction,"charge(U,S)/area(U,S)"))
+$(convertext(:electricfluxdensity,"charge(U,S)*rationalization(U,S)/area(U,S)"))
 
-Electric field displacement or `electricinduction` (C⋅m⁻²), unit conversion factor.
+Electric field displacement or surface `electricfluxdensity` (C⋅m⁻²), unit conversion factor.
 
 ```Julia
-julia> electricinduction(EMU,Metric) # C⋅cm²⋅abC⁻¹⋅m⁻²
-$(electricinduction(EMU,Metric))
+julia> electricfluxdensity(EMU,Metric) # C⋅cm²⋅abC⁻¹⋅m⁻²
+$(electricfluxdensity(EMU,Metric))
 
-julia> electricinduction(ESU,Metric) # C⋅cm²⋅statC⁻¹⋅m⁼²
-$(electricinduction(ESU,Metric))
+julia> electricfluxdensity(ESU,Metric) # C⋅cm²⋅statC⁻¹⋅m⁼²
+$(electricfluxdensity(ESU,Metric))
 
-julia> electricinduction(Metric,SI2019) # C⋅C⁻¹
-$(electricinduction(Metric,SI2019))
+julia> electricfluxdensity(Metric,SI2019) # C⋅C⁻¹
+$(electricfluxdensity(Metric,SI2019))
 ```
 """
-@pure electricinduction(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*rationalization(U,S)/area(U,S))
+@pure electricfluxdensity(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*rationalization(U,S)/area(U,S))
 
 """
 $(convertext(:chargedensity,"charge(U,S)/volume(U,S)"))
@@ -259,7 +260,7 @@ Absolute `permittivity` or `capacitance` per `length` (F⋅m⁻¹), unit convers
 julia> permittivity(EMU,Metric) # F⋅cm⋅abF⁻¹⋅m⁻¹
 $(permittivity(EMU,Metric))
 
-julia> permittivity(ESU,Metric) # F⋅cm⋅statF⁻¹⋅m⁼¹
+julia> permittivity(ESU,Metric) # F⋅m⁼¹
 $(permittivity(ESU,Metric))
 
 julia> permittivity(Metric,SI2019) # F⋅F⁻¹
@@ -286,9 +287,9 @@ $(permeability(Metric,SI2019))
 """ permeability(::UnitSystem,::UnitSystem)
 
 """
-$(convertext(:electricfield,"voltage(U,S)/length(U,S)"))
+$(convertext(:electricfield,"electricpotential(U,S)/length(U,S)"))
 
-Surface `electricflux` density or `electricfield` (V⋅m⁻¹), unit conversion factor.
+The `electricpotential` per `length` or `electricfield` (V⋅m⁻¹), unit conversion factor.
 
 ```Julia
 julia> electricfield(EMU,Metric) # V⋅cm⋅abV⁻¹⋅m⁻¹
@@ -304,7 +305,7 @@ julia> electricfield(Metric,SI2019) # V⋅V⁻¹
 $(electricfield(Metric,SI2019))
 ```
 """
-@pure electricfield(U::UnitSystem,S::UnitSystem) = unit(voltage(U,S)/length(U,S))
+@pure electricfield(U::UnitSystem,S::UnitSystem) = unit(electricpotential(U,S)/length(U,S))
 
 """
 $(convertext(:magneticfield,"current(U,S)*rationalization(U,S)*lorentz(U,S)/length(U,S)"))
@@ -346,25 +347,24 @@ $(exposure(Metric,SI2019))
 @pure exposure(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/mass(U,S))
 
 """
-$(convertext(:resistivity,"impedance(U,S)*length(U,S)"))
+$(convertext(:resistivity,"resistance(U,S)*length(U,S)"))
 
-Electrical `resistivity` or `impedance` by `length` (Ω⋅m), unit conversion factor.
+Electrical `resistivity` or `resistance` by `length` (Ω⋅m), unit conversion factor.
 
 ```Julia
-julia> impedance(EMU,Metric) # Ω⋅m⋅abΩ⁻¹⋅cm⁻¹
-$(impedance(EMU,Metric))
+julia> resistance(EMU,Metric) # Ω⋅m⋅abΩ⁻¹⋅cm⁻¹
+$(resistance(EMU,Metric))
 
-julia> impedance(ESU,Metric) # Ω⋅m⋅statΩ⁻¹⋅cm⁻¹
-$(impedance(ESU,Metric))
+julia> resistance(ESU,Metric) # Ω⋅m⋅statΩ⁻¹⋅cm⁻¹
+$(resistance(ESU,Metric))
 
-julia> impedance(Metric,SI2019) # Ω⋅Ω⁻¹
-$(impedance(Metric,SI2019))
+julia> resistance(Metric,SI2019) # Ω⋅Ω⁻¹
+$(resistance(Metric,SI2019))
 ```
 """
-@pure resistivity(U::UnitSystem,S::UnitSystem) = unit(impedance(U,S)*length(U,S))
+@pure resistivity(U::UnitSystem,S::UnitSystem) = unit(resistance(U,S)*length(U,S))
 
 """
-    linearchargedensity # C⋅m⁻¹
 $(convertext(:linearchargedensity,"charge(U,S)/length(U,S)"))
 
 Amount of `linearchargedensity` or `charge` per `length` (C⋅m⁻¹), unit conversion factor.
@@ -422,7 +422,7 @@ $(mobility(Metric,SI2019))
 @pure mobility(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*time(U,S)/mass(U,S))
 
 """
-$(convertext(:reluctance,"1/inductance(U,S)"))
+$(convertext(:reluctance,"rationalization(U,S)*lorentz(U,S)^2/inductance(U,S)"))
 
 Magnetic `reluctance` or magnetic resistance (H⁻¹, Gb⋅Mx⁻¹), unit conversion factor.
 
@@ -437,7 +437,7 @@ julia> reluctance(Metric,SI2019) # H⋅H⁻¹
 $(reluctance(Metric,SI2019))
 ```
 """ # reciprocal: permeance -- different concept from inductace but same units
-@pure reluctance(U::UnitSystem,S::UnitSystem) = unit(inductance(S,U)*rationalization(U,S)*lorentz(U,S)^2)
+@pure reluctance(U::UnitSystem,S::UnitSystem) = unit(rationalization(U,S)*lorentz(U,S)^2/inductance(U,S))
 
 """
 $(convertext(:vectorpotential,"magneticflux(U,S)/length(U,S)"))
@@ -476,7 +476,7 @@ $(magneticmoment(Metric,SI2019))
 @pure magneticmoment(U::UnitSystem,S::UnitSystem) = unit(magneticflux(U,S)*length(U,S))
 
 """
-$(convertext(:rigidity,"magneticinduction(U,S)*length(U,S)"))
+$(convertext(:rigidity,"magneticfluxdensity(U,S)*length(U,S)"))
 
 Electromagnetic `rigidity` (T⋅m), unit conversion factor.
 
@@ -491,34 +491,34 @@ julia> rigidity(Metric,SI2019) # T⋅T⁻¹
 $(rigidity(Metric,SI2019))
 ```
 """
-@pure rigidity(U::UnitSystem,S::UnitSystem) = unit(magneticinduction(U,S)*length(U,S))
+@pure rigidity(U::UnitSystem,S::UnitSystem) = unit(magneticfluxdensity(U,S)*length(U,S))
 
 """
-$(convertext(:susceptibility,"1/permeability(U,S)"))
+$(convertext(:susceptibility,"1/rationalization(U,S)"))
 
-Magnetic `susceptibility` or `length` per `inductance` (m⋅H⁻¹), unit conversion factor.
+Magnetic/electric volume `susceptibility` (dimensionless), unit conversion factor.
 
 ```Julia
-julia> susceptibility(EMU,Metric) # H⋅cm⋅abH⁻¹⋅m⁻¹
+julia> susceptibility(EMU,Metric)
 $(susceptibility(EMU,Metric))
 
-julia> susceptibility(ESU,Metric) # H⋅cm⋅statH⁻¹⋅m⁼¹
+julia> susceptibility(ESU,Metric)
 $(susceptibility(ESU,Metric))
 
-julia> susceptibility(Metric,SI2019) # H⋅H⁻¹
+julia> susceptibility(Metric,SI2019)
 $(susceptibility(Metric,SI2019))
 ```
+""" # magneticdipolemoment(U,S)/magneticfield(U,S)/volume(U,S)
+@pure susceptibility(U::UnitSystem,S::UnitSystem) = unit(rationalization(S,U))
+
+# WARNING unchecked: rigidity, magneticmoment, vectorpotential, mobility, linearchargedensity, exposure
+
+# CGS extra: polarizability, permeance, magnetic-current? + density, magneticresistance
+
 """
-@pure susceptibility(U::UnitSystem,S::UnitSystem) = permeability(S,U)
+$(convertext(:electricflux,"electricpotential(U,S)*length(U,S)"))
 
-# WARNING unchecked: rigidity, magneticmoment, vectorpotential, mobility, electricflux, linearchargedensity, exposure
-
-# CGS extra: magneticmoment, magneticpolarization, electricpolarization
-
-"""
-$(convertext(:electricflux,"voltage(U,S)*length(U,S)"))
-
-Amount of `electricflux` or `voltage` by `length` (V⋅m) # wikipedia CGS page has error ?
+Amount of `electricflux` or `electricpotential` by `length` (V⋅m), unit conversion factor.
 
 ```Julia
 julia> electricflux(EMU,Metric) # V⋅m⋅abV⁻¹⋅cm⁻¹
@@ -534,7 +534,7 @@ julia> electricflux(Metric,SI2019) # V⋅V⁻¹
 $(electricflux(Metric,SI2019))
 ```
 """
-@pure electricflux(U::UnitSystem,S::UnitSystem) = unit(voltage(U,S)*length(U,S))
+@pure electricflux(U::UnitSystem,S::UnitSystem) = unit(electricpotential(U,S)*length(U,S))
 
 """
 $(convertext(:electricdipolemoment,"charge(U,S)*length(U,S)"))
@@ -551,8 +551,196 @@ $(electricdipolemoment(ESU,Metric))
 julia> electricdipolemoment(Metric,Gauss)/1e-18 # D⋅C⁻¹⋅m⁻¹
 $(electricdipolemoment(Metric,Gauss)/1e-18)
 
-julia> electricdipolemoment(Metric,SI2019) # C⋅C⁻¹⋅
+julia> electricdipolemoment(Metric,SI2019) # C⋅C⁻¹
 $(electricdipolemoment(Metric,SI2019))
 ```
 """
 @pure electricdipolemoment(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*length(U,S))
+
+"""
+$(convertext(:magneticpotential,"magneticflux(U,S)*reluctance(U,S)"))
+
+Magnetomotive force or `magneticpotential` (A, Gb), unit conversion factor.
+
+```Julia
+julia> magneticpotential(EMU,Metric) # A⋅Gb⁻¹
+$(magneticpotential(EMU,Metric))
+
+julia> magneticpotential(Metric,SI2019) # A⋅A⁻¹
+$(magneticpotential(Metric,SI2019))
+```
+"""
+@pure magneticpotential(U::UnitSystem,S::UnitSystem) = unit(magneticflux(U,S)*reluctance(U,S))
+
+"""
+$(convertext(:polestrength,"magneticdipolemoment(U,S)/length(U,S)"))
+
+Magnetic `polestrength` is analogous to `charge` (A⋅m⁻¹), unit conversion factor.
+
+```Julia
+julia> polestrength(EMU,Metric) # A⋅m⁻¹⋅pole⁻¹
+$(polestrength(EMU,Metric))
+
+julia> polestrength(Metric,SI2019) # A⋅A⁻¹⋅
+$(polestrength(Metric,SI2019))
+```
+"""
+@pure polestrength(U::UnitSystem,S::UnitSystem) = unit(magneticdipolemoment(U,S)/length(U,S))
+
+"""
+$(convertext(:permeance,"1/reluctance(U,S)"))
+
+Magnetic `permeance` or magnetic conductance (H, Mx⋅Gb⁻¹), unit conversion factor.
+
+```Julia
+julia> permeance(EMU,Metric) # abH⋅H⁻¹
+$(permeance(EMU,Metric))
+
+julia> permeance(ESU,Metric) # statH⋅H⁻¹
+$(permeance(ESU,Metric))
+
+julia> permeance(Metric,SI2019) # H⋅H⁻¹
+$(permeance(Metric,SI2019))
+```
+"""
+@pure permeance(U::UnitSystem,S::UnitSystem) = reluctance(S,U)
+
+
+"""
+$(convertext(:specificsusceptibility,"susceptibility(U,S)/density(U,S)"))
+
+Magnetic/electric mass specific `susceptibility` (m³⋅kg⁻¹), unit conversion factor.
+
+```Julia
+julia> specificsusceptibility(EMU,Metric) # m³⋅g⋅kg⁻¹⋅cm⁻³
+$(specificsusceptibility(EMU,Metric))
+
+julia> specificsusceptibility(ESU,Metric) # m³⋅g⋅kg⁻¹⋅cm⁻³
+$(specificsusceptibility(ESU,Metric))
+
+julia> specificsusceptibility(Metric,SI2019) # m³⋅kg⋅kg⁻¹⋅m⁻³
+$(specificsusceptibility(Metric,SI2019))
+```
+"""
+@pure specificsusceptibility(U::UnitSystem,S::UnitSystem) = unit(magneticdipolemoment(U,S)/magneticfield(U,S)/mass(U,S))
+
+"""
+$(convertext(:magnetizability,"magneticmoment(U,S)/magneticfluxdensity(U,S)"))
+
+Quantity of `magneticmoment` per `magneticfluxdensity` (m⁻¹), unit conversion factor.
+
+```Julia
+julia> magnetizability(EMU,Metric) # cm⋅m⁻¹
+$(magnetizability(EMU,Metric))
+
+julia> magnetizability(ESU,Metric) # cm⋅m⁻¹
+$(magnetizability(ESU,Metric))
+
+julia> magnetizability(Metric,SI2019) # m⋅m⁻¹
+$(magnetizability(Metric,SI2019))
+```
+"""
+@pure magnetizability(U::UnitSystem,S::UnitSystem) = unit(magneticmoment(U,S)/magneticfluxdensity(U,S))
+
+"""
+$(convertext(:electricpolarizability,"electricdipolemoment(U,S)/electricfield(U,S)"))
+
+Polarizability or `electricdipolemoment` per `electricfield` (C⋅m²⋅V⁻¹), unit conversion factor.
+
+```Julia
+julia> electricpolarizability(EMU,Metric) # C⋅m²⋅abV⋅abC⁻¹⋅cm⁻²⋅V⁻¹
+$(electricpolarizability(EMU,Metric))
+
+julia> electricpolarizability(ESU,Metric) # C⋅m²⋅statV⋅statC⁻¹⋅cm⁼²⋅V⁻¹
+$(electricpolarizability(ESU,Metric))
+
+julia> electricpolarizability(Metric,Gauss) # D⋅cm²⋅V⁻¹⋅C⁻¹⋅m⁻²⋅abV⁻¹
+$(electricpolarizability(Metric,Gauss))
+
+julia> electricpolarizability(Metric,SI2019) # C⋅V⋅C⁻¹⋅V⁻¹
+$(electricpolarizability(Metric,SI2019))
+```
+"""
+@pure electricpolarizability(U::UnitSystem,S::UnitSystem) = unit(electricdipolemoment(U,S)/electricfield(U,S))
+
+"""
+$(convertext(:magneticpolarizability,"magneticdipolemoment(U,S)/magneticfield(U,S)"))
+
+Polarizability or `magneticdipolemoment` per `magneticfield` (m³), unit conversion factor.
+
+```Julia
+julia> electricpolarizability(EMU,Metric) # m³⋅cm⁻³
+$(electricpolarizability(EMU,Metric))
+
+julia> electricpolarizability(ESU,Metric) # m³⋅cm⁼³
+$(electricpolarizability(ESU,Metric))
+
+julia> electricpolarizability(Metric,Gauss) # cm³⋅m⁻³
+$(electricpolarizability(Metric,Gauss))
+
+julia> electricpolarizability(Metric,SI2019)
+$(electricpolarizability(Metric,SI2019))
+```
+"""
+@pure magneticpolarizability(U::UnitSystem,S::UnitSystem) = unit(magneticdipolemoment(U,S)/magneticfield(U,S))
+
+"""
+$(convertext(:magnetization,"magneticmoment(U,S)/volume(U,S)"))
+
+Amount of `magneticmoment` per `volume` (Wb⋅m⁻²), unit conversion factor.
+
+```Julia
+julia> magnetization(EMU,Metric) # Wb⋅cm²⋅Mx⁻¹⋅m⁻²
+$(magnetization(EMU,Metric))
+
+julia> magnetization(ESU,Metric) # Wb⋅cm²⋅statWb⁻¹⋅m⁻²
+$(magnetization(ESU,Metric))
+
+julia> magnetization(Metric,SI2019) # Wb⋅Wb⁻¹
+$(magnetization(Metric,SI2019))
+```
+"""
+@pure magnetization(U::UnitSystem,S::UnitSystem) = unit(magneticmoment(U,S)/volume(U,S))
+
+# specificmagnetization, mass magnetization = 1?
+# magneticfluxdensity(Metric,EMU)/density(Metric,EMU)
+"""
+$(convertext(:specificmagnetization,"magneticmoment(U,S)/mass(U,S)"))
+
+Amount of `magneticmoment` per `mass` (Wb⋅m⋅kg⁻¹), unit conversion factor.
+
+```Julia
+julia> specificmagnetization(EMU,Metric) # Wb⋅m⋅g⋅Mx⁻¹⋅cm⁻¹⋅kg⁻¹
+$(specificmagnetization(EMU,Metric))
+
+julia> specificmagnetization(ESU,Metric) # Wb⋅m⋅g⋅statWb⁻¹⋅cm⁻¹⋅kg⁻¹
+$(specificmagnetization(ESU,Metric))
+
+julia> specificmagnetization(Metric,SI2019) # Wb⋅Wb⁻¹
+$(specificmagnetization(Metric,SI2019))
+```
+"""
+@pure specificmagnetization(U::UnitSystem,S::UnitSystem) = unit(magneticmoment(S,U)/mass(S,U))
+
+"""
+$(convertext(:demagnetizingfactor,"1/susceptibility(U,S)"))
+
+Quantitiy of `demagnetizingfactor` (dimensionless), unit conversion factor.
+
+```Julia
+julia> demagnetizingfactor(EMU,Metric)
+$(demagnetizingfactor(EMU,Metric))
+
+julia> demagnetizingfactor(ESU,Metric)
+$(demagnetizingfactor(ESU,Metric))
+
+julia> demagnetizingfactor(Metric,SI2019)
+$(demagnetizingfactor(Metric,SI2019))
+```
+"""
+@pure demagnetizingfactor(U::UnitSystem,S::UnitSystem) = unit(rationalization(U,S))
+
+# Gyrator-capacitor model alternative:
+#@pure magneticfluxrate(U::UnitSystem,S::UnitSystem) = unit(magneticflux(U,S)/time(U,S))
+#@pure magneticfluxratedensity(U::UnitSystem,S::UnitSystem) = unit(magneticfluxrate(U,S)/area(U,S))
+#@pure magneticresistance(U::UnitSystem,S::UnitSystem) = unit(magneticpotential(U,S)/magneticfluxrate(U,S)) # not reluctance

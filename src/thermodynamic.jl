@@ -94,6 +94,27 @@ $(specificentropy(EnglishUS,English))
 @pure specificentropy(U::UnitSystem,S::UnitSystem) = unit(specificenergy(U,S)/temperature(U,S))
 
 """
+$(convertext(:volumeheatcapacity,"entropy(U,S)/volume(U,S)"))
+
+The `entropy` per `volume` or `volumeheatcapacity` (J⋅K⁻¹⋅m⁻³), unit conversion factor.
+
+```Julia
+julia> volumeheatcapacity(Metric,SI2019) # K⋅K⁻¹
+$(volumeheatcapacity(Metric,SI2019))
+
+julia> volumeheatcapacity(CGS,Metric) # J⋅cm³⋅erg⁻¹⋅m⁻³
+$(volumeheatcapacity(CGS,Metric))
+
+julia> volumeheatcapacity(English,SI2019) # J⋅ft²⋅°R⋅K⁻¹⋅lb⁻¹⋅m⁻³
+$(volumeheatcapacity(English,SI2019))
+
+julia> volumeheatcapacity(EnglishUS,English) # ftUS⁵°R⋅°ft⁻⁵⋅°R⁻¹
+$(volumeheatcapacity(EnglishUS,English))
+```
+"""
+@pure volumeheatcapacity(U::UnitSystem,S::UnitSystem) = unit(entropy(U,S)/volume(U,S))
+
+"""
 $(convertext(:thermalconductivity,"force(U,S)/time(U,S)/temperature(U,S)"))
 
 Heat conductivity or `thermalconductivity` (W⋅m⁻¹⋅K⁻¹), unit conversion factor.
@@ -311,12 +332,27 @@ $(molarconductivity(ESU,Metric))
 @pure molarconductivity(U::UnitSystem,S::UnitSystem) = unit(conductivity(U,S)*area(U,S)/mole(U,S))
 
 """
-$(convertext(:catalysis,"mole(U,S)/time(U,S)"))
+$(convertext(:molarsusceptibility,"specificsusceptibility(U,S)*molarmass(U,S)"))
 
-Catalytic activity or `mole` per `time` or `catalysis` (kat, mol⁻¹), unit conversion factor.
+Magnetic/electric molar mass `susceptibility` (m³⋅mol⁻¹), unit conversion factor.
 
 ```Julia
-julia> catalysis(English,Metric) # kat⋅slug-mol
+julia> molarsusceptibility(CGS,Metric) # m³⋅cm⁻³
+$(molarsusceptibility(CGS,Metric))
+
+julia> molarsusceptibility(Metric,SI2019) # m³⋅mol⋅mol⁻¹⋅cm⁻³
+$(molarsusceptibility(Metric,SI2019))
+```
+"""
+@pure molarsusceptibility(U::UnitSystem,S::UnitSystem) = unit(specificsusceptibility(U,S)*molarmass(U,S))
+
+"""
+$(convertext(:catalysis,"mole(U,S)/time(U,S)"))
+
+Catalytic activity or `mole` per `time` or `catalysis` (kat, mol⋅s⁻¹), unit conversion factor.
+
+```Julia
+julia> catalysis(English,Metric) # kat⋅s⋅slug-mol⁻¹
 $(catalysis(English,Metric))
 ```
 """

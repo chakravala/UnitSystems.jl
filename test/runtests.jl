@@ -1,8 +1,5 @@
 using UnitSystems, Test
 
-@test molarmass(Natural) == molarmass(CGS) == 1000molarmass(Metric)
-@test molarmass(CGS2019) == 1000molarmass(SI2019)
-
 for S ∈ UnitSystems.Systems
     U = eval(S)
     S ≠ :IAU && @testset "UnitSystem: $S" begin
@@ -244,4 +241,136 @@ for S ∈ UnitSystems.Systems
             end
         end
     end
+end
+
+@testset "CGS conversions" begin
+    @test molarmass(Natural) == molarmass(CGS) == 1000molarmass(Metric)
+    @test molarmass(CGS2019) == 1000molarmass(SI2019)
+
+    C = 100𝘤
+
+    @test charge(Metric,ESU) ≈ C/10
+    @test charge(Metric,EMU) ≈ 1/10
+    @test charge(Metric,Gauss) ≈ C/10
+
+    @test current(Metric,ESU) ≈ C/10
+    @test current(Metric,EMU) ≈ 1/10
+    @test current(Metric,Gauss) ≈ C/10
+
+    @test electricpotential(Metric,ESU) ≈ 1e8/C
+    @test electricpotential(Metric,EMU) ≈ 1e8
+    @test electricpotential(Metric,Gauss) ≈ 1e8/C
+
+    @test electricfield(Metric,ESU) ≈ 1e6/C
+    @test electricfield(Metric,EMU) ≈ 1e6
+    @test electricfield(Metric,Gauss) ≈ 1e6/C
+
+    @test electricfluxdensity(Metric,ESU) ≈ 4π*C/1e5
+    @test electricfluxdensity(Metric,EMU) ≈ 4π/1e5
+    @test electricfluxdensity(Metric,Gauss) ≈ 4π*C/1e5
+
+    @test electricdipolemoment(Metric,ESU) ≈ 10C
+    @test electricdipolemoment(Metric,EMU) ≈ 10
+    @test electricdipolemoment(Metric,Gauss) ≈ 10C
+
+    @test magneticdipolemoment(Metric,ESU) ≈ 1e3*C
+    @test magneticdipolemoment(Metric,EMU) ≈ 1e3
+    @test magneticdipolemoment(Metric,Gauss) ≈ 1e3
+
+    @test magneticfield(Metric,ESU) ≈ 4π*C/1e3
+    @test magneticfield(Metric,EMU) ≈ 4π/1e3
+    @test magneticfield(Metric,Gauss) ≈ 4π/1e3
+
+    @test magneticfluxdensity(Metric,ESU) ≈ 1e4/C
+    @test magneticfluxdensity(Metric,EMU) ≈ 1e4
+    @test magneticfluxdensity(Metric,Gauss) ≈ 1e4
+
+    @test magneticflux(Metric,ESU) ≈ 1e8/C
+    @test magneticflux(Metric,EMU) ≈ 1e8
+    @test magneticflux(Metric,Gauss) ≈ 1e8
+
+    @test resistance(Metric,ESU) ≈ 1e9/C^2
+    @test resistance(Metric,EMU) ≈ 1e9
+    @test resistance(Metric,Gauss) ≈ 1e9/C^2
+
+    @test resistivity(Metric,ESU) ≈ 1e11/C^2
+    @test resistivity(Metric,EMU) ≈ 1e11
+    @test resistivity(Metric,Gauss) ≈ 1e11/C^2
+
+    @test capacitance(Metric,ESU) ≈ C^2/1e9
+    @test capacitance(Metric,EMU) ≈ 1e-9
+    @test capacitance(Metric,Gauss) ≈ C^2/1e9
+
+    @test inductance(Metric,ESU) ≈ 1e9/C^2
+    @test inductance(Metric,EMU) ≈ 1e9
+    @test inductance(Metric,Gauss) ≈ 1e9/C^2
+
+    # extra
+
+    @test conductance(Metric,ESU) ≈ C^2/1e9
+    @test conductance(Metric,EMU) ≈ 1e-9
+    @test conductance(Metric,Gauss) ≈ C^2/1e9
+
+    @test chargedensity(Metric,ESU) ≈ C/1e7
+    @test chargedensity(Metric,EMU) ≈ 1e-7
+    @test chargedensity(Metric,Gauss) ≈ C/1e7
+
+    @test magneticpotential(Metric,ESU) ≈ 4π/10*C
+    @test magneticpotential(Metric,EMU) ≈ 4π/10
+    @test magneticpotential(Metric,Gauss) ≈ 4π/10
+
+    @test susceptibility(Metric,ESU) ≈ 1/4π
+    @test susceptibility(Metric,EMU) ≈ 1/4π
+    @test susceptibility(Metric,Gauss) ≈ 1/4π
+
+    # magnetisation ?
+
+    #@test magneticpolarization(Metric,ESU) ≈ 1e2/4π/𝘤
+    #@test magneticpolarization(Metric,EMU) ≈ 1e4/4π
+    #@test magneticpolarization(Metric,Gauss) ≈ 1e4/4π
+
+    @test polestrength(Metric,ESU) ≈ 10C
+    @test polestrength(Metric,EMU) ≈ 10
+    @test polestrength(Metric,Gauss) ≈ 10
+
+    #@test reluctance(Metric,ESU) ≈ 4π/1e9 ?N/A?
+    @test reluctance(Metric,EMU) ≈ 4π/1e9
+    @test reluctance(Metric,Gauss) ≈ 4π/1e9
+
+    # other
+
+    @test currentdensity(Metric,ESU) ≈ C/1e5
+    @test currentdensity(Metric,EMU) ≈ 1e-5
+    @test currentdensity(Metric,Gauss) ≈ C/1e5
+
+    @test permittivity(ESU,Metric) ≈ ε₀
+    @test permeability(EMU,Metric) ≈ μ₀
+    @test permeability(Gauss,Metric) ≈ μ₀
+
+    @test specificsusceptibility(ESU,Metric) ≈ 4π/1e3
+    @test specificsusceptibility(EMU,Metric) ≈ 4π/1e3
+    @test specificsusceptibility(Gauss,Metric) ≈ 4π/1e3
+
+    @test demagnetizingfactor(ESU,Metric) ≈ 1/4π
+    @test demagnetizingfactor(EMU,Metric) ≈ 1/4π
+    @test demagnetizingfactor(Gauss,Metric) ≈ 1/4π
+
+    @test electricpolarizability(Metric,EMU) ≈ 1e-5 # ??
+    @test electricpolarizability(Metric,ESU) ≈ 1e6/4π/ε₀
+    @test electricpolarizability(Metric,Gauss) ≈ 1e6/4π/ε₀
+
+    @test magneticpolarizability(Metric,ESU) ≈ 1e6/4π
+    @test magneticpolarizability(Metric,EMU) ≈ 1e6/4π
+    @test magneticpolarizability(Metric,Gauss) ≈ 1e6/4π
+
+    # uncertain:
+    @test electricflux(Metric,ESU) ≈ 1e10/C
+    @test electricflux(Metric,EMU) ≈ 1e10
+    @test electricflux(Metric,Gauss) ≈ 1e10/C
+    @test magneticmoment(Metric,ESU) ≈ 1e10/C # prefer: 10/𝘤
+    @test magneticmoment(Metric,EMU) ≈ 1e10 # prefer: 1e3
+    @test magneticmoment(Metric,Gauss) ≈ 1e10 # prefer: 1e3
+    @test specificmagnetization(ESU,Metric) ≈ 1e7/C # prefer: 1
+    @test specificmagnetization(EMU,Metric) ≈ 1e7 # prefer: 1
+    @test specificmagnetization(Gauss,Metric) ≈ 1e7 # prefer: 1
 end
