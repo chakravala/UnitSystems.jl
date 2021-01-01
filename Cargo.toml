@@ -1,0 +1,17 @@
+[package]
+name = "unitsystems"
+version = "0.1.0"
+authors = ["Michael Reed"]
+edition = "2018"
+license = "MIT"
+description = "Physical unit systems (Metric, English, Natural, etc...)"
+homepage = "https://geophysics.crucialflow.com/dev/units"
+documentation = "https://geophysics.crucialflow.com/dev/units"
+repository = "https://github.com/chakravala/UnitSystems.jl"
+readme = "README.md"
+keywords = ["physics","units","scientific","dimensional-analysis","measurement"]
+categories = ["science","mathematics","embedded","data-structures","config"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

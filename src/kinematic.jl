@@ -323,7 +323,7 @@ $(specificenergy(EnglishUS,English))
 @doc """
 $(convertext(:mass,"electronmass(S)/electronmass(U)"))
 
-Inertal `mass` or resitance to aceleration or quantity of matter (kg), unit conversion factor.
+Inertal `mass` or matter quantity or resistance to aceleration (kg), unit conversion factor.
 
 ```Julia
 julia> mass(CGS,Metric) # kg⋅g⁻¹
@@ -654,7 +654,7 @@ $(lineardensity(English,Metric))
 """
 $(convertext(:massflow,"mass(U,S)/time(U,S)"))
 
-Rate of `massflow` or `mass` per `time` (kg⋅s⁼¹), unit conversion factor.
+Rate of `massflow` or `mass` per `time` (kg⋅s⁻¹), unit conversion factor.
 
 ```Julia
 julia> massflow(CGS,Metric) # kg⋅g⁻¹
@@ -780,7 +780,7 @@ julia> soundexposure(English,Metric) # Pa²⋅ft⁴⋅lb⁻²
 $(soundexposure(English,Metric))
 ```
 """
-@pure soundexposure(U::UnitSystem,S::UnitSystem) = pressure(U,S)^2/time(U,S)
+@pure soundexposure(U::UnitSystem,S::UnitSystem) = unit(time(U,S)*pressure(U,S)^2)
 
 """
 $(convertext(:specificimpedance,"pressure(U,S)/speed(U,S)"))

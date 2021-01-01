@@ -106,7 +106,7 @@ $(resistance(Metric,SI2019))
 @pure resistance(U::UnitSystem,S::UnitSystem) = unit(electricpotential(U,S)/current(U,S))
 
 """
-$(convertext(:conductance,"electricpotential(U,S)/current(U,S)"))
+$(convertext(:conductance,"current(U,S)/electricpotential(U,S)"))
 
 Electrical `conductance` or `current` per `electricpotential` (S, Ω⁻¹, A⋅V⁻¹), unit conversion factor.
 

@@ -517,7 +517,7 @@ $(coulomb(HLU))
 @doc """
     biotsavart(U::UnitSystem) = permeability(U)*lorentz(U)*rationalization(U)/4π
 
-Matnetostatic proportionality constant `αB` for the Biot-Savart's law (H/m).
+Magnetostatic proportionality constant `αB` for the Biot-Savart's law (H/m).
 
 ```Julia
 julia> biotsavart(Metric) # H⋅m⁻¹

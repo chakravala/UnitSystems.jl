@@ -5,9 +5,9 @@ module UnitSystems
 
 import Base: @pure, length, time
 
-export slug, ft, KJ1990, KJ2014, RK1990, RK2014, mₑ1990, mₑ2014, temp, units
+export slug, ft, ftUS, KJ1990, KJ2014, RK1990, RK2014, mₑ1990, mₑ2014, temp, units
 export slugs, kilograms, lbm, meters, feet, rankine, kelvin, moles, molecules
-export UnitSystem, US, SI, CGS, CGS2019, CGSm, CGSe, HLU, FFF
+export UnitSystem, US, SI, MKS, CGS, CGS2019, CGSm, CGSe, HLU, FFF
 
 const Systems = (:Metric,:SI2019,:CODATA,:Conventional,:MTS,:English,:EnglishUS,:IAU,:SI1976,:Mixed,:ESU2019,:EMU2019,:EMU,:ESU,:Gauss,:LorentzHeaviside,:Thomson,:Kennelly,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
 const Constants = (:hyperfine,:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:boltzmann,:permeability,:rationalization,:lorentz,:luminousefficacy)
@@ -31,7 +31,7 @@ listext(x) = join(x,"`, `")
 Fundamental constants of physics are: `kB` Boltzmann's constant, `ħ` reduced Planck's constant, `𝘤` speed of light, `μ₀` vacuum permeability, `mₑ` electron rest mass, `λ` Gauss rationalization, and `αL` Lorentz's constant.
 Primarily the `Metric` SI unit system is used in addition to the historic `English` engineering unit system.
 These constants induce derived values for `avogadro`, `boltzmann`, `universal`, `planck`, `planckreduced`, `lightspeed`, `planckmass`, `atomicmass`, `protonmass`, `electronmass`, `newton`, `einstein`, `permeability`, `permittivity`, `coulomb`, and
-additional constants `molarmass`, `hyperfine`, `luminousefficacy`, `stefan`, `radiationintensity`, `ampere`, `lorentz`, `biotsavart`, `rationalization`, `impedance`, `charge`, `magneton`, `conductance`, `faraday`, `magneticflux`, `josephson`, `klitzing`, `hartree`, `rydberg`, `bohr`, and `bohrreduced`.
+additional constants `molarmass`, `hyperfine`, `luminousefficacy`, `stefan`, `radiationdensity`, `ampere`, `lorentz`, `biotsavart`, `rationalization`, `impedance`, `charge`, `magneton`, `conductance`, `faraday`, `magneticflux`, `josephson`, `klitzing`, `hartree`, `rydberg`, `bohr`, and `bohrreduced`.
 
 Additional reference `UnitSystem` variants: `EMU`, `ESU`, `Gauss`, `LorentzHeaviside`, `MTS`, `SI2019`, `CODATA`, `Conventional`, `IAU`, `EnglishUS`; and natural atomic units based on gravitational coupling `αG` and the fine structure `1/αinv` constant (`Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal`).
 
@@ -98,8 +98,8 @@ end
 
 # common conversion factors
 
-const atm,g₀,lbm = 101325.0,9.80665,32.17404856 # lb-f to pdl
-const slug,ft,ftUS,rankine,kelvin = 0.45359237lbm,0.3048,1200/3937,5/9,9/5
+const g₀,ft,ftUS = 9.80665,0.3048,1200/3937; const lbm,lbmUS = g₀/ft,g₀/ftUS
+const slug,slugUS,rankine,kelvin,atm = 0.45359237lbm,0.45359237lbmUS,5/9,9/5,101325.0
 const kcalₜₕ,kcal₄,kcal₁₀,kcal₂₀,kcalₘ,kcalᵢₜ = 4184,4204,4185.5,4182,4190,4186.8
 const calₜₕ,cal₄,cal₁₀,cal₂₀,calₘ,calᵢₜ = (kcalₜₕ,kcal₄,kcal₁₀,kcal₂₀,kcalₘ,kcalᵢₜ)./1e3
 const kcal = kcalₜₕ; const cal = kcal/1000 # calₜₕ thermal calorie
@@ -147,7 +147,7 @@ const IAU = UnitSystem{Rᵤ*mₑ/μₑᵤ/0.001/Jₛ,ħ/day/Jₛ,day*𝘤/au,4π
 
 const mf = mass(90/lbm,Metric,English); const Jf = mf*(201.168/14day)^2
 const FFF = UnitSystem{1000Rᵤ*mₑ/μₑᵤ*rankine/Jf,ħ/14day/Jf,14day*𝘤/201.168,0,mₑ/mf}()
-const units, US, SI, temp = UnitSystem, UnitSystem, SI2019, temperature
+const units, US, SI, MKS, temp = UnitSystem, UnitSystem, SI2019, Metric, temperature
 const CGS, CGS2019, CGSm, CGSe, HLU = Gauss, EMU2019, EMU, ESU, LorentzHeaviside
 
 # natural units
