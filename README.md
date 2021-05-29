@@ -8,10 +8,10 @@
 [![Coverage Status](https://coveralls.io/repos/chakravala/UnitSystems.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/chakravala/UnitSystems.jl?branch=master)
 [![codecov.io](https://codecov.io/github/chakravala/UnitSystems.jl/coverage.svg?branch=master)](https://codecov.io/github/chakravala/UnitSystems.jl?branch=master)
 
-Specifications for dimensional units are in the [UnitSystems.jl](https://github.com/chakravala/UnitSystems.jl) and [UnitfulSystems.jl](https://github.com/chakravala/UnitfulSystems.jl) repositories.
-The two packages are designed so that they can be interchanged if compatibility with [Unitful.jl](https://github.com/PainterQubits/Unitful.jl) is desired or not.
-However, the `UnitfulSystems` package has fewer `UnitSystem` specifications available than the `UnitSystems` package due to limitations in combination with the `Unitful` package.
-Specifically, `Metric`, `SI2019`, `CODATA`, `Conventional`, `MTS`, `EMU2019`, `English`, and `EnglishUS` can have `Unitful` values; while `Gauss`, `LorentzHeaviside`, `Thomson`, `EMU`, `ESU`, `ESU2019`, `IAU`, `FFF`, `Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal` are plain valued.
+Specifications for dimensional units are in the [UnitSystems.jl](https://github.com/chakravala/UnitSystems.jl) and [MeasureSystems.jl](https://github.com/chakravala/MeasureSystems.jl) and [UnitfulSystems.jl](https://github.com/chakravala/UnitfulSystems.jl) repositories.
+The three packages are designed so that they can be interchanged if compatibility with [Measurements.jl](https://github.com/JuliaPhysics/Measurements.jl) or [Unitful.jl](https://github.com/PainterQubits/Unitful.jl) is desired or not.
+However, the `UnitfulSystems` package has fewer `UnitSystem` specifications available than the `UnitSystems` and `MeasureSystems` packages due to limitations in combination with the `Unitful` package.
+Specifically, `Metric`, `SI2019`, `CODATA`, `Conventional`, `MTS`, `EMU2019`, `English`, and `EnglishUS` can have `Unitful` values; while `Gauss`, `LorentzHeaviside`, `Thomson`, `EMU`, `ESU`, `ESU2019`, `IAU`, `FFF`, `Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal` are plain valued or are limited to `Measurement` values.
 
 ```Julia
 pkg> add UnitSystems # or UnitfulSystems
@@ -55,4 +55,12 @@ Thermodynamics: `temperature`, `entropy`, `specificentropy`, `volumeheatcapacity
 `molarmass`, `molality`, `mole`, `molarity`, `molarvolume`, `molarentropy`, `molarenergy`, `molarconductivity`, `molarsusceptibility`, `catalysis`, `specificity`,
 `luminousflux`, `luminance`, `luminousenergy`, `luminousexposure`, `luminousefficacy`.
 
-Other similar packages include [PhysicalConstants.jl](https://github.com/JuliaPhysics/PhysicalConstants.jl), [MathPhysicalConstants.jl](https://github.com/LaGuer/MathPhysicalConstants.jl), [Unitful.jl](https://github.com/PainterQubits/Unitful.jl.git), [UnitfulSystems.jl](https://github.com/chakravala/UnitfulSystems.jl), [UnitfulUS.jl](https://github.com/PainterQubits/UnitfulUS.jl), [UnitfulAstro.jl](https://github.com/JuliaAstro/UnitfulAstro.jl), [UnitfulAtomic.jl](https://github.com/sostock/UnitfulAtomic.jl), [NaturallyUnitful.jl](https://github.com/MasonProtter/NaturallyUnitful.jl), and [UnitfulMoles.jl](https://github.com/rafaqz/UnitfulMoles.jl).
+**Generalized dimensionless `Coupling`:**
+
+```Julia
+Coupling{αG,α,μₑᵤ,μₚᵤ}
+```
+Specification of `Universe` with the dimensionless `Coupling` constants `coupling`, `finestructure`, `electronunit`, `protonunit`, and `protonelectron`. Alterations to these values can be facilitated and quantified using parametric polymorphism.
+Due to the `Coupling` interoperability, the `MeasureSystems` package is made possible to support calculations with `Measurements` having error standard deviations.
+
+Other similar packages include [MeasureSystems.jl](https://github.com/chakravala/MeasureSystems.jl), [PhysicalConstants.jl](https://github.com/JuliaPhysics/PhysicalConstants.jl), [MathPhysicalConstants.jl](https://github.com/LaGuer/MathPhysicalConstants.jl), [Unitful.jl](https://github.com/PainterQubits/Unitful.jl.git), [UnitfulSystems.jl](https://github.com/chakravala/UnitfulSystems.jl), [UnitfulUS.jl](https://github.com/PainterQubits/UnitfulUS.jl), [UnitfulAstro.jl](https://github.com/JuliaAstro/UnitfulAstro.jl), [UnitfulAtomic.jl](https://github.com/sostock/UnitfulAtomic.jl), [NaturallyUnitful.jl](https://github.com/MasonProtter/NaturallyUnitful.jl), and [UnitfulMoles.jl](https://github.com/rafaqz/UnitfulMoles.jl).

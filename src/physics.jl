@@ -5,25 +5,25 @@
 @doc """
     μₑᵤ, μₚᵤ, μₚₑ, αinv, αG
 
-Physical measured dimensionless values with uncertainty are the electron to proton mass ratio `μₑᵤ`, proton to atomic mass ratio `μₚᵤ`, proton to electron mass ratio `μₚₑ`, inverted fine structure constant `αinv`, and the gravitaional coupling constant `αG`.
+Physical measured dimensionless `Coupling` values with uncertainty are the electron to proton mass ratio `μₑᵤ`, proton to atomic mass ratio `μₚᵤ`, proton to electron mass ratio `μₚₑ`, inverted fine structure constant `αinv`, and the gravitaional coupling constant `αG`.
 
 ```Julia
-julia> μₑᵤ
+julia> μₑᵤ # electronunit(Universe)
 $μₑᵤ
 
-julia> μₚᵤ
+julia> μₚᵤ # protonunit(Universe)
 $μₚᵤ
 
-julia> μₚₑ
+julia> μₚₑ # protonelectron(Universe)
 $μₚₑ
 
-julia> αinv
+julia> αinv # 1/finestructure(Universe)
 $αinv
 
-julia> αG
+julia> αG # coupling(Universe)
 $αG
 ```
-""" μₑᵤ, μₚᵤ, μₚₑ, αinv, αG, meu, mpu, mpe, ainv, aG
+""" Universe, μₑᵤ, μₚᵤ, μₚₑ, αinv, αG, meu, mpu, mpe, ainv, aG, electronunit, protonunit, protonelectron, finestructure, coupling
 
 @pure hyperfine(U::UnitSystem) = frequency(ΔνCs,U)
 @doc """
@@ -62,7 +62,7 @@ $(luminousefficacy(English))
 """ luminousefficacy, Kcd
 
 @doc """
-    molarmass(U::UnitSystem) = avogadro(U)*electronmass(U)/μₑᵤ # 1/μₑᵤ = $(1/μₑᵤ-2e-13)
+    molarmass(U::UnitSystem) = avogadro(U)*electronmass(U)/electronunit(U)
 
 Molar mass constant `Mᵤ` is the ratio of the `molarmass` and `relativemass` of a chemical.
 ```Julia
@@ -80,7 +80,7 @@ $(molarmass(SI2019))
 ```
 """ molarmass, Mᵤ, Mu
 
-@pure avogadro(U::UnitSystem) = μₑᵤ*molarmass(U)/electronmass(U)
+@pure avogadro(U::UnitSystem,C::Coupling=universe(U)) = molarmass(U,C)*electronunit(C)/electronmass(U,C)
 @doc """
     avogadro(x) = universal(x)/boltzmann(x) # Mᵤ/atomicmass(x), Mᵤ ≈ 0.001-3.5e-13
 
@@ -272,7 +272,7 @@ $(rationalization(Gauss))
 """ rationalization
 
 @doc """
-    electronmass(U::UnitSystem) = protonmass(U)/$μₚₑ # αinv^2*R∞*2𝘩/𝘤
+    electronmass(U::UnitSystem) = protonmass(U)/protonelectron(U) # αinv^2*R∞*2𝘩/𝘤
 
 Electron rest mass `mₑ` of subatomic particle with `-𝘦` elementary charge  (kg or slugs).
 ```Julia
@@ -293,7 +293,7 @@ $(electronmass(English))
 ```
 """ electronmass, mₑ, me
 
-@pure atomicmass(U::UnitSystem) = electronmass(U)/μₑᵤ
+@pure atomicmass(U::UnitSystem,C::Coupling=universe(U)) = electronmass(U,C)/electronunit(C)
 @doc """
     atomicmass(U::UnitSystem) = Mᵤ/avogadro(U) # $(molarmass(SI2019)) ≈ 0.001-3.5e-13
 
@@ -316,9 +316,9 @@ $(atomicmass(English))
 ```
 """ atomicmass, mᵤ, mu
 
-@pure protonmass(U::UnitSystem) =  μₚₑ*electronmass(U)
+@pure protonmass(U::UnitSystem,C::Coupling=universe(U)) = protonelectron(C)*electronmass(U,C)
 @doc """
-    protonmass(U::UnitSystem) = $(μₚᵤ)atomicmass(U)
+    protonmass(U::UnitSystem) = protonunit(U)*atomicmass(U)
 
 Proton mass `mₚ` of subatomic particle with `+𝘦` elementary charge  (kg or mass).
 ```Julia
@@ -337,7 +337,7 @@ $(protonmass(Metric)/electronmass(Metric))
 """ protonmass, mₚ, mp
 
 @doc """
-    planckmass(U::UnitSystem) = sqrt(planckreduced(U)*lightspeed(U)/newton(U))
+    planckmass(U::UnitSystem) = electronmass(U)/sqrt(coupling(U))
 
 Planck mass factor `mP` from the gravitational coupling constant `αG` (kg or slugs).
 ```Julia
@@ -371,7 +371,7 @@ $(newton(English))
 ```
 """ newton, GG
 
-@pure einstein(U::UnitSystem) = 8π*newton(U)/lightspeed(U)^4
+@pure einstein(U::UnitSystem,C::Coupling=universe(U)) = 8π*newton(U,C)/lightspeed(U,C)^4
 @doc """
     einstein(U::UnitSystem) = 8π*newton(U)/lightspeed(U)^4
 
@@ -382,7 +382,7 @@ $(einstein(Metric))
 ```
 """ einstein, κ
 
-@pure universal(U::UnitSystem) = boltzmann(U)*avogadro(U)
+@pure universal(U::UnitSystem,C::Coupling=universe(U)) = boltzmann(U,C)*avogadro(U,C)
 @doc """
     universal(x) = boltzmann(x)*avogadro(x)
 
@@ -414,7 +414,7 @@ $(universal(English))
 The 1976 United States Standard Atmosphere used R* = 8.31432 exactly.
 """ universal, Rᵤ, Ru
 
-@pure stefan(U::UnitSystem) = 2π^5*boltzmann(U)^4/(15planck(U)^3*lightspeed(U)^2)
+@pure stefan(U::UnitSystem,C::Coupling=universe(U)) = 2π^5*boltzmann(U,C)^4/(15planck(U,C)^3*lightspeed(U,C)^2)
 @doc """
     stefan(U::UnitSystem) = 2π^5*boltzmann(U)^4/(15planck(U)^3*lightspeed(U)^2)
 
@@ -451,9 +451,9 @@ julia> radiationdensity(English) # lb⋅ft⁻²⋅°R⁻⁴
 $(radiationdensity(English))
 ```
 """
-@pure radiationdensity(U::UnitSystem) = 4stefan(U)/lightspeed(U)
+@pure radiationdensity(U::UnitSystem,C::Coupling=universe(U)) = 4stefan(U,C)/lightspeed(U,C)
 
-@pure permittivity(U::UnitSystem) = inv(permeability(U)*(lightspeed(U)*lorentz(U))^2)
+@pure permittivity(U::UnitSystem,C::Coupling=universe(U)) = inv(permeability(U,C)*(lightspeed(U,C)*lorentz(U))^2)
 @doc """
     permittivity(U::UnitSystem) = 1/permeability(U)/(lightspeed(U)*lorentz(U))^2
 
@@ -483,7 +483,7 @@ $(permittivity(SI2019)/charge(SI2019))
 ```
 """ permittivity, ε₀, ϵ₀, e0
 
-@pure coulomb(U::UnitSystem) = rationalization(U)/4π/permittivity(U)
+@pure coulomb(U::UnitSystem,C::Coupling=universe(U)) = rationalization(U)/4π/permittivity(U,C)
 @doc """
     coulomb(U::UnitSystem) = rationalization(U)/4π/permittivity(U)
 
@@ -513,7 +513,7 @@ $(coulomb(HLU))
 ```
 """ coulomb, kₑ, ke
 
-@pure biotsavart(U::UnitSystem) = permeability(U)*lorentz(U)*(rationalization(U)/4π)
+@pure biotsavart(U::UnitSystem,C::Coupling=universe(U)) = permeability(U,C)*lorentz(U)*(rationalization(U)/4π)
 @doc """
     biotsavart(U::UnitSystem) = permeability(U)*lorentz(U)*rationalization(U)/4π
 
@@ -608,7 +608,7 @@ $(impedance(HLU))
 """ impedance, Z₀, Z0
 
 @doc """
-    charge(U::UnitSystem) = sqrt(2𝘩/$(αinv)impedance(U)) # faraday(U)/avogadro(U)
+    charge(U::UnitSystem) = √(2planck(U)*finestructure(U)/impedance(U)) # faraday(U)/avogadro(U)
 
 Quantized elementary charge `𝘦` of a proton or electron `2/(klitzing(U)*josephson(U))` (C).
 ```Julia
@@ -635,7 +635,7 @@ $(charge(Planck))
 ```
 """ charge, 𝘦, ee
 
-@pure faraday(U::UnitSystem) = charge(U)*avogadro(U)
+@pure faraday(U::UnitSystem,C::Coupling=universe(U)) = charge(U,C)*avogadro(U,C)
 @doc """
     faraday(U::UnitSystem) = charge(U)*avogadro(U)
 
@@ -667,7 +667,7 @@ $(faraday(Metric)/3600)
 ```
 """ faraday, 𝔉, FF
 
-@pure josephson(U::UnitSystem) = 2charge(U)*lorentz(U)/planck(U)
+@pure josephson(U::UnitSystem,C::Coupling=universe(U)) = 2charge(U,C)*lorentz(U)/planck(U,C)
 @doc """
     josephson(U::UnitSystem) = 2charge(U)*lorentz(U)/planck(U) # 1/magneticflux(U)
 
@@ -693,7 +693,7 @@ $(josephson(ESU))
 ```
 """ josephson, KJ
 
-@pure magneticflux(U::UnitSystem) = inv(josephson(U))
+@pure magneticflux(U::UnitSystem,C::Coupling=universe(U)) = inv(josephson(U,C))
 @doc """
     magneticflux(U::UnitSystem) = planck(U)/2charge(U)/lorentz(U)
 
@@ -716,7 +716,7 @@ $(magneticflux(ESU))
 ```
 """ magneticflux, Φ₀
 
-@pure klitzing(U::UnitSystem) = planck(U)/charge(U)^2
+@pure klitzing(U::UnitSystem,C::Coupling=universe(U)) = planck(U,C)/charge(U,C)^2
 @doc """
     klitzing(U::UnitSystem) = planck(U)/charge(U)^2
 
@@ -742,7 +742,7 @@ $(klitzing(ESU))
 ```
 """ klitzing, RK
 
-@pure conductance(U::UnitSystem) = 2charge(U)^2/planck(U)
+@pure conductance(U::UnitSystem,C::Coupling=universe(U)) = 2charge(U,C)^2/planck(U,C)
 @doc """
     conductance(U::UnitSystem) = 2charge(U)^2/planck(U) # 2/klitzing(U)
 
@@ -768,9 +768,9 @@ $(conductance(ESU))
 ```
 """ conductance, G₀, G0
 
-@pure hartree(U::UnitSystem) = electronmass(U)*(lightspeed(U)/αinv)^2
+@pure hartree(U::UnitSystem,C::Coupling=universe(U)) = electronmass(U,C)*(lightspeed(U,C)*finestructure(C))^2
 @doc """
-    hartree(U::UnitSystem) = electronmass(U)*(lightspeed(U)/$αinv)^2 # mₑ*(𝘤/αinv)^2
+    hartree(U::UnitSystem) = electronmass(U)*(lightspeed(U)*finestructure(U))^2 # mₑ*(𝘤/αinv)^2
 
 Hartree electric potential energy `Eₕ` of the hydrogen atom at ground state is `2R∞*𝘩*𝘤` (J).
 ```Julia
@@ -801,7 +801,7 @@ $(hartree(Metric)/boltzmann(Metric))
 In a Gaussian unit system where `4π*ε₀ == 1` the Hartree energy is `𝘦^2/a₀`.
 """ hartree, Eₕ, Eh
 
-@pure rydberg(U::UnitSystem) = hartree(U)/2planck(U)/lightspeed(U)
+@pure rydberg(U::UnitSystem,C::Coupling=universe(U)) = hartree(U,C)/2planck(U,C)/lightspeed(U,C)
 @doc """
     rydberg(U::UnitSystem) = hartree(U)/2planck(U)/lightspeed(U) # Eₕ/2𝘩/𝘤
 
@@ -839,9 +839,9 @@ $(1/rydberg(Metric)/2π)
 Precision measurements of the Rydberg constants are within a relative standard uncertainty of under 2 parts in 10¹², and is chosen to constrain values of other physical constants.
 """ rydberg, R∞, RH, Ry
 
-@pure bohr(U::UnitSystem) = αinv*planckreduced(U)/electronmass(U)/lightspeed(U)
+@pure bohr(U::UnitSystem,C::Coupling=universe(U)) = planckreduced(U,C)/electronmass(U,C)/lightspeed(U,C)/finestructure(C)
 @doc """
-    bohr(U) = $αinv*planckreduced(U)/electronmass(U)/lightspeed(U)
+    bohr(U) = planckreduced(U)/electronmass(U)/lightspeed(U)/finestructure(U)
 
 Bohr radius of the hydrogen atom in its ground state `a₀` (m).
 ```Julia
@@ -857,7 +857,7 @@ $(bohr(Metric)/length(PlanckGauss))
 """ bohr, a₀, a0
 
 """
-    bohrreduced(U::UnitSystem) = bohr(U)*(1+1/$μₚₑ)
+    bohrreduced(U::UnitSystem) = bohr(U)*(1+1/protonelectron(U))
 
 Reduced Bohr radius including the effect of reduced mass in hydrogen atom (m).
 ```Julia
@@ -868,11 +868,11 @@ julia> bohrreduced(Metric) # a₀
 $(bohrreduced(Metric)/bohr(Metric))
 ```
 """
-@pure bohrreduced(U::UnitSystem) = bohr(U)*(1+1/μₚₑ)
+@pure bohrreduced(U::UnitSystem,C::Coupling=universe(U)) = bohr(U,C)*(1+1/protonelectron(C))
 
-@pure electronradius(U::UnitSystem) = planckreduced(U)/electronmass(U)/lightspeed(U)/αinv
+@pure electronradius(U::UnitSystem,C::Coupling=universe(U)) = finestructure(C)*planckreduced(U,C)/electronmass(U,C)/lightspeed(U,C)
 @doc """
-    electronradius(U) = planckreduced(U)/electronmass(U)/lightspeed(U)/$αinv
+    electronradius(U) = finestructure(U)*planckreduced(U)/electronmass(U)/lightspeed(U)
 
 Classical electron radius or Lorentz radius or Thomson scattering length (m).
 ```Julia
@@ -887,7 +887,7 @@ $(electronradius(Conventional))
 ```
 """ electronradius, rₑ, re
 
-@pure magneton(U::UnitSystem) = charge(U)*planckreduced(U)*lorentz(U)/2electronmass(U)
+@pure magneton(U::UnitSystem,C::Coupling=universe(U)) = charge(U,C)*planckreduced(U,C)*lorentz(U)/2electronmass(U,C)
 """
     magneton(U::UnitSystem) = charge(U)*planckreduced(U)*lorentz(U)/2electronmass(U)
 

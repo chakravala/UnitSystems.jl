@@ -71,7 +71,7 @@ for S ∈ UnitSystems.Systems
                 @test electronmass(U) ≈ planckmass(U)*sqrt(αG)
             end
             @testset "hartree" begin
-                @test hartree(U) == electronmass(U)*(lightspeed(U)/αinv)^2
+                @test hartree(U) ≈ electronmass(U)*(lightspeed(U)/αinv)^2
                 @test hartree(U) ≈ planckreduced(U)*lightspeed(U)/αinv/bohr(U)
                 @test hartree(U) ≈ planckreduced(U)^2/electronmass(U)/bohr(U)^2
                 @test hartree(U) ≈ 2rydberg(U)*planck(U)*lightspeed(U)
@@ -161,7 +161,7 @@ for S ∈ UnitSystems.Systems
                 @test coulomb(U) ≈ permeability(U)*rationalization(U)*(lorentz(U)*lightspeed(U))^2/4π
                 @test coulomb(U) ≈ planckreduced(U)*lightspeed(U)/αinv/charge(U)^2
                 @test coulomb(U) ≈ klitzing(U)*lightspeed(U)/αinv/2π
-                @test coulomb(U) == biotsavart(U)/lorentz(U)/permeability(U)/permittivity(U)
+                @test coulomb(U) ≈ biotsavart(U)/lorentz(U)/permeability(U)/permittivity(U)
                 @test coulomb(U) ≈ ampere(U)*lightspeed(U)^2
             end
             @testset "ampere" begin
@@ -173,7 +173,7 @@ for S ∈ UnitSystems.Systems
             end
             @testset "lorentz" begin
                 @test lorentz(U) ≈ 1/lightspeed(U)/sqrt(permeability(U)*permittivity(U))
-                @test lorentz(U) == biotsavart(U)/permeability(U)/permittivity(U)/coulomb(U)
+                @test lorentz(U) ≈ biotsavart(U)/permeability(U)/permittivity(U)/coulomb(U)
                 @test lorentz(U) ≈ 4π*biotsavart(U)/rationalization(U)/permeability(U)
                 @test lorentz(U) == ampere(U)/biotsavart(U)
             end
