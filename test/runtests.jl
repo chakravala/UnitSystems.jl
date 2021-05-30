@@ -132,7 +132,7 @@ for S ∈ UnitSystems.Systems
                 @test stefan(U) ≈ 32π^5*planck(U)/15lightspeed(U)^6*αinv^8*(universal(U)*rydberg(U)/μₑᵤ/molarmass(U))^4
             end
             @testset "radiationdensity" begin
-                @test radiationdensity(U) == 4stefan(U)/lightspeed(U)
+                @test radiationdensity(U) ≈ 4stefan(U)/lightspeed(U)
                 @test radiationdensity(U) ≈ 8π^5*boltzmann(U)^4/15planck(U)^3/lightspeed(U)^3
                 @test radiationdensity(U) ≈ π^2*boltzmann(U)^4/15planckreduced(U)^3/lightspeed(U)^3
                 @test radiationdensity(U) ≈ 2^7*π^5*planck(U)/15lightspeed(U)^7*αinv^8*(universal(U)*rydberg(U)/μₑᵤ/molarmass(U))^4

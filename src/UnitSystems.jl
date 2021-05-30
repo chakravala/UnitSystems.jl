@@ -81,8 +81,7 @@ Base.display(U::UnitSystem) = println("UnitSystem{kB=$(boltzmann(U)),ħ=$(planck
 @pure planckmass(U::UnitSystem,C::Coupling=universe(U)) = electronmass(U,C)/√coupling(C)
 @pure planck(U::UnitSystem,C::Coupling=universe(U)) = 2π*planckreduced(U,C)
 @pure newton(U::UnitSystem,C::Coupling=universe(U)) = lightspeed(U,C)*planckreduced(U,C)/planckmass(U,C)^2
-@pure charge(U::UnitSystem,C::Coupling=universe(U)) = sqrt(2planck(U,C)*finestructure(C)/impedance(U,C))
-@pure impedance(U::UnitSystem,C::Coupling=universe(U)) = permeability(U,C)*lightspeed(U,C)*rationalization(U)*lorentz(U)^2
+@pure charge(U::UnitSystem,C::Coupling=universe(U)) = sqrt(2planck(U)/(permeability(U)/finestructure(U))/(lightspeed(U)*rationalization(U)*lorentz(U)^2))
 
 for unit ∈ (:coupling,:finestructure,:electronunit,:protonunit,:protonelectron)
     @eval @pure $unit(U::UnitSystem) = $unit(universe(U))

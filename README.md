@@ -14,7 +14,7 @@ However, the `UnitfulSystems` package has fewer `UnitSystem` specifications avai
 Specifically, `Metric`, `SI2019`, `CODATA`, `Conventional`, `MTS`, `EMU2019`, `English`, and `EnglishUS` can have `Unitful` values; while `Gauss`, `LorentzHeaviside`, `Thomson`, `EMU`, `ESU`, `ESU2019`, `IAU`, `FFF`, `Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal` are plain valued or are limited to `Measurement` values.
 
 ```Julia
-pkg> add UnitSystems # or UnitfulSystems
+pkg> add UnitSystems # or MeasureSystems
 
 julia> using UnitSystems
 ```
@@ -44,7 +44,7 @@ Physics constant documentation is at https://geophysics.crucialflow.com/dev/cons
 
 Additional reference `UnitSystem` variants: `EMU`, `ESU`, `Gauss`, `LorentzHeaviside`, `MTS`, `SI2019`, `CODATA`, `Conventional`, `IAU`, `EnglishUS`; and natural atomic units based on gravitational coupling `αG` and the fine structure `1/αinv` constant (`Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal`).
 
-Unt conversion documentation is at https://geophysics.crucialflow.com/dev/convert
+Unit conversion documentation is at https://geophysics.crucialflow.com/dev/convert
 
 **Derived Unit conversions:**
 

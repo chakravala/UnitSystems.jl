@@ -107,7 +107,7 @@ julia> planckreduced(SI2019) # J⋅s⋅rad⁻¹
 $(planckreduced(SI2019))
 
 julia> planckreduced(SI2019)*lightspeed(SI2019) # J⋅m⋅rad⁻¹
-$(planckreduced(SI2019)*𝘤)
+$(planckreduced(SI2019)*lightspeed(SI2019))
 
 julia> planckreduced(CODATA) # J⋅s⋅rad⁻¹
 $(planckreduced(CODATA))
@@ -115,7 +115,7 @@ $(planckreduced(CODATA))
 julia> planckreduced(Conventional) # J⋅s⋅rad⁻¹
 $(planckreduced(Conventional))
 
-julia> planckreduced(SI2019)/electronmass(SI2019) # eV⋅s⋅rad⁻¹
+julia> planckreduced(SI2019)/charge(SI2019) # eV⋅s⋅rad⁻¹
 $(planckreduced(SI2019)/charge(SI2019))
 
 julia> planckreduced(SI2019)*lightspeed(SI2019)/charge(SI2019) # eV⋅m⋅rad⁻¹
@@ -144,8 +144,8 @@ $(planck(CODATA))
 julia> planck(Conventional) # J⋅s
 $(planck(Conventional))
 
-julia> planck(SI2019)/electronmass(SI2019) # eV⋅s⋅rad⁻¹
-$(planck(SI2019)/𝘦)
+julia> planck(SI2019)/charge(SI2019) # eV⋅s⋅rad⁻¹
+$(planck(SI2019)/charge(SI2019))
 
 julia> planck(SI2019)*lightspeed(SI2019)/charge(SI2019) # eV⋅m⋅rad⁻¹
 $(planck(SI2019)*lightspeed(SI2019)/charge(SI2019))
@@ -576,6 +576,7 @@ $(ampere(HLU))
 ```
 """ ampere, kₘ, km
 
+@pure impedance(U::UnitSystem,C::Coupling=universe(U)) = permeability(U,C)*lightspeed(U,C)*rationalization(U)*lorentz(U)^2
 @doc """
     impedance(U::UnitSystem) = permeability(U)*lightspeed(U)*rationalization(U)*lorentz(U)^2
 
