@@ -56,10 +56,10 @@ ElectronUnit[Coupling[_, _, \[Mu]eu_, ___]] := measure[\[Mu]eu];
 ProtonUnit[Coupling[_, _, _, \[Mu]pu_, ___]] := measure[\[Mu]pu];
 ProtonElectron[c_Coupling] := ProtonUnit[c]/ElectronUnit[c];
 
-UnitSystem[kB_, \[HBar]_, c_, \[Mu]0_, me_, \[Lambda]_] := 
-  UnitSystem[kB, \[HBar], c, \[Mu]0, me, \[Lambda], 1];
+(*UnitSystem[kB_, hbar_, c_, mu0_, me_, lambda_] := 
+  UnitSystem[kB, hbar, c, mu0, me, lambda, 1];
 UnitSystem[kB_, \[HBar]_, c_, \[Mu]0_, me_] := 
-  UnitSystem[kB, \[HBar], c, \[Mu]0, me, 1];
+  UnitSystem[kB, \[HBar], c, \[Mu]0, me, 1];*)
 Boltzmann[UnitSystem[kB_, ___]] := kB;
 PlanckReduced[UnitSystem[_, \[HBar]_, ___]] := \[HBar];
 LightSpeed[UnitSystem[_, _, c_, ___]] := c;
@@ -73,7 +73,7 @@ RationalizedQ[u_UnitSystem] := Rationalization[u] != 4 \[Pi]
 Universe[_] := StandardModel;
 Unit[x_, y_ : 1] := x;
 Mass[u_UnitSystem, s_UnitSystem] := ElectronMass[u, s];
-ElectronMass[h_?NumberQ] := R\[Infinity] 2 h \[Alpha]inv/c;
+ElectronMass[h_?NumberQ] := R\[Infinity] 2 h \[Alpha]inv^2/c;
 ElectronMass[h_?NumberQ, u_Coupling] := (R\[Infinity] 2 h)/(FineStructure[u]^2 c);
 PlanckMass[u_UnitSystem, c_Coupling] := ElectronMass[u, c]/Sqrt[GravityCoupling[c]];
 Planck[u_UnitSystem, c_Coupling] := 2 \[Pi] PlanckReduced[u];
@@ -152,7 +152,7 @@ e = 1.602176634 10^-19;
 R\[Infinity] = 10973731.5681601;
 me = ElectronMass[h];
 \[Mu]0 = 2 h/c/\[Alpha]inv/e^2 ;(*\[TildeTilde]4\[Pi]*(1e-7+5.5e-17),exact charge*)
-ħ = h/2 \[Pi];
+ħ = h/(2 Pi);
 \[Delta]\[Mu]0 = \[Mu]0 - 4 \[Pi] 10^-7;
 \[Mu]pe = \[Mu]pu/\[Mu]eu;
 Ru = NA kB;
@@ -167,28 +167,35 @@ KJ2014 = 4.835978525 10^14;
 me1990 = ElectronMass[2 \[Pi] ħ1990];
 me2014 = ElectronMass[2 \[Pi] ħ2014];
 
+AbstractUniverse = Coupling["\[Alpha]G", "\[Alpha]", "\[Mu]eu", "\[Mu]pu"]
+AbstractUnits = UnitSystem["kB", "\[HBar]", "c", "\[Mu]0", "me", "\[Lambda]", "\[Alpha]L"]
+AbstractUnits1 = UnitSystem["kB1", "\[HBar]1", "c1", "\[Mu]01", "me1", "\[Lambda]1", "\[Alpha]L1"]
+AbstractUnits2 = UnitSystem["kB2", "\[HBar]2", "c2", "\[Mu]02", "me2", "\[Lambda]2", "\[Alpha]L2"]
+AbstractMetric = UnitSystem[1000 "Ru" ("R\[Infinity]" 2 "h")/("\[Alpha]"^2 "c")/"\[Mu]eu", "h"/(2 Pi), "c", 4 \[Pi] 10^-7, ("R\[Infinity]" 2 "h")/("\[Alpha]"^2 "c"), 1, 1]
+AbstractSI2019 = UnitSystem["kB", "h"/(2 Pi), "c", 2 "h" "\[Alpha]"/"c"/"e"^2, ("R\[Infinity]" 2 "h")/("\[Alpha]"^2 "c"), 1, 1]
+
 StandardModel = Coupling[\[Alpha]G, 1/\[Alpha]inv, \[Mu]eu, \[Mu]pu];
 Gauss = UnitSystem[10^10 Ru me/\[Mu]eu, 10^7 ħ, 100 c, 1, 1000 me, 4 \[Pi], 0.01/c];
 LorentzHeaviside = UnitSystem[10^10 Ru me/\[Mu]eu, 10^7 ħ, 100 c, 1, 1000 me, 1, 0.01/c];
 Thomson = UnitSystem[10^10 Ru me/\[Mu]eu, 10^7 ħ, 100 c, 1, 1000 me, 4 \[Pi], 1/2];
-Kennelly = UnitSystem[Ru me/\[Mu]eu/0.001, ħ, c, 10^-7, me, 4 \[Pi]];
-ESU = UnitSystem[10^10 Ru me/\[Mu]eu, 10^7 ħ, 100 c, (100 c)^-2, 1000 me, 4 \[Pi]];
-ESU2019 = UnitSystem[10^7 kB, 10^7 ħ, 100 c, 10^3 \[Mu]0/c^2, 1000 me];
-EMU = UnitSystem[10^10 Ru me/\[Mu]eu, 10^7 ħ, 100 c, 1, 1000 me, 4 \[Pi]];
-EMU2019 = UnitSystem[10^7 kB, 10^7 ħ, 100 c, 10^7 \[Mu]0, 1000 me];
-MTS = UnitSystem[10^6 Ru me/\[Mu]eu, 1000 ħ, c, 4 \[Pi]/10^4, me/1000];
-Mixed = UnitSystem[Ru me/\[Mu]eu/0.001, ħ, c, \[Mu]0, me];
-Metric = UnitSystem[Ru me/\[Mu]eu/0.001, ħ, c, 4 \[Pi] 10^-7, me];
-SI1976 = UnitSystem[8.31432 me/\[Mu]eu/0.001, ħ, c, 4 \[Pi] 10^-7, me];
-SI2019 = UnitSystem[kB, ħ, c, \[Mu]0, me];
-CODATA = UnitSystem[Ru me2014/\[Mu]eu/0.001, ħ2014, c, 2 RK2014/c/\[Alpha]inv, me2014];
+Kennelly = UnitSystem[Ru me/\[Mu]eu/0.001, ħ, c, 10^-7, me, 4 \[Pi], 1];
+ESU = UnitSystem[10^10 Ru me/\[Mu]eu, 10^7 ħ, 100 c, (100 c)^-2, 1000 me, 4 \[Pi], 1];
+ESU2019 = UnitSystem[10^7 kB, 10^7 ħ, 100 c, 10^3 \[Mu]0/c^2, 1000 me, 1, 1];
+EMU = UnitSystem[10^10 Ru me/\[Mu]eu, 10^7 ħ, 100 c, 1, 1000 me, 4 \[Pi], 1];
+EMU2019 = UnitSystem[10^7 kB, 10^7 ħ, 100 c, 10^7 \[Mu]0, 1000 me, 1, 1];
+MTS = UnitSystem[10^6 Ru me/\[Mu]eu, 1000 ħ, c, 4 \[Pi]/10^4, me/1000, 1, 1];
+Mixed = UnitSystem[Ru me/\[Mu]eu/0.001, ħ, c, \[Mu]0, me, 1, 1];
+Metric = UnitSystem[Ru me/\[Mu]eu/0.001, ħ, c, 4 \[Pi] 10^-7, me, 1, 1];
+SI1976 = UnitSystem[8.31432 me/\[Mu]eu/0.001, ħ, c, 4 \[Pi] 10^-7, me, 1, 1];
+SI2019 = UnitSystem[kB, ħ, c, \[Mu]0, me, 1, 1];
+CODATA = UnitSystem[Ru me2014/\[Mu]eu/0.001, ħ2014, c, 2 RK2014/c/\[Alpha]inv, me2014,1,1];
 Conventional = 
-  UnitSystem[Ru me1990/\[Mu]eu/0.001, ħ1990, c, 2 RK1990/c/\[Alpha]inv, me1990];
+  UnitSystem[Ru me1990/\[Mu]eu/0.001, ħ1990, c, 2 RK1990/c/\[Alpha]inv, me1990, 1, 1];
 English = 
-  UnitSystem[kB rankine/slug/ft^2, ħ/slug/ft^2, c/ft, 4 \[Pi], me/slug];
+  UnitSystem[kB rankine/slug/ft^2, ħ/slug/ft^2, c/ft, 4 \[Pi], me/slug, 1, 1];
 EnglishUS = 
   UnitSystem[(1000 Ru me/\[Mu]eu ) (rankine/slug/ftUS^2), 
-   ħ/slug/ftUS^2, c/ftUS, 4 \[Pi], me/slug];
+   ħ/slug/ftUS^2, c/ftUS, 4 \[Pi], me/slug, 1, 1];
 
 GMsun = 1.32712442099 10^20;
 GMearth = 398600441.8 10^6;
@@ -206,34 +213,34 @@ IAU = UnitSystem[Ru me/\[Mu]eu/0.001/Js, ħ/day/Js, day c/au,
 
 mf = Mass[90/lbm, Metric, English];
 Jf = mf (201.168/14 day)^2;
-FFF = UnitSystem[1000 Ru me/\[Mu]eu rankine/Jf, ħ/14 day/Jf, 14 day c/201.168, 0, me/mf];
+FFF = UnitSystem[1000 Ru me/\[Mu]eu rankine/Jf, ħ/14 day/Jf, 14 day c/201.168, 0, me/mf, 1, 1];
 SI = SI2019;
 MKS = Metric;
 {CGS, CGS2019, CGSm, CGSe, HLU} = {Gauss, EMU2019, EMU, ESU, LorentzHeaviside};
 
 mf = Mass[90/lbm, Metric, English];
 Jf = mf (201.168/14 day)^2;
-FFF = UnitSystem[1000 Ru me/\[Mu]eu rankine/Jf, ħ/14 day/Jf, 14 day c/201.168, 0, me/mf];
+FFF = UnitSystem[1000 Ru me/\[Mu]eu rankine/Jf, ħ/14 day/Jf, 14 day c/201.168, 0, me/mf, 1, 1];
 SI = SI2019;
 MKS = Metric;
 {CGS, CGS2019, CGSm, CGSe, HLU} = {Gauss, EMU2019, EMU, ESU, LorentzHeaviside};
 
 (*Planck=UnitSystem[1,1,1,1,Sqrt[4\[Pi] \[Alpha]G]];*)
 
-PlanckGauss = UnitSystem[1, 1, 1, 4 \[Pi], Sqrt[\[Alpha]G]];
-Stoney = UnitSystem[1, \[Alpha]inv, 1, 4 \[Pi], Sqrt[\[Alpha]G \[Alpha]inv]];
-(*Hartree=UnitSystem[1,1,\[Alpha]inv,4\[Pi]/\[Alpha]inv^2,1];
-Rydberg=UnitSystem[1,1,2\[Alpha]inv,\[Pi]/\[Alpha]inv^2,1/2];*)
+PlanckGauss = UnitSystem[1, 1, 1, 4 \[Pi], Sqrt[\[Alpha]G], 1];
+Stoney = UnitSystem[1, \[Alpha]inv, 1, 4 \[Pi], Sqrt[\[Alpha]G \[Alpha]inv], 1, 1];
+(*Hartree=UnitSystem[1,1,\[Alpha]inv,4\[Pi]/\[Alpha]inv^2,1,1,1];
+Rydberg=UnitSystem[1,1,2\[Alpha]inv,\[Pi]/\[Alpha]inv^2,1/2,1,1];*)
 
 Schrodinger = 
   UnitSystem[1, 1, \[Alpha]inv, 4 \[Pi]/\[Alpha]inv^2, 
-   Sqrt[\[Alpha]G \[Alpha]inv]];
-Electronic = UnitSystem[1, \[Alpha]inv, 1, 4 \[Pi], 1];
-Natural = UnitSystem[1, 1, 1, 1, 1];
-NaturalGauss = UnitSystem[1, 1, 1, 4 \[Pi], 1];
-QCD = UnitSystem[1, 1, 1, 1, 1/\[Mu]pe];
-QCDGauss = UnitSystem[1, 1, 1, 4 \[Pi], 1/\[Mu]pe];
-QCDoriginal = UnitSystem[1, 1, 1, 4 \[Pi]/\[Alpha]inv, 1/\[Mu]pe];
+   Sqrt[\[Alpha]G \[Alpha]inv], 1, 1];
+Electronic = UnitSystem[1, \[Alpha]inv, 1, 4 \[Pi], 1, 1, 1];
+Natural = UnitSystem[1, 1, 1, 1, 1, 1, 1];
+NaturalGauss = UnitSystem[1, 1, 1, 4 \[Pi], 1, 1, 1];
+QCD = UnitSystem[1, 1, 1, 1, 1/\[Mu]pe, 1, 1];
+QCDGauss = UnitSystem[1, 1, 1, 4 \[Pi], 1/\[Mu]pe, 1, 1];
+QCDoriginal = UnitSystem[1, 1, 1, 4 \[Pi]/\[Alpha]inv, 1/\[Mu]pe, 1, 1];
 
 ElectronMass[Planck, c_Coupling] := Sqrt[4 \[Pi] GravityCoupling[c]];
 ElectronMass[PlanckGauss, c_Coupling] := Sqrt[GravityCoupling[c]];
@@ -284,6 +291,23 @@ MolarMass[UnitSystem[Boltzmann[IAU], ___]] := 1/1000 ms;
 
 LuminousEfficacy[UnitSystem[1, ___]] = 1;
 LuminousEfficacy[u : UnitSystem] := Power[Kcd, SI2019, u];
+
+Universe[AbstractUnits] := AbstractUniverse;
+Universe[AbstractUnits1] := AbstractUniverse;
+Universe[AbstractUnits2] := AbstractUniverse;
+Universe[AbstractSI2019] := AbstractUniverse;
+Universe[AbstractMetric] := AbstractUniverse;
+
+MolarMass[AbstractUnits] = "Mu"
+MolarMass[AbstractUnits1] = "Mu1"
+MolarMass[AbstractUnits2] = "Mu2"
+MolarMass[AbstractSI2019] = "NA" ElectronMass[AbstractSI2019]/ElectronUnit[AbstractUniverse]
+
+LuminousEfficacy[AbstractUnits] = "Kcd"
+LuminousEfficacy[AbstractUnits1] = "Kcd1"
+LuminousEfficacy[AbstractUnits2] = "Kcd2"
+LuminousEfficacy[AbstractSI2019] = "Kcd"
+LuminousEfficacy[AbstractMetric] = "Kcd"
 
 Kilograms[m_] := Kilograms[m, English];
 Kilograms[m_, u_UnitSystem] := Mass[m, Metric, u];
