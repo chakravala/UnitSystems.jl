@@ -10,11 +10,11 @@ UnitSystemsList = {"Metric", "SI2019", "CODATA", "Conventional", "MTS", "English
 	"Hartree", "Rydberg", "Schrodinger", "Electronic", "Natural", "NaturalGauss",
 	"QCD", "QCDGauss", "QCDoriginal", "Hubble", "Cosmological", "CosmologicalQuantum"};
 DimensionlessList = {GravitationalCouplingConstantElectronElectron, FineStructureConstant, ElectronRelativeAtomicMass, ProtonRelativeAtomicMass, ProtonElectronMassRatio, UniverseDarkEnergyMassDensity}
-ConstantsList = {Cesium133HyperfineSplittingFrequency, HubbleParameter, SpeedOfLight,
-	PlanckConstant, ReducedPlanckConstant, ElectronMass,
+ConstantsList = {SpeedOfLight, PlanckConstant, ReducedPlanckConstant, ElectronMass,
 	MolarMassConstant, BoltzmannConstant, MagneticConstant, RationalizationConstant,
 	LorentzConstant, MonochromaticRadiation540THzLuminousEfficacy};
-PhysicsList = {CosmologicalConstant, AtomicMassConstant, ProtonMass, PlanckMass,
+PhysicsList = {Cesium133HyperfineSplittingFrequency, HubbleParameter,
+	CosmologicalConstant, AtomicMassConstant, ProtonMass, PlanckMass,
 	GravitationalConstant, EinsteinConstantSpeedOfLightToTheFourth,
 	HartreeEnergy, RydbergConstant, BohrRadius,
 	RelativisticBohrRadius, ClassicalElectronRadius,
@@ -83,10 +83,7 @@ Unit[x_, y_ : 1] := PowerExpand[x];
 UnitSystem[u_String] := AbstractUnitSystem[StringDelete[u, "Abstract"]] /; StringStartsQ[u, "Abstract"]
 Coupling[c_String] := Universe[UnitSystem[c]]
 
-UnitSystemQ[u_String] := UnitSystemQ[UnitSystem[u]]
-UnitSystemQ[UnitSystem[_,__]] := True
-UnitSystemQ[_] := False
-AbstractUnitSystemQ[u_String] := UnitSystemQ[UnitSystem[u]]
+AbstractUnitSystemQ[u_String] := StringStartsQ[u, "Abstract"]
 AbstractUnitSystemQ[u:UnitSystem[_,__]] := MemberQ[Values[AbstractUnitSystem],u]
 AbstractUnitSystemQ[_] := False
 MatchSystem[u_,s_] := If[AbstractUnitSystemQ[u], AbstractUnitSystem[s], UnitSystem[s]]
@@ -116,10 +113,17 @@ OneQ[1] := True; OneQ[-1] := False; OneQ[True] := True
 OneQ[0] := False; OneQ[_] := False; OneQ[False] := False
 OneQ[x_?NumberQ] := x == 1
 
+CouplingSystem[u_String] := CouplingSystem[UnitSystem[u]]
+CouplingSystem[UnitSystem[u_String]] := Coupling[u]
+CouplingSystem[u_UnitSystem] := u
+
 Map[(#[u_UnitSystem] := #[u, Universe[u]]) &, {PlanckMass, PlanckConstant, GravitationalConstant, ElementaryCharge}];
 Map[(#[u_UnitSystem] := #[Universe[u]]) &, DimensionlessList];
 Map[(#[u_UnitSystem, c_Coupling] := #[u]) &, {BoltzmannConstant, ReducedPlanckConstant, SpeedOfLight, MagneticConstant, ElectronMass, MolarMassConstant}];
-Map[(#[u_UnitSystem, s_UnitSystem] := Unit[#[s]/#[u]]) &, ConstantsList];
+Map[(
+	#[u_UnitSystem, s_UnitSystem] := Unit[#[s]/#[u]];
+	#[u_String, s_String] := #[UnitSystem[u], CouplingSystem[s]];
+) &, Join[ConstantsList,PhysicsList]]
 Map[Unprotect, ProtectedList]
 Map[(If[!MemberQ[ProtectedList, #],
 	#[v_, u_String] := #[v, UnitSystem[u]];
@@ -184,6 +188,33 @@ ConvertUnit[x_Symbol, a_, b_] := x[a, b]
 ConvertUnit[x_String, a_, b_] := ConvertUnit[convert[x], a, b]
 ConvertUnit[x_Symbol, v_, u_, s_] := x[v, u, s]
 ConvertUnit[x_String, v_, u_, s_] := ConvertUnit[convert[x], v, u, s]
+ConvertUnit[Area, u_String] := Area[UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[Area, u_UnitSystem] := Area[u,DefaultSystem[u]]
+ConvertUnit[Area, u_String, s_String] := Area[UnitSystem[u],UnitSystem[s]]
+ConvertUnit[Area, v_, u_String] := Area[v, UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[Area, v_, u_String, s_String] := Area[v, UnitSystem[u],UnitSystem[s]]
+ConvertUnit[Volume, u_String] := Volume[UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[Volume, u_UnitSystem] := Volume[u,DefaultSystem[u]]
+ConvertUnit[Volume, u_String, s_String] := Volume[UnitSystem[u],UnitSystem[s]]
+ConvertUnit[Volume, u_UnitSystem, s_UnitSystem] := Volume[u, s]
+ConvertUnit[Volume, v_, u_UnitSystem] := Volume[v, u,DefaultSystem[u]]
+ConvertUnit[Volume, v_, u_String] := Volume[v, UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[Volume, v_, u_String, s_String] := Volume[v, UnitSystem[u],UnitSystem[s]]
+ConvertUnit[Entropy, u_String] := Entropy[UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[Entropy, u_UnitSystem] := Entropy[u,DefaultSystem[u]]
+ConvertUnit[Entropy, u_String, s_String] := Entropy[UnitSystem[u], UnitSystem[s]]
+ConvertUnit[Entropy, u_UnitSystem, s_UnitSystem] := Entropy[u, s]
+ConvertUnit[Entropy, v_, u_String] := Entropy[v, UnitSystem[u], DefaultSystem[u]]
+ConvertUnit[Entropy, v_, u_UnitSystem] := Entropy[v, UnitSystem[u], DefaultSystem[u]]
+ConvertUnit[Entropy, v_, u_String, s_String] := Entropy[v, UnitSystem[u], UnitSystem[s]]
+
+CompareBase[a_, b_] := CompareUnits[a, b, ConstantsList]
+CompareDerived[a_, b_] := CompareUnits[a, b, PhysicsList]
+CompareConstants[a_, b_] := CompareUnits[a, b, Join[ConstantsList, PhysicsList]]
+ComparePhysics[a_, b_] := CompareUnits[a, b, ConvertList]
+CompareUnits[a_, b_] := CompareUnits[a, b, Join[ConstantsList, PhysicsList, ConvertList]]
+CompareUnits[a_String, b_String, c_] := CompareUnits[UnitSystem[a], UnitSystem[b], c]
+CompareUnits[a_, b_, c_] := Association[Map[ToString[#] -> #[a, b] &, c]]
 
 (* more *)
 

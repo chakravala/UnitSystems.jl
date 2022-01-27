@@ -59,68 +59,89 @@ Coupling["AbstractCoupling"] = Coupling["\[Alpha]G", "\[Alpha]", "\[Mu]eu", "\[M
 Coupling["AbstractUniverse"] = Coupling[AbstractUnitData["\[Alpha]G"], "\[Alpha]", "\[Mu]eu", "\[Mu]pu", "\[CapitalOmega]\[CapitalLambda]"]
 Coupling["StandardModel"] = Coupling["AbstractUniverse"] /. Normal[UnitData]
 
+MetricSystem[mu_, perm_] := MetricSystem[mu, perm, AbstractUnitData["Ru"]];
+MetricSystem[mu_, perm_, ru_] := MetricSystem[mu, perm, ru, AbstractUnitData["\[HBar]"], AbstractUnitData["me"]];
+MetricSystem[mu_, perm_, ru_, hbar_, mass_] := UnitSystem[ru mass/mu/"\[Mu]eu", hbar, "c", perm, mass];
+
+MetricSystem["SI2019"] := MetricSystem[AbstractUnitData["Mu"], AbstractUnitData["\[Mu]0"]]
+MetricSystem["Metric"] := MetricSystem[1/1000, 4 Pi/10^7]
+MetricSystem["SI1976"] := MetricSystem[1/1000, 4 Pi/10^7, 831432/10^5]
+
+ConventionalSystem[klitz_, joseph_] := ConventionalSystem[klitz, Nothing, 2/klitz/joseph^2/Pi]
+ConventionalSystem[klitz_, _, hbar_] := ConventionalSystem[klitz, Nothing, hbar, 4 Pi "R\[Infinity]" hbar/"\[Alpha]"^2/"c"]
+ConventionalSystem[klitz_, _, hbar_, mass_] := MetricSystem[1/1000, 2 "\[Alpha]" klitz/"c", AbstractUnitData["Ru"], hbar, mass]
+
+ConventionalSystem["CODATA"] := ConventionalSystem["RK2014", "KJ2014"]
+ConventionalSystem["Conventional"] := ConventionalSystem["RK1990", "KJ1990"]
+
+GaussSystem[u_String] := ($Failed /; False)
+GaussSystem[perm_, u__] := GaussSystem["AbstractMetric", perm, u]
+GaussSystem[u_String, perm_, ratio_] := GaussSystem[u, perm, ratio, 1]
+GaussSystem[u_String, perm_, ratio_, lorentz_] := GaussSystem[u, perm, ratio, lorentz, 1/100, 1/1000]
+GaussSystem[u_String, perm_, ratio_, lorentz_, length_, mass_] :=
+	GaussSystem[u, perm, ratio, lorentz, length, mass, PowerExpand[mass length^2]]
+GaussSystem[u_String, perm_, ratio_, 1, length_, mass_, energy_] :=
+	UnitSystem[BoltzmannConstant[u]/energy, ReducedPlanckConstant[u]/energy, SpeedOfLight[u]/length, perm, ElectronMass[u]/mass, ratio]
+GaussSystem[u_String, perm_, ratio_, lorentz_, length_, mass_, energy_] :=
+	UnitSystem[BoltzmannConstant[u]/energy, ReducedPlanckConstant[u]/energy, SpeedOfLight[u]/length, perm, ElectronMass[u]/mass, ratio, lorentz]
+
+GaussSystem["Gauss"] := GaussSystem[1, 4 Pi, 1/100/"c"]
+GaussSystem["LorentzHeaviside"] := GaussSystem[1, 1, 1/100/"c"]
+GaussSystem["Thomson"] := GaussSystem[1, 4 Pi, 1/2]
+GaussSystem["Kennelly"] := GaussSystem[10^-7, 4 Pi, 1, 1, 1]
+GaussSystem["ESU"] := GaussSystem[(100 "c")^-2, 4 Pi]
+GaussSystem["EMU"] := GaussSystem[1, 4 Pi]
+
+EnergySystem[u_, time_, length_, mass_] := EntropySystem[u, time, length, mass, 1]
+EnergySystem[u_, time_, length_, mass_, energy_] :=
+	EntropySystem[u, time, length, mass, 1, PowerExpand[MagneticConstant[u] time^2/energy], energy]
+EntropySystem[u_, time_, length_, mass_, temp_] := Module[{energy = PowerExpand[mass length^2/time^2]},
+	EntropySystem[u, time, length, mass, temp, PowerExpand[MagneticConstant[u] time^2/energy]]]
+EntropySystem[u_, time_, length_, mass_, temp_, perm_] :=
+	EntropySystem[u, time, length, mass, temp, perm, PowerExpand[mass length^2/time^2]]
+EntropySystem[u_, time_, length_, mass_, temp_, perm_, energy_] :=
+	UnitSystem[BoltzmannConstant[u] temp/energy, ReducedPlanckConstant[u]/time/energy, time SpeedOfLight[u]/length, perm, ElectronMass[u]/mass]
+
+EnergySystem["MTS"] := EnergySystem["AbstractMetric", 1, 1, 1000]
+EnergySystem["IAU"] := EnergySystem["AbstractMetric", "day", "au", "GMsun"/AbstractUnitData["G"]]
+EnergySystem["Hubble"] := EnergySystem["AbstractMetric", AbstractUnitData["th"], "c" AbstractUnitData["th"], 1]
+EnergySystem["Cosmological"] := EnergySystem["AbstractMetric", AbstractUnitData["lc"]/"c", AbstractUnitData["lc"], AbstractUnitData["mc"]]
+EnergySystem["CosmologicalQuantum"] := EnergySystem["AbstractMetric", AbstractUnitData["tcq"], AbstractUnitData["lcq"], AbstractUnitData["mcq"], AbstractUnitData["ecq"]]
+EnergySystem["EMU2019"] := EnergySystem["AbstractSI2019", 1, 1/100, 1/1000]
+EntropySystem["ESU2019"] := EntropySystem["AbstractSI2019", 1, 1/100, 1/1000, 1, 1000 AbstractUnitData["\[Mu]0"]/"c"^2]
+EntropySystem["Mixed"] := EntropySystem["AbstractMetric", 1, 1, 1, 1, AbstractUnitData["\[Mu]0"]]
+EntropySystem["English"] := EntropySystem["AbstractSI2019", 1, "ft", AbstractUnitData["slug"], "rankine", 4 Pi]
+EntropySystem["EnglishUS"] := EntropySystem["AbstractMetric", 1, "ftUS", AbstractUnitData["slugUS"], "rankine", 4 Pi]
+EntropySystem["FFF"] := EntropySystem["AbstractMetric", 14 "day", "fur", 90 "lb", "rankine", 0]
+
 AbstractUnitSystem = <|
 "AbstractUnits" -> UnitSystem["kB","\[HBar]","c","\[Mu]0","me","\[Lambda]","\[Alpha]L"],
 "AbstractUnits1" -> UnitSystem["kB1", "\[HBar]1", "c1", "\[Mu]01", "me1", "\[Lambda]1", "\[Alpha]L1"],
 "AbstractUnits2" -> UnitSystem["kB2", "\[HBar]2", "c2", "\[Mu]02", "me2", "\[Lambda]2", "\[Alpha]L2"],
-"SI2019" -> UnitSystem["kB", AbstractUnitData["\[HBar]"], "c", AbstractUnitData["\[Mu]0"], AbstractUnitData["me"]]|>
-
-DeriveMetric[ru_, perm_] := DeriveMetric[ru, perm, AbstractUnitData["\[HBar]"], AbstractUnitData["me"]];
-DeriveMetric[ru_, perm_, hbar_, mass_] := UnitSystem[ru mass/"\[Mu]eu", hbar, "c", perm, mass];
-
-AppendTo[AbstractUnitSystem, {
-"Metric" -> DeriveMetric[1000 AbstractUnitData["Ru"], 4 Pi/10^7],
-"SI1976" -> DeriveMetric[831432/100, 4 Pi/10^7]}]
-
-DeriveCODATA[klitz_, joseph_] := DeriveCODATA[klitz, Nothing, 2/klitz/joseph^2/Pi]
-DeriveCODATA[klitz_, _, hbar_] := DeriveCODATA[klitz, Nothing, hbar, 4 Pi "R\[Infinity]" hbar/"\[Alpha]"^2/"c"]
-DeriveCODATA[klitz_, _, hbar_, mass_] := DeriveMetric[1000 AbstractUnitData["Ru"], 2 "\[Alpha]" klitz/"c", hbar, mass]
+"SI2019" -> MetricSystem["SI2019"],
+"Metric" -> MetricSystem["Metric"],
+"SI1976" -> MetricSystem["SI1976"],
+"CODATA" -> ConventionalSystem["CODATA"],
+"Conventional" -> ConventionalSystem["Conventional"]|>
 
 AppendTo[AbstractUnitSystem, {
-"CODATA" -> DeriveCODATA["RK2014", "KJ2014"],
-"Conventional" -> DeriveCODATA["RK1990", "KJ1990"]}]
-
-DeriveGaussSystem[u_, perm_, ratio_] := DeriveGaussSystem[u, perm, ratio, 1]
-DeriveGaussSystem[u_, perm_, ratio_, lorentz_] := DeriveGaussSystem[u, perm, ratio, lorentz, 1/100, 1/1000]
-DeriveGaussSystem[u_, perm_, ratio_, lorentz_, length_, mass_] :=
-	DeriveGaussSystem[u, perm, ratio, lorentz, length, mass, PowerExpand[mass length^2]]
-DeriveGaussSystem[u_, perm_, ratio_, 1, length_, mass_, energy_] :=
-	UnitSystem[BoltzmannConstant[u]/energy, ReducedPlanckConstant[u]/energy, SpeedOfLight[u]/length, perm, ElectronMass[u]/mass, ratio]
-DeriveGaussSystem[u_, perm_, ratio_, lorentz_, length_, mass_, energy_] :=
-	UnitSystem[BoltzmannConstant[u]/energy, ReducedPlanckConstant[u]/energy, SpeedOfLight[u]/length, perm, ElectronMass[u]/mass, ratio, lorentz]
-
-AppendTo[AbstractUnitSystem, {
-"Gauss" -> DeriveGaussSystem["AbstractMetric", 1, 4 Pi, 1/100/"c"],
-"LorentzHeaviside" -> DeriveGaussSystem["AbstractMetric", 1, 1, 1/100/"c"],
-"Thomson" -> DeriveGaussSystem["AbstractMetric", 1, 4 Pi, 1/2],
-"Kennelly" -> DeriveGaussSystem["AbstractMetric", 10^-7, 4 Pi, 1, 1, 1],
-"ESU" -> DeriveGaussSystem["AbstractMetric", (100 "c")^-2, 4 Pi],
-"EMU" -> DeriveGaussSystem["AbstractMetric", 1, 4 Pi]}]
-
-DeriveEnergySystem[u_, time_, length_, mass_] := DeriveTempSystem[u, time, length, mass, 1]
-DeriveEnergySystem[u_, time_, length_, mass_, energy_] :=
-	DeriveTempSystem[u, time, length, mass, 1, PowerExpand[MagneticConstant[u] time^2/energy], energy]
-DeriveTempSystem[u_, time_, length_, mass_, temp_] := Module[{energy = PowerExpand[mass length^2/time^2]},
-	DeriveTempSystem[u, time, length, mass, temp, PowerExpand[MagneticConstant[u] time^2/energy]]]
-DeriveTempSystem[u_, time_, length_, mass_, temp_, perm_] :=
-	DeriveTempSystem[u, time, length, mass, temp, perm, PowerExpand[mass length^2/time^2]]
-DeriveTempSystem[u_, time_, length_, mass_, temp_, perm_, energy_] :=
-	UnitSystem[BoltzmannConstant[u] temp/energy, ReducedPlanckConstant[u]/time/energy, time SpeedOfLight[u]/length, perm, ElectronMass[u]/mass]
-
-AppendTo[AbstractUnitSystem, {
-"MTS" -> DeriveEnergySystem["AbstractMetric", 1, 1, 1000],
-"EMU2019" -> DeriveEnergySystem["AbstractSI2019", 1, 1/100, 1/1000],
-"ESU2019" -> DeriveTempSystem["AbstractSI2019", 1, 1/100, 1/1000, 1, 1000 AbstractUnitData["\[Mu]0"]/"c"^2],
-"Mixed" -> DeriveTempSystem["AbstractMetric", 1, 1, 1, 1, AbstractUnitData["\[Mu]0"]],
-"English" -> DeriveTempSystem["AbstractSI2019", 1, "ft", AbstractUnitData["slug"], "rankine", 4 Pi],
-"EnglishUS" -> DeriveTempSystem["AbstractMetric", 1, "ftUS", AbstractUnitData["slugUS"], "rankine", 4 Pi],
-"FFF" -> DeriveTempSystem["AbstractMetric", 14 "day", "fur", 90 "lb", "rankine", 0],
-"IAU" -> DeriveEnergySystem["AbstractMetric", "day", "au", "GMsun"/AbstractUnitData["G"]],
-"Hubble" -> DeriveEnergySystem["AbstractMetric", AbstractUnitData["th"], "c" AbstractUnitData["th"], 1],
-"Cosmological" -> DeriveEnergySystem["AbstractMetric", AbstractUnitData["lc"]/"c", AbstractUnitData["lc"], AbstractUnitData["mc"]],
-"CosmologicalQuantum" -> DeriveEnergySystem["AbstractMetric", AbstractUnitData["tcq"], AbstractUnitData["lcq"], AbstractUnitData["mcq"], AbstractUnitData["ecq"]]}]
-
-AppendTo[AbstractUnitSystem, {
+"Gauss" -> GaussSystem["Gauss"],
+"LorentzHeaviside" -> GaussSystem["LorentzHeaviside"],
+"Thomson" -> GaussSystem["Thomson"],
+"Kennelly" -> GaussSystem["Kennelly"],
+"ESU" -> GaussSystem["ESU"],
+"EMU" -> GaussSystem["EMU"],
+"MTS" -> EnergySystem["MTS"],
+"IAU" -> EnergySystem["IAU"],
+"Hubble" -> EnergySystem["Hubble"],
+"Cosmological" -> EnergySystem["Cosmological"],
+"CosmologicalQuantum" -> EnergySystem["CosmologicalQuantum"],
+"EMU2019" -> EnergySystem["EMU2019"],
+"ESU2019" -> EntropySystem["ESU2019"],
+"Mixed" -> EntropySystem["Mixed"],
+"English" -> EntropySystem["English"],
+"EnglishUS" -> EntropySystem["EnglishUS"],
+"FFF" -> EntropySystem["FFF"],
 "Planck" -> UnitSystem[1, 1, 1, 1, PowerExpand[Sqrt[4 Pi AbstractUnitData["\[Alpha]G"]]]],
 "PlanckGauss" -> UnitSystem[1, 1, 1, 4 Pi, PowerExpand[Sqrt[AbstractUnitData["\[Alpha]G"]]]],
 "Stoney" -> UnitSystem[1, 1/"\[Alpha]", 1, 4 Pi, PowerExpand[Sqrt[AbstractUnitData["\[Alpha]G"]/"\[Alpha]"]]],
@@ -132,9 +153,7 @@ AppendTo[AbstractUnitSystem, {
 "NaturalGauss" -> UnitSystem[1, 1, 1, 4 Pi, 1, 1, 1, "1"],
 "QCD" -> UnitSystem[1, 1, 1, 1, 1/AbstractUnitData["\[Mu]pe"]],
 "QCDGauss" -> UnitSystem[1, 1, 1, 4 Pi, 1/AbstractUnitData["\[Mu]pe"]],
-"QCDoriginal" -> UnitSystem[1, 1, 1, 4 Pi "\[Alpha]", 1/AbstractUnitData["\[Mu]pe"]]}]
-
-AppendTo[AbstractUnitSystem, {
+"QCDoriginal" -> UnitSystem[1, 1, 1, 4 Pi "\[Alpha]", 1/AbstractUnitData["\[Mu]pe"]],
 "SI" :> AbstractUnitSystem["SI2019"],
 "MKS" :> AbstractUnitSystem["Metric"],
 "CGS" :> AbstractUnitSystem["Gauss"],

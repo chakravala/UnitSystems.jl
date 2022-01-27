@@ -178,6 +178,7 @@ Inertance[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Length[u, s]^4];
 
 Voltage = ElectricPotential
 
+Permeability[u_UnitSystem, s_UnitSystem] := Unit[MagneticConstant[u, s]];
 Charge[u_UnitSystem, s_UnitSystem] :=
   Unit[Sqrt[(ReducedPlanckConstant[s] MagneticConstant[u] SpeedOfLight[
         u] RationalizationConstant[u] LorentzConstant[u]^2)/(ReducedPlanckConstant[
@@ -225,7 +226,7 @@ MagneticPolarizability[u_UnitSystem, s_UnitSystem] := Unit[MagneticDipoleMoment[
 Magnetization[u_UnitSystem, s_UnitSystem] := Unit[MagneticMoment[u, s]/Volume[u, s]];
 
 SpecificMagnetization[u_UnitSystem, s_UnitSystem] := Unit[MagneticMoment[s, u]/Mass[s, u]];
-DemagnetizingFactor[u_UnitSystem, s_UnitSystem] := Unit[Rationalization[u, s]];
+DemagnetizingFactor[u_UnitSystem, s_UnitSystem] := Unit[RationalizationConstant[u, s]];
 
 (* Thermodynamic *)
 
@@ -248,6 +249,7 @@ ThermalResistance[u_UnitSystem, s_UnitSystem] := ThermalConductance[s, u];
 ThermalExpansion[u_UnitSystem, s_UnitSystem] := Temperature[s, u];
 LapseRate[u_UnitSystem, s_UnitSystem] := Unit[Temperature[u, s]/Length[u, s]];
 
+MolarMass[u_UnitSystem, s_UnitSystem] := Unit[MolarMassConstant[u, s]];
 Molality[u_UnitSystem, s_UnitSystem] := MolarMassConstant[s, u];
 Mole[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s] Molality[u, s]];
 Molarity[u_UnitSystem, s_UnitSystem] := Unit[Mole[u, s]/Volume[u, s]];
@@ -259,6 +261,7 @@ MolarSusceptibility[u_UnitSystem, s_UnitSystem] := Unit[SpecificSusceptibility[u
 Catalysis[u_UnitSystem, s_UnitSystem] := Unit[Mole[u, s]/Time[u, s]];
 Specificity[u_UnitSystem, s_UnitSystem] := Unit[Volume[u, s]/Mole[u, s]/Time[u, s]];
 
+LuminousEfficacy[u_UnitSystem, s_UnitSystem] := Unit[MonochromaticRadiation540THzLuminousEfficacy[u, s]];
 LuminousFlux[u_UnitSystem, s_UnitSystem] := Unit[Frequency[u, s]^2 (MonochromaticRadiation540THzLuminousEfficacy[s] ReducedPlanckConstant[s])/(MonochromaticRadiation540THzLuminousEfficacy[u] ReducedPlanckConstant[u])];
 Luminance[u_UnitSystem, s_UnitSystem] := Unit[LuminousFlux[u, s]/Area[u, s]];
 LuminousEnergy[u_UnitSystem, s_UnitSystem] := Unit[Frequency[u, s] (MonochromaticRadiation540THzLuminousEfficacy[s] ReducedPlanckConstant[s])/(MonochromaticRadiation540THzLuminousEfficacy[u] ReducedPlanckConstant[u])];
