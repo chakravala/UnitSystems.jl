@@ -31,18 +31,19 @@ UnitData = <|
 "H0" -> Around[67.66, 0.42],
 "\[CapitalOmega]\[CapitalLambda]" -> Around[0.6889, 0.0056]|>
 
-AbstractUnitData = <||>
-AppendTo[AbstractUnitData, "slug" -> "lb" "g0"/"ft"]
-AppendTo[AbstractUnitData, "slugUS" -> "lb" "g0"/"ftUS"]
-AppendTo[AbstractUnitData, "Ru" -> "NA" "kB"]
-AppendTo[AbstractUnitData, "me" -> 2 "R\[Infinity]" "h"/"\[Alpha]"^2/"c"]
-AppendTo[AbstractUnitData, "\[Mu]0" -> 2 "\[Alpha]" "h"/"c"/"e"^2]
-AppendTo[AbstractUnitData, "\[HBar]" -> "h"/(2 Pi)]
-AppendTo[AbstractUnitData, "\[Mu]pe" -> "\[Mu]pu"/"\[Mu]eu"]
+AbstractUnitData = <|
+"slug" -> "lb" "g0"/"ft",
+"slugUS" -> "lb" "g0"/"ftUS",
+"Ru" -> "NA" "kB",
+"me" -> 2 "R\[Infinity]" "h"/"\[Alpha]"^2/"c",
+"\[Mu]0" -> 2 "\[Alpha]" "h"/"c"/"e"^2,
+"\[HBar]" -> "h"/(2 Pi),
+"\[Mu]pe" -> "\[Mu]pu"/"\[Mu]eu",
+"pc" -> "au" 3*60^3/Pi|>
+
 AppendTo[AbstractUnitData, "\[Alpha]G" -> (AbstractUnitData["me"]/"mP")^2]
 AppendTo[AbstractUnitData, "G" -> "c" AbstractUnitData["\[HBar]"]/"mP"^2]
 AppendTo[AbstractUnitData, "Mu" -> "NA" AbstractUnitData["me"]/"\[Mu]eu"]
-AppendTo[AbstractUnitData, "pc" -> "au" 3*60^3/Pi]
 AppendTo[AbstractUnitData, "th" -> 1000 AbstractUnitData["pc"]/"H0"]
 AppendTo[AbstractUnitData, "\[CapitalLambda]" -> 3 (1/AbstractUnitData["th"]/"c")^2 "\[CapitalOmega]\[CapitalLambda]"]
 AppendTo[AbstractUnitData, "lc" -> PowerExpand[2 Sqrt[2 Pi/AbstractUnitData["\[CapitalLambda]"]]]]
@@ -118,6 +119,7 @@ AbstractUnitSystem = <|
 "AbstractUnits" -> UnitSystem["kB","\[HBar]","c","\[Mu]0","me","\[Lambda]","\[Alpha]L"],
 "AbstractUnits1" -> UnitSystem["kB1", "\[HBar]1", "c1", "\[Mu]01", "me1", "\[Lambda]1", "\[Alpha]L1"],
 "AbstractUnits2" -> UnitSystem["kB2", "\[HBar]2", "c2", "\[Mu]02", "me2", "\[Lambda]2", "\[Alpha]L2"],
+"DimensionalUnits" -> UnitSystem["M" "L"^2/"T"^2/"\[CapitalTheta]", "M" "L"^2/"T", "L"/"T", "M" "L"/"T"^2/"I"^2, "M"],
 "SI2019" -> MetricSystem["SI2019"],
 "Metric" -> MetricSystem["Metric"],
 "SI1976" -> MetricSystem["SI1976"],
@@ -160,11 +162,13 @@ AppendTo[AbstractUnitSystem, {
 "CGS2019" :> AbstractUnitSystem["EMU2019"],
 "CGSm" :> AbstractUnitSystem["EMU"],
 "CGSe" :> AbstractUnitSystem["ESU"],
-"HLU" :> AbstractUnitSystem["LorentzHeaviside"]}]
+"HLU" :> AbstractUnitSystem["LorentzHeaviside"],
+"ISQ" :> AbstractUnitSystem["DimensionalUnits"]}]
 
 UnitSystem["AbstractUnits"] := AbstractUnitSystem["AbstractUnits"]
 UnitSystem["AbstractUnits1"] := AbstractUnitSystem["AbstractUnits1"]
 UnitSystem["AbstractUnits2"] := AbstractUnitSystem["AbstractUnits2"]
+UnitSystem["DimensionalUnits"] := AbstractUnitSystem["DimensionalUnits"]
 UnitSystem["SI"] := UnitSystem["SI2019"]
 UnitSystem["MKS"] := UnitSystem["Metric"]
 UnitSystem["CGS"] := UnitSystem["Gauss"]
@@ -172,6 +176,7 @@ UnitSystem["CGS2019"] := UnitSystem["EMU2019"]
 UnitSystem["CGSm"] := UnitSystem["EMU"]
 UnitSystem["CGSe"] := UnitSystem["ESU"]
 UnitSystem["HLU"] := UnitSystem["LorentzHeaviside"]
+UnitSystem["ISQ"] := UnitSystem["DimensionalUnits"]
 UnitSystem["Natural"] = UnitSystem[1, 1, 1, 1, 1]
 UnitSystem["NaturalGauss"] = UnitSystem[1, 1, 1, 4 Pi, 1]
 Map[(UnitSystem[#] = AbstractUnitSystem[#] /. Normal[UnitData]) &,

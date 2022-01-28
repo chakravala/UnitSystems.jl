@@ -3,7 +3,7 @@
 (* UnitSystems Copyright (C) 2021 Michael Reed *)
 
 Unprotect[UnitSystem];
-ProtectedList = {Length, Area, Volume, Power, Entropy};
+ProtectedList = {Length, Area, Volume, Power, Entropy, MomentOfInertia};
 UnitSystemsList = {"Metric", "SI2019", "CODATA", "Conventional", "MTS", "English",
     "EnglishUS", "FFF", "IAU", "SI1976", "Mixed", "ESU2019", "EMU2019", "EMU", "ESU",
 	"Gauss", "LorentzHeaviside", "Thomson", "Kennelly", "Planck", "PlanckGauss", "Stoney",
@@ -23,36 +23,36 @@ PhysicsList = {Cesium133HyperfineSplittingFrequency, HubbleParameter,
 	BiotSavartConstant, ElementaryCharge, FaradayConstant, VacuumImpedance,
 	ConductanceQuantum, VonKlitzingConstant, JosephsonConstant,
 	MagneticFluxQuantum, BohrMagneton};
-KinematicList = {Time, Length, Area, Volume, WaveNumber, 
-   FuelEfficiency, Frequency, FrequencyDrift, Speed, Acceleration, 
-   Jerk, Snap, VolumeFlow};
-MechanicalList = {Mass, MassFlow, LinearDensity, AreaDensity, Density,
-    SpecificVolume, Force, Stiffness, Pressure, Compressibility, 
-   Viscosity, Diffusivity, RotationalInertia, Momentum, 
-   AngularMomentum, Yank, Energy, SpecificEnergy, Action, Fluence, 
-   Power, PowerDensity, Intensity, SpectralFlux, SoundExposure, 
-   Impedance, SpecificImpedance, Admittance, Compliance, Inertance};
-ElectromagneticList = {Charge, ChargeDensity, LinearChargeDensity, 
-   Exposure, Mobility, Capacitance, Inductance, Reluctance, Permeance,
-    Permittivity, Permeability, Susceptibility, Current, Conductance, 
-   SpecificSusceptibility, DemagnetizingFactor, VectorPotential, 
-   ElectricPotential, MagneticPotential, ElectricField, MagneticField,
-    ElectricFlux, MagneticFlux, ElectricFluxDensity, 
-   MagneticFluxDensity, ElectricDipoleMoment, MagneticDipoleMoment, 
-   ElectricPolarizability, MagneticPolarizability, MagneticMoment, 
-   Magnetizability, Magnetization, SpecificMagnetization, Rigidity, 
-   PoleStrength};
-ThermodynamicList = {Temperature, Entropy, SpecificEntropy, 
-   VolumeHeatCapacity, ThermalConductivity, ThermalConductance, 
-   ThermalResistance, ThermalExpansion, LapseRate};
-MolarList = {MolarMass, Molality, Mole, Molarity, MolarVolume, 
-   MolarEntropy, MolarEnergy, MolarConductivity, MolarSusceptibility, 
+KinematicList = {Time, Length, Area, Volume, Wavenumber,
+   FuelEconomy, Frequency, FrequencyDrift, Speed, Acceleration,
+   Jerk, Snap, VolumeFlowRate};
+MechanicalList = {Mass, MassFlowRate, LinearMassDensity, MassPerArea, MassDensity,
+    SpecificVolume, Force, Stiffness, Pressure, Compressibility,
+   DynamicViscosity, KinematicViscosity, MomentOfInertia, Momentum,
+   AngularMomentum, ForceOnsetRate, Energy, SpecificEnergy, Action, EnergyPerArea,
+   Power, PowerDensity, Irradiance, PowerGradient, SoundExposure,
+   AcousticImpedance, SpecificAcousticImpedance, Admittance, Compliance, Inertance};
+ElectromagneticList = {ElectricCharge, ElectricChargeDensity, LinearElectricChargeDensity,
+   ElectricChargePerMass, ElectricalMobility, ElectricCapacitance, MagneticInductance, MagneticReluctance, MagneticPermeance,
+    ElectricPermittivity, MagneticPermeability, MagneticSusceptibility, ElectricCurrent, ElectricConductance,
+   SpecificSusceptibility, DemagnetizationFactor, MagneticVectorPotential,
+   ElectricPotential, MagnetomotiveForce, ElectricFieldStrength, MagneticFieldStrength,
+    ElectricFlux, MagneticFlux, ElectricFluxDensity,
+   MagneticFluxDensity, ElectricDipoleMoment, MagneticDipoleMoment,
+   ElectricPolarizability, MagneticPolarizability, MagneticMoment,
+   Magnetizability, Magnetization, SpecificMagnetization, MagneticRigidity,
+   MagneticPoleStrength};
+ThermodynamicList = {Temperature, Entropy, SpecificEntropy,
+   EntropyPerVolume, ThermalConductivity, ThermalConductance,
+   ThermalResistance, ThermalExpansion, TemperatureGradient};
+MolarList = {MolarMass, Molality, Amount, AmountConcentration, MolarVolume,
+   MolarEntropy, MolarEnergy, MolarConductivity, MolarMagneticSusceptibility,
    Catalysis, Specificity};
-PhotometricList = {LuminousFlux, Luminance, LuminousEnergy, 
-   LuminousExposure, LuminousEfficacy};
+PhotometricList = {LuminousFlux, Luminance, LuminousEnergy,
+   LuminousExposure, LuminousEfficacyOfRadiation};
 MechanicsList = Join[KinematicList, MechanicalList];
-ConvertList = 
-  Join[MechanicsList, ElectromagneticList, ThermodynamicList, 
+ConvertList =
+  Join[MechanicsList, ElectromagneticList, ThermodynamicList,
    MolarList, PhotometricList];
 
 measure[x_] := x;
@@ -63,6 +63,7 @@ ProtonRelativeAtomicMass[Coupling[_, _, _, \[Mu]pu_, ___]] := measure[\[Mu]pu];
 UniverseDarkEnergyMassDensity[Coupling[_, _, _, _, OL_, ___]] := measure[OL];
 ProtonElectronMassRatio[c_Coupling] := ProtonRelativeAtomicMass[c]/ElectronRelativeAtomicMass[c];
 
+UnitSystem[u_UnitSystem] := u
 BoltzmannConstant[UnitSystem[kB_, ___]] := kB;
 ReducedPlanckConstant[UnitSystem[_, \[HBar]_, ___]] := \[HBar];
 SpeedOfLight[UnitSystem[_, _, c_, ___]] := c;
@@ -97,12 +98,6 @@ Map[(
 Map[(#[c_String] := #[Coupling[c]]) &, DimensionlessList]
 
 Get["UnitSystems`systems`"]
-
-EntityUnregister["UnitSystem"]
-CreateEntity[u_String] := u -> <|
-	"Abstract" :> AbstractUnitSystem[u], "Value" :> UnitSystem[u]|>
-EntityRegister[EntityStore["UnitSystem" -> <|
-	"Entities" -> Association[Map[CreateEntity, UnitSystemsList]]|>]]
 
 Universe[_] = Coupling["AbstractUniverse"]
 Universe[c_String] := Coupling[c]
@@ -178,6 +173,7 @@ Unprotect[Entity]
 Entity["UnitSystem", u_][Entity["PhysicalConstant", x_]] := UnitConstant[x, u]
 Entity["PhysicalConstant", x_][Entity["UnitSystem", u_]] := UnitConstant[x, u]
 Entity["PhysicalConstant", x_][Entity["UnitSystem", u_], c_] := UnitConstant[x, u, c]
+Entity["UnitSystem", u_][Entity["UnitSystem", s_]] := ComparePhysics[AbstractUnitSystem[u], AbstractUnitSystem[s]]
 Protect[Entity]
 
 convert = Association[Map[Rule[ToString[#],#] &, ConvertList]]
@@ -188,44 +184,51 @@ ConvertUnit[x_Symbol, a_, b_] := x[a, b]
 ConvertUnit[x_String, a_, b_] := ConvertUnit[convert[x], a, b]
 ConvertUnit[x_Symbol, v_, u_, s_] := x[v, u, s]
 ConvertUnit[x_String, v_, u_, s_] := ConvertUnit[convert[x], v, u, s]
-ConvertUnit[Area, u_String] := Area[UnitSystem[u],DefaultSystem[u]]
-ConvertUnit[Area, u_UnitSystem] := Area[u,DefaultSystem[u]]
+ConvertUnit[Area, u_] := Area[UnitSystem[u],DefaultSystem[u]]
 ConvertUnit[Area, u_String, s_String] := Area[UnitSystem[u],UnitSystem[s]]
+ConvertUnit[Area, u_UnitSystem, s_UnitSystem] := Area[u ,s]
 ConvertUnit[Area, v_, u_String] := Area[v, UnitSystem[u],DefaultSystem[u]]
 ConvertUnit[Area, v_, u_String, s_String] := Area[v, UnitSystem[u],UnitSystem[s]]
-ConvertUnit[Volume, u_String] := Volume[UnitSystem[u],DefaultSystem[u]]
-ConvertUnit[Volume, u_UnitSystem] := Volume[u,DefaultSystem[u]]
+ConvertUnit[Volume, u_] := Volume[UnitSystem[u],DefaultSystem[u]]
 ConvertUnit[Volume, u_String, s_String] := Volume[UnitSystem[u],UnitSystem[s]]
 ConvertUnit[Volume, u_UnitSystem, s_UnitSystem] := Volume[u, s]
-ConvertUnit[Volume, v_, u_UnitSystem] := Volume[v, u,DefaultSystem[u]]
-ConvertUnit[Volume, v_, u_String] := Volume[v, UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[Volume, v_, u_] := Volume[v, UnitSystem[u],DefaultSystem[u]]
 ConvertUnit[Volume, v_, u_String, s_String] := Volume[v, UnitSystem[u],UnitSystem[s]]
-ConvertUnit[Entropy, u_String] := Entropy[UnitSystem[u],DefaultSystem[u]]
-ConvertUnit[Entropy, u_UnitSystem] := Entropy[u,DefaultSystem[u]]
+ConvertUnit[Entropy, u_] := Entropy[UnitSystem[u],DefaultSystem[u]]
 ConvertUnit[Entropy, u_String, s_String] := Entropy[UnitSystem[u], UnitSystem[s]]
 ConvertUnit[Entropy, u_UnitSystem, s_UnitSystem] := Entropy[u, s]
-ConvertUnit[Entropy, v_, u_String] := Entropy[v, UnitSystem[u], DefaultSystem[u]]
-ConvertUnit[Entropy, v_, u_UnitSystem] := Entropy[v, UnitSystem[u], DefaultSystem[u]]
+ConvertUnit[Entropy, v_, u_] := Entropy[v, UnitSystem[u], DefaultSystem[u]]
 ConvertUnit[Entropy, v_, u_String, s_String] := Entropy[v, UnitSystem[u], UnitSystem[s]]
+ConvertUnit[MomentOfInertia, u_] := MomentOfInertia[UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[MomentOfInertia, u_String, s_String] := MomentOfInertia[UnitSystem[u],UnitSystem[s]]
+ConvertUnit[MomentOfInertia, u_UnitSystem, s_UnitSystem] := MomentOfInertia[u ,s]
+ConvertUnit[MomentOfInertia, v_, u_String] := MomentOfInertia[v, UnitSystem[u],DefaultSystem[u]]
+ConvertUnit[MomentOfInertia, v_, u_String, s_String] := MomentOfInertia[v, UnitSystem[u],UnitSystem[s]]
 
 CompareBase[a_, b_] := CompareUnits[a, b, ConstantsList]
 CompareDerived[a_, b_] := CompareUnits[a, b, PhysicsList]
 CompareConstants[a_, b_] := CompareUnits[a, b, Join[ConstantsList, PhysicsList]]
 ComparePhysics[a_, b_] := CompareUnits[a, b, ConvertList]
 CompareUnits[a_, b_] := CompareUnits[a, b, Join[ConstantsList, PhysicsList, ConvertList]]
+CompareUnits[a_String, b_, c_] := CompareUnits[UnitSystem[a], b, c]
+CompareUnits[a_, b_String, c_] := CompareUnits[a, UnitSystem[b], c]
 CompareUnits[a_String, b_String, c_] := CompareUnits[UnitSystem[a], UnitSystem[b], c]
 CompareUnits[a_, b_, c_] := Association[Map[ToString[#] -> #[a, b] &, c]]
 
-(* more *)
+DerivedConstants[u_] := DerivedConstants[u, Join[ConstantsList, PhysicsList]]
+DerivedConstants[u_, l_] := Association[Map[ToString[#] -> #[u] &, l]]
+DerivedConstants[u_String, l_] := If[AbstractUnitSystemQ[u], DerivedConstants[UnitSystem[u],l], Association@Normal[DerivedConstants[StringJoin["Abstract",u],l]/.Normal[UnitData]]]
 
-{"Density" -> "MassDensity",
-"Conductance" -> "ElectricConductance",
-"ChargeDensity" -> "ElectricChargeDensity",
-"Current" -> "ElectricCurrent",
-"ElectricField" -> "ElectricFieldStrength",
-"Permittivity" -> "ElectricPermittivity",
-"MagneticDipoleMoment" -> "MagneticMoment",
-"Speed" -> "Velocity"}
+EntityUnregister["UnitSystem"]
+CreateEntity[u_String] := u -> <|
+	"Abstract" :> AbstractUnitSystem[u],
+	"Value" :> UnitSystem[u],
+	"Derived" :> DerivedConstants[AbstractUnitSystem[u]],
+	"Constants" :> DerivedConstants[u]|>
+EntityRegister[EntityStore["UnitSystem" -> <|
+	"Entities" -> Association[Map[CreateEntity, UnitSystemsList]]|>]]
+
+(* more *)
 
 DerivedUnits = <|
 "NaturalUnitOfEnergy" -> Energy["AbstractNatural"],
@@ -235,15 +238,15 @@ DerivedUnits = <|
 "PlanckArea" -> Area[UnitSystem["AbstractPlanckGauss"]],
 "PlanckFrequency" -> Frequency["AbstractPlanckGauss"],
 "PlanckLength" -> Length["AbstractPlanckGauss"],
-"PlanckMassDensity" -> Density["AbstractPlanckGauss"],
+"PlanckMassDensity" -> MassDensity["AbstractPlanckGauss"],
 "PlanckTemperature" -> Temperature["AbstractPlanckGauss"],
 "PlanckTime" -> Time["AbstractPlanckGauss"],
 "PlanckVolume" -> Volume[UnitSystem["AbstractPlanckGauss"]],
-"AtomicUnitOfElectricConductance" -> Conductance["AbstractHartree"],
-"AtomicUnitOfElectricChargeDensity" -> ChargeDensity["AbstractHartree"],
-"AtomicUnitOfElectricCurrent" -> Current["AbstractHartree"],
-"AtomicUnitOfElectricFieldStrength" -> ElectricField["AbstractHartree"],
-"AtomicUnitOfElectricPermittivity" -> Permittivity["AbstractHartree"],
+"AtomicUnitOfElectricConductance" -> ElectricConductance["AbstractHartree"],
+"AtomicUnitOfElectricElectricChargeDensity" -> ElectricChargeDensity["AbstractHartree"],
+"AtomicUnitOfElectricElectricCurrent" -> ElectricCurrent["AbstractHartree"],
+"AtomicUnitOfElectricFieldStrengthStrength" -> ElectricFieldStrength["AbstractHartree"],
+"AtomicUnitOfElectricElectricPermittivity" -> ElectricPermittivity["AbstractHartree"],
 "AtomicUnitOfElectricPolarizability" -> ElectricPolarizability["AbstractHartree"],
 "AtomicUnitOfElectricPotential" -> ElectricPotential["AbstractHartree"],
 "AtomicUnitOfForce" -> Force["AbstractHartree"],
