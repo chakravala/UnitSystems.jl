@@ -33,8 +33,8 @@ MagneticConstant[UnitSystem["CODATA"], u_Coupling] := 2 UnitData["RK2014"] FineS
 MagneticConstant[UnitSystem["Conventional"], u_Coupling] := 2 UnitData["RK1990"] FineStructureConstant[u]/UnitData["c"];
 
 MolarMassConstant[UnitSystem[1, ___]] = 1;
-MolarMassConstant[UnitSystem["DimensionalUnits"]] = "M"/"N";
-MolarMassConstant[UnitSystem["DimensionalUnits"], c_Coupling] = "M"/"N";
+MolarMassConstant[_?DimensionSystemQ] = "M"/"N";
+MolarMassConstant[_?DimensionSystemQ, c_Coupling] = "M"/"N";
 MolarMassConstant[u:UnitSystem[UnitData["kB"], ___]] := MolarMassConstant[u, Universe[u]];
 MolarMassConstant[u:UnitSystem[UnitData["kB"], ___], c_Coupling] := UnitData["NA"] ElectronMass[u, c]/ElectronRelativeAtomicMass[c];
 MolarMassConstant[u:UnitSystem[10^7 UnitData["kB"], ___]] := MolarMassConstant[u, Universe[u]];
@@ -49,6 +49,10 @@ MolarMassConstant[u:UnitSystem[BoltzmannConstant[UnitSystem["English"]], ___]] :
 MolarMassConstant[u:UnitSystem[BoltzmannConstant[UnitSystem["English"]], ___], c_Coupling] := 1000 MolarMassConstant[UnitSystem["SI2019"],c]
 MolarMassConstant[UnitSystem[BoltzmannConstant[UnitSystem["EnglishUS"]], ___]] := MolarMassConstant["Natural"];
 MolarMassConstant[UnitSystem[BoltzmannConstant[UnitSystem["IAU"]], ___]] := Mass["IAU"]/1000;
+
+MolarMassConstant[DimensionSystem["EMU"]] := MolarMassConstant["Natural"];
+MolarMassConstant[DimensionSystem["ESU"]] := MolarMassConstant["Natural"];
+MolarMassConstant[DimensionSystem["Gauss"]] := MolarMassConstant["Natural"];
 
 MolarMassConstant[AbstractUnitSystem["AbstractUnits"]] = "Mu"
 MolarMassConstant[AbstractUnitSystem["AbstractUnits1"]] = "Mu1"
@@ -68,7 +72,7 @@ MolarMassConstant[UnitSystem[BoltzmannConstant[AbstractUnitSystem["EnglishUS"]],
 MolarMassConstant[UnitSystem[BoltzmannConstant[AbstractUnitSystem["IAU"]], ___]] := 1/1000 Mass["AbstractIAU"];
 
 MonochromaticRadiation540THzLuminousEfficacy[UnitSystem[1, ___]] = 1
-MonochromaticRadiation540THzLuminousEfficacy[UnitSystem["DimensionalUnits"]] = "J" "T"^3/"M"/"L"^2
+MonochromaticRadiation540THzLuminousEfficacy[_?DimensionSystemQ] = "J" "T"^3/"M"/"L"^2
 MonochromaticRadiation540THzLuminousEfficacy[u : UnitSystem[_?NumericQ, ___]] := Power[UnitData["Kcd"], UnitSystem["SI2019"], u]
 MonochromaticRadiation540THzLuminousEfficacy[u : UnitSystem[_Around, ___]] := Power[UnitData["Kcd"], UnitSystem["SI2019"], u]
 MonochromaticRadiation540THzLuminousEfficacy[AbstractUnitSystem["AbstractUnits1"]] = "Kcd1"
@@ -284,7 +288,7 @@ EinsteinConstantSpeedOfLightToTheFourth[u_UnitSystem, c_Coupling] := (8 Pi Gravi
 MolarGasConstant[u_UnitSystem, c_Coupling] := BoltzmannConstant[u, c] AvogadroConstant[u, c];
 StefanBoltzmannConstant[u_UnitSystem, c_Coupling] := (2 Pi^5 BoltzmannConstant[u, c]^4)/(15 PlanckConstant[u, c]^3 SpeedOfLight[u, c]^2);
 RadiationConstant[u_UnitSystem, c_Coupling] := (4 StefanBoltzmannConstant[u, c])/SpeedOfLight[u, c];
-ElectricConstant[u_UnitSystem, c_Coupling] := (1/MagneticConstant[u, c]) (SpeedOfLight[u, c] LorentzConstant[u]^2);
+ElectricConstant[u_UnitSystem, c_Coupling] := 1/(MagneticConstant[u, c] (SpeedOfLight[u, c] LorentzConstant[u])^2);
 CoulombConstant[u_UnitSystem, c_Coupling] := RationalizationConstant[u]/(4 Pi)/ ElectricConstant[u];
 BiotSavartConstant[u_UnitSystem, c_Coupling] := MagneticConstant[u, c] LorentzConstant[u] (RationalizationConstant[u]/(4 Pi));
 AmpereConstant[u_UnitSystem] := LorentzConstant[u] BiotSavartConstant[u];

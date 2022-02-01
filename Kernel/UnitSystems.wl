@@ -81,7 +81,7 @@ Universe[UnitSystem[_?NumericQ, ___]] := Coupling["StandardModel"]
 Universe[UnitSystem[_Around, ___]] := Coupling["StandardModel"]
 Unit[x_, y_ : 1] := PowerExpand[x];
 
-UnitSystem[u_String] := AbstractUnitSystem[StringDelete[u, "Abstract"]] /; StringStartsQ[u, "Abstract"]
+UnitSystem[u_String] := If[AbstractUnitSystemQ[u], AbstractUnitSystem[StringDelete[u, "Abstract"]], DimensionSystem[StringDelete[u, "Dimension"]]] /; AbstractUnitSystemQ[u] || StringStartsQ[u, "Dimension"]
 Coupling[c_String] := Universe[UnitSystem[c]]
 
 AbstractUnitSystemQ[u_String] := StringStartsQ[u, "Abstract"]
@@ -214,6 +214,12 @@ CompareUnits[a_String, b_, c_] := CompareUnits[UnitSystem[a], b, c]
 CompareUnits[a_, b_String, c_] := CompareUnits[a, UnitSystem[b], c]
 CompareUnits[a_String, b_String, c_] := CompareUnits[UnitSystem[a], UnitSystem[b], c]
 CompareUnits[a_, b_, c_] := Association[Map[ToString[#] -> #[a, b] &, c]]
+DimensionUnits[u_, l_] := CompareUnits["AbstractNatural",DimensionSystem[u], l]
+DimensionUnits[u_] := DimensionUnits[u, Join[ConstantsList, PhysicsList, ConvertList]]
+DimensionPhysics[u_] := DimensionUnits[u, ConvertList]
+DimensionConstants[u_] := DimensionUnits[u, Join[ConstantsList, PhysicsList]]
+DimensionDerived[u_] := DimensionUnits[u, PhysicsList]
+DimensionBase[u_] := DimensionUnits[u, ConstantsList]
 
 DerivedConstants[u_] := DerivedConstants[u, Join[ConstantsList, PhysicsList]]
 DerivedConstants[u_, l_] := Association[Map[ToString[#] -> #[u] &, l]]
@@ -222,9 +228,11 @@ DerivedConstants[u_String, l_] := If[AbstractUnitSystemQ[u], DerivedConstants[Un
 EntityUnregister["UnitSystem"]
 CreateEntity[u_String] := u -> <|
 	"Abstract" :> AbstractUnitSystem[u],
+	"Dimensions" :> DimensionSystem[u],
 	"Value" :> UnitSystem[u],
-	"Derived" :> DerivedConstants[AbstractUnitSystem[u]],
-	"Constants" :> DerivedConstants[u]|>
+	"Formulas" :> DerivedConstants[AbstractUnitSystem[u]],
+	"Constants" :> DerivedConstants[u],
+	"Quantities" :> DimensionPhysics[u]|>
 EntityRegister[EntityStore["UnitSystem" -> <|
 	"Entities" -> Association[Map[CreateEntity, UnitSystemsList]]|>]]
 
