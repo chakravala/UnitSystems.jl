@@ -1,20 +1,30 @@
 
-(* This file is part of UnitSystems. It is licensed under the MIT license *)
-(* UnitSystems Copyright (C) 2022 Michael Reed *)
+(*   This file is part of UnitSystems                   *)
+(*   It is licensed under the MIT license               *)
+(*   UnitSystems Copyright (C) 2022 Michael Reed        *)
+(*       _           _                         _        *)
+(*      | |         | |                       | |       *)
+(*   ___| |__   __ _| | ___ __ __ ___   ____ _| | __ _  *)
+(*  / __| '_ \ / _` | |/ / '__/ _` \ \ / / _` | |/ _` | *)
+(* | (__| | | | (_| |   <| | | (_| |\ V / (_| | | (_| | *)
+(*  \___|_| |_|\__,_|_|\_\_|  \__,_| \_/ \__,_|_|\__,_| *)
+
+UnitSystem /: SolidAngle[u_UnitSystem,s_UnitSystem] := Unit[Angle[u,s]^2]
+SphereAngle[u_UnitSystem] := Unit[2 Turn[u]/Angle[u] (Turn[u]/MM[Turn[u]])]
 
 ElectronMass[h_?NumberQ] := UnitData["R\[Infinity]"] 2 h/UnitData["\[Alpha]"]^2/UnitData["c"];
 ElectronMass[h_?NumberQ, u_Coupling] := (UnitData["R\[Infinity]"] 2 h)/(FineStructureConstant[u]^2 UnitData["c"]);
 PlanckMass[u_UnitSystem, c_Coupling] := PowerExpand[ElectronMass[u, c]/Sqrt[GravitationalCouplingConstantElectronElectron[c]]]
-PlanckConstant[u_UnitSystem, c_Coupling] := 2 Pi ReducedPlanckConstant[u];
-GravitationalConstant[u_UnitSystem, c_Coupling] := PowerExpand[(SpeedOfLight[u, c] ReducedPlanckConstant[u, c])/PlanckMass[u, c]^2]
-ElementaryCharge[u_UnitSystem, c_Coupling] := PowerExpand[Sqrt[2 PlanckConstant[u]/(MagneticConstant[u]/FineStructureConstant[u])/(SpeedOfLight[u] RationalizationConstant[u] LorentzConstant[u]^2)]]
+PlanckConstant[u_UnitSystem, c_Coupling] := Turn[u] ReducedPlanckConstant[u];
+GravitationalConstant[u_UnitSystem, c_Coupling] := PowerExpand[(SpeedOfLight[u, c] PlanckConstant[u, c])/(2 Pi PlanckMass[u, c]^2)]
+ElementaryCharge[u_UnitSystem, c_Coupling] := PowerExpand[Sqrt[2 PlanckConstant[u]/(MagneticConstant[u]/FineStructureConstant[c])/(SpeedOfLight[u] RationalizationConstant[u] LorentzConstant[u]^2)]]
 
-ElectronMass[UnitSystem["Planck"], c_Coupling] := PowerExpand[Sqrt[4 Pi GravitationalCouplingConstantElectronElectron[c]]]
+ElectronMass[u:UnitSystem["Planck"], c_Coupling] := PowerExpand[Sqrt[SphereAngle[u] GravitationalCouplingConstantElectronElectron[c]]]
 ElectronMass[UnitSystem["PlanckGauss"], c_Coupling] := Sqrt[GravitationalCouplingConstantElectronElectron[c]];
 ElectronMass[UnitSystem[_, _, _, _, Sqrt[EvalUnitData["\[Alpha]G"]/UnitData["\[Alpha]"]], ___], c_Coupling] := PowerExpand[Sqrt[GravitationalCouplingConstantElectronElectron[c]/FineStructureConstant[c]]]
 ElectronMass[UnitSystem[_, _, _, _, 1/UnitData["\[Mu]pe"], ___], c_Coupling] := 1/ProtonElectronMassRatio[c];
-MagneticConstant[UnitSystem[_, _, _, 4 Pi UnitData["\[Alpha]"]^2, ___], c_Coupling] := 4 Pi FineStructureConstant[c]^2;
-MagneticConstant[UnitSystem[_, _, _, Pi UnitData["\[Alpha]"]^2, ___], c_Coupling] := Pi FineStructureConstant[c]^2;
+MagneticConstant[u:UnitSystem[_, _, _, 4 Pi UnitData["\[Alpha]"]^2, ___], c_Coupling] := SphereAngle[u] FineStructureConstant[c]^2;
+MagneticConstant[u:UnitSystem[_, _, _, Pi UnitData["\[Alpha]"]^2, ___], c_Coupling] := SphereAngle[u]/4 FineStructureConstant[c]^2;
 SpeedOfLight[UnitSystem[_, _, 1/UnitData["\[Alpha]"], ___], c_Coupling] := 1/FineStructureConstant[c];
 SpeedOfLight[UnitSystem[_, _, 2/UnitData["\[Alpha]"], ___], c_Coupling] := 2/FineStructureConstant[c];
 PlanckReduced[UnitSystem[_, 1/UnitData["\[Alpha]"], ___], c_Coupling] := 1/FineStructure[c];
@@ -31,53 +41,6 @@ MagneticConstant[UnitSystem["ESU2019"], u_Coupling] := 10^3 MagneticConstant[Uni
 MagneticConstant[UnitSystem["EMU2019"], u_Coupling] := 10^7 MagneticConstant[UnitSystem["SI2019"], u];
 MagneticConstant[UnitSystem["CODATA"], u_Coupling] := 2 UnitData["RK2014"] FineStructureConstant[u]/UnitData["c"];
 MagneticConstant[UnitSystem["Conventional"], u_Coupling] := 2 UnitData["RK1990"] FineStructureConstant[u]/UnitData["c"];
-
-MolarMassConstant[UnitSystem[1, ___]] = 1;
-MolarMassConstant[_?DimensionSystemQ] = "M"/"N";
-MolarMassConstant[_?DimensionSystemQ, c_Coupling] = "M"/"N";
-MolarMassConstant[u:UnitSystem[UnitData["kB"], ___]] := MolarMassConstant[u, Universe[u]];
-MolarMassConstant[u:UnitSystem[UnitData["kB"], ___], c_Coupling] := UnitData["NA"] ElectronMass[u, c]/ElectronRelativeAtomicMass[c];
-MolarMassConstant[u:UnitSystem[10^7 UnitData["kB"], ___]] := MolarMassConstant[u, Universe[u]];
-MolarMassConstant[UnitSystem[10^7 UnitData["kB"], ___], c_Coupling] := 1000 MolarMassConstant[UnitSystem["SI2019"], c];
-MolarMassConstant[u:UnitSystem[10^3 UnitData["kB"], ___]] := MolarMassConstant[u, Universe[u]];
-MolarMassConstant[UnitSystem[10^3 UnitData["kB"], ___], c_Coupling] := MolarMassConstant[UnitSystem["SI2019"], c]/1000;
-MolarMassConstant[UnitSystem[kB_, ___]] := MolarMassConstant["CGS"]/1000;
-MolarMassConstant[UnitSystem[BoltzmannConstant[UnitSystem["MTS"]], ___]] := MolarMassConstant["CGS"]/10^6;
-MolarMassConstant[UnitSystem[BoltzmannConstant[UnitSystem["CGS"]], ___]] := MolarMassConstant["Natural"];
-MolarMassConstant[UnitSystem[BoltzmannConstant[UnitSystem["FFF"]], ___]] := MolarMassConstant["Natural"];
-MolarMassConstant[u:UnitSystem[BoltzmannConstant[UnitSystem["English"]], ___]] := MolarMassConstant[u, Universe[u]];
-MolarMassConstant[u:UnitSystem[BoltzmannConstant[UnitSystem["English"]], ___], c_Coupling] := 1000 MolarMassConstant[UnitSystem["SI2019"],c]
-MolarMassConstant[UnitSystem[BoltzmannConstant[UnitSystem["EnglishUS"]], ___]] := MolarMassConstant["Natural"];
-MolarMassConstant[UnitSystem[BoltzmannConstant[UnitSystem["IAU"]], ___]] := Mass["IAU"]/1000;
-
-MolarMassConstant[DimensionSystem["EMU"]] := MolarMassConstant["Natural"];
-MolarMassConstant[DimensionSystem["ESU"]] := MolarMassConstant["Natural"];
-MolarMassConstant[DimensionSystem["Gauss"]] := MolarMassConstant["Natural"];
-
-MolarMassConstant[AbstractUnitSystem["AbstractUnits"]] = "Mu"
-MolarMassConstant[AbstractUnitSystem["AbstractUnits1"]] = "Mu1"
-MolarMassConstant[AbstractUnitSystem["AbstractUnits2"]] = "Mu2"
-MolarMassConstant[u : UnitSystem["kB", ___]] := MolarMassConstant[u,Universe[u]]
-MolarMassConstant[u : UnitSystem["kB", ___], c_Coupling] := "NA" ElectronMass[AbstractUnitSystem["SI2019"],c]/ElectronRelativeAtomicMass[c]
-MolarMassConstant[u : UnitSystem[10^7 "kB", ___]] := MolarMassConstant[u, Universe[u]];
-MolarMassConstant[UnitSystem[10^7 "kB", ___], c_Coupling] := 1000 MolarMassConstant[AbstractUnitSystem["SI2019"], c];
-MolarMassConstant[u : UnitSystem[10^3 "kB", ___]] := MolarMassConstant[u, Universe[u]];
-MolarMassConstant[UnitSystem[10^3 "kB", ___], c_Coupling] := MolarMassConstant[AbstractUnitSystem["SI2019"], c]/1000;
-MolarMassConstant[UnitSystem[BoltzmannConstant[AbstractUnitSystem["MTS"]], ___]] := MolarMassConstant["CGS"]/10^6;
-MolarMassConstant[UnitSystem[BoltzmannConstant[AbstractUnitSystem["CGS"]], ___]] := MolarMassConstant["Natural"];
-MolarMassConstant[UnitSystem[BoltzmannConstant[AbstractUnitSystem["FFF"]], ___]] := MolarMassConstant["Natural"];
-MolarMassConstant[u : UnitSystem[BoltzmannConstant[AbstractUnitSystem["English"]], ___]] := MolarMassConstant[u, Universe[u]];
-MolarMassConstant[u : UnitSystem[BoltzmannConstant[AbstractUnitSystem["English"]], ___], c_Coupling] := 1000 MolarMassConstant[AbstractUnitSystem["SI2019"], c];
-MolarMassConstant[UnitSystem[BoltzmannConstant[AbstractUnitSystem["EnglishUS"]], ___]] := MolarMassConstant["Natural"];
-MolarMassConstant[UnitSystem[BoltzmannConstant[AbstractUnitSystem["IAU"]], ___]] := 1/1000 Mass["AbstractIAU"];
-
-MonochromaticRadiation540THzLuminousEfficacy[UnitSystem[1, ___]] = 1
-MonochromaticRadiation540THzLuminousEfficacy[_?DimensionSystemQ] = "J" "T"^3/"M"/"L"^2
-MonochromaticRadiation540THzLuminousEfficacy[u : UnitSystem[_?NumericQ, ___]] := Power[UnitData["Kcd"], UnitSystem["SI2019"], u]
-MonochromaticRadiation540THzLuminousEfficacy[u : UnitSystem[_Around, ___]] := Power[UnitData["Kcd"], UnitSystem["SI2019"], u]
-MonochromaticRadiation540THzLuminousEfficacy[AbstractUnitSystem["AbstractUnits1"]] = "Kcd1"
-MonochromaticRadiation540THzLuminousEfficacy[AbstractUnitSystem["AbstractUnits2"]] = "Kcd2"
-MonochromaticRadiation540THzLuminousEfficacy[u_UnitSystem] := Power["Kcd", AbstractUnitSystem["SI2019"], u]
 
 Kilograms[m_] := Kilograms[m, "English"];
 Kilograms[m_, u_UnitSystem] := Mass[m, UnitSystem["Metric"], u];
@@ -131,41 +94,48 @@ Time[u : UnitSystem[_, _, UnitData["day"] UnitData["c"]/UnitData["au"], ___],
 
 UnitSystem /: Length[u_UnitSystem, s_UnitSystem] := Length[u, s, 1];
 UnitSystem /: Length[u_UnitSystem, s_UnitSystem, l_] :=
-  Unit[(ReducedPlanckConstant[s] ElectronMass[u] SpeedOfLight[
-       u])/(ReducedPlanckConstant[u] ElectronMass[s] SpeedOfLight[s]), l];
+  Unit[measuratio[Turn[s] ReducedPlanckConstant[s] GravityConstant[s]/(ElectronMass[s] SpeedOfLight[s]),Turn[u] ReducedPlanckConstant[u] GravityConstant[u]/(ElectronMass[u] SpeedOfLight[u])], l];
 UnitSystem /: Area[u_UnitSystem, s_UnitSystem] := Unit[Length[u, s]^2];
 UnitSystem /: Volume[u_UnitSystem, s_UnitSystem] := Unit[Length[u, s]^3];
 
 Wavenumber[u_UnitSystem, s_UnitSystem] := Unit[Length[s, u]];
+AngularWavenumber[u_UnitSystem, s_UnitSystem] := Unit[Angle[u,s] Length[s, u]];
 FuelEconomy[u_UnitSystem, s_UnitSystem] := Area[s, u];
 Time[u_UnitSystem, s_UnitSystem] := Time[u, s, 1];
 Time[u_UnitSystem, s_UnitSystem, t_] := Unit[Length[u, s]/SpeedOfLight[u, s], 1];
 Frequency[u_UnitSystem, s_UnitSystem] := Time[s, u];
+AngularFrequency[u_UnitSystem, s_UnitSystem] := Unit[Angle[u, s] Time[s, u]];
 FrequencyDrift[u_UnitSystem, s_UnitSystem] := Unit[Time[s, u]^2];
 Speed[u_UnitSystem, s_UnitSystem] := SpeedOfLight[u, s];
 Acceleration[u_UnitSystem, s_UnitSystem] := Unit[Speed[u, s]/Time[u, s]];
 Jerk[u_UnitSystem, s_UnitSystem] := Unit[Speed[u, s]/Time[u, s]^2];
 Snap[u_UnitSystem, s_UnitSystem] := Unit[Speed[u, s]/Time[u, s]^3];
+Crackle[u_UnitSystem, s_UnitSystem] := Unit[Speed[u, s]/Time[u, s]^4];
+Pop[u_UnitSystem, s_UnitSystem] := Unit[Speed[u, s]/Time[u, s]^5];
 VolumeFlowRate[u_UnitSystem, s_UnitSystem] := Unit[Area[u, s], Speed[u, s]];
 SpecificEnergy[u_UnitSystem, s_UnitSystem] := Unit[Speed[u, s]^2];
 
+Inertia[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/GravityConstant[u, s]];
 Mass[u_UnitSystem, s_UnitSystem] := ElectronMass[u, s];
 Energy[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s] SpecificEnergy[u, s]];
 UnitSystem /: Power[u_UnitSystem, s_UnitSystem] := Unit[Energy[u, s]/Time[u, s]];
-Force[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s] Acceleration[u, s]];
-Pressure[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Length[u, s]/Time[u, s]^2];
+Force[u_UnitSystem, s_UnitSystem] := Unit[Inertia[u, s] Acceleration[u, s]];
+GForce[u_UnitSystem, s_UnitSystem] := Unit[Acceleration[u, s]/GravityConstant[u, s]];
+Pressure[u_UnitSystem, s_UnitSystem] := Unit[Force[u, s]/Area[u, s]];
 
+Impulse[u_UnitSystem, s_UnitSystem] := Unit[Force[u, s] Time[u, s]];
 Momentum[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s] Speed[u, s]];
-AngularMomentum[u_UnitSystem, s_UnitSystem] := Unit[Momentum[u, s] Length[u, s]];
+AngularMomentum[u_UnitSystem, s_UnitSystem] := Unit[Momentum[u, s] Length[u, s] Angle[u, s]];
 ForceOnsetRate[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s] Jerk[u, s]];
 MassPerArea[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Area[u, s]];
 MassDensity[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Volume[u, s]];
+SpecificWeight[u_UnitSystem, s_UnitSystem] := Unit[Pressure[u, s]/Speed[u, s]^2];
 SpecificVolume[u_UnitSystem, s_UnitSystem] := Unit[Volume[u, s]/Mass[u, s]];
-Action[u_UnitSystem, s_UnitSystem] := Unit[Momentum[u, s] Length[u, s]];
-Stiffness[u_UnitSystem, s_UnitSystem] := Unit[Energy[u, s]/Area[u, s]];
+Action[u_UnitSystem, s_UnitSystem] := Unit[Energy[u, s] Time[u, s]];
+Stiffness[u_UnitSystem, s_UnitSystem] := Unit[Force[u, s]/Length[u, s]];
 Irradiance[u_UnitSystem, s_UnitSystem] := Unit[Power[u, s]/Area[u, s]];
-KinematicViscosity[u_UnitSystem, s_UnitSystem] := Unit[(ReducedPlanckConstant[s] ElectronMass[u])/(ReducedPlanckConstant[u] ElectronMass[s])];
-DynamicViscosity[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Length[u, s]/Time[u, s]];
+KinematicViscosity[u_UnitSystem, s_UnitSystem] := Unit[Speed[u, s] Length[u, s]];
+DynamicViscosity[u_UnitSystem, s_UnitSystem] := Unit[Force[u, s]/Speed[u, s]/Length[u, s]];
 LinearMassDensity[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Length[u, s]];
 MassFlowRate[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Time[u, s]];
 PowerGradient[u_UnitSystem, s_UnitSystem] := Unit[Power[u, s]/Length[u, s]];
@@ -185,18 +155,17 @@ Inertance[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s]/Length[u, s]^4];
 
 MagneticPermeability[u_UnitSystem, s_UnitSystem] := Unit[MagneticConstant[u, s]];
 ElectricCharge[u_UnitSystem, s_UnitSystem] :=
-  Unit[Sqrt[(ReducedPlanckConstant[s] MagneticConstant[u] SpeedOfLight[
-        u] RationalizationConstant[u] LorentzConstant[u]^2)/(ReducedPlanckConstant[
-        u] MagneticConstant[s] SpeedOfLight[s] RationalizationConstant[s] LorentzConstant[s]^2)]];
+  Unit[Sqrt[measuratio[Turn[s] ReducedPlanckConstant[s]/(MagneticConstant[s] SpeedOfLight[s] RationalizationConstant[s] LorentzConstant[s]^2),
+	Turn[u] ReducedPlanckConstant[u]/(MagneticConstant[u] SpeedOfLight[u] RationalizationConstant[u] LorentzConstant[u]^2)]]];
 ElectricCurrent[u_UnitSystem, s_UnitSystem] := Unit[ElectricCharge[u, s]/Time[u, s]];
 ElectricPotential[u_UnitSystem, s_UnitSystem] := Unit[Energy[u, s]/ElectricCharge[u, s]];
 ElectricCapacitance[u_UnitSystem, s_UnitSystem] := Unit[ElectricCharge[u, s]/ElectricPotential[u, s]];
-Resistance[u_UnitSystem, s_UnitSystem] := Unit[ElectricPotential[u, s]/ElectricCurrent[u, s]];
+ElectricResistance[u_UnitSystem, s_UnitSystem] := Unit[ElectricPotential[u, s]/ElectricCurrent[u, s]];
 ElectricConductance[u_UnitSystem, s_UnitSystem] := Unit[ElectricCurrent[u, s]/ElectricPotential[u, s]];
 MagneticFlux[u_UnitSystem, s_UnitSystem] := Unit[Energy[u, s]/LorentzConstant[u, s]/ElectricCurrent[u, s]];
 MagneticFluxDensity[u_UnitSystem, s_UnitSystem] :=
-  Unit[Mass[u, s]/LorentzConstant[u, s]/ElectricCurrent[u, s]/Time[u, s]^2];
-MagneticInductance[u_UnitSystem, s_UnitSystem] := Unit[Mass[u, s] Area[u, s]/ElectricCharge[u, s]^2];
+  Unit[MagneticFlux[u, s]/Area[u, s]];
+MagneticInductance[u_UnitSystem, s_UnitSystem] := Unit[MagneticFlux[u, s]/ElectricCurrent[u, s]];
 
 ElectricFluxDensity[u_UnitSystem, s_UnitSystem] := Unit[ElectricCharge[u, s] RationalizationConstant[u, s]/Area[u, s]];
 ElectricChargeDensity[u_UnitSystem, s_UnitSystem] := Unit[ElectricCharge[u, s]/Volume[u, s]];
@@ -243,8 +212,8 @@ Molecules[n_, u_UnitSystem] := n AvogadroConstant[u];
 Molecules[n_, u_String] := Molecules[n, UnitSystem[u]];
 
 Temperature[u_UnitSystem, s_UnitSystem] :=
-  Unit[(BoltzmannConstant[u] ElectronMass[s] SpeedOfLight[s]^2)/(BoltzmannConstant[
-       s] ElectronMass[u] SpeedOfLight[u]^2)];
+  Unit[measuratio[ElectronMass[s] SpeedOfLight[s]^2/BoltzmannConstant[s]/GravityConstant[s],
+	ElectronMass[u] SpeedOfLight[u]^2/BoltzmannConstant[u]/GravityConstant[u]]];
 UnitSystem /: Entropy[u_UnitSystem, s_UnitSystem] := Unit[Energy[u, s]/Temperature[u, s]];
 SpecificEntropy[u_UnitSystem, s_UnitSystem] := Unit[SpecificEnergy[u, s]/Temperature[u, s]];
 EntropyPerVolume[u_UnitSystem, s_UnitSystem] := Unit[Entropy[u, s]/Volume[u, s]];
@@ -267,9 +236,9 @@ Catalysis[u_UnitSystem, s_UnitSystem] := Unit[Amount[u, s]/Time[u, s]];
 Specificity[u_UnitSystem, s_UnitSystem] := Unit[Volume[u, s]/Amount[u, s]/Time[u, s]];
 
 LuminousEfficacyOfRadiation[u_UnitSystem, s_UnitSystem] := Unit[MonochromaticRadiation540THzLuminousEfficacy[u, s]];
-LuminousFlux[u_UnitSystem, s_UnitSystem] := Unit[Frequency[u, s]^2 (MonochromaticRadiation540THzLuminousEfficacy[s] ReducedPlanckConstant[s])/(MonochromaticRadiation540THzLuminousEfficacy[u] ReducedPlanckConstant[u])];
+LuminousFlux[u_UnitSystem, s_UnitSystem] := Unit[Frequency[u, s]^2 measuratio[MonochromaticRadiation540THzLuminousEfficacy[s] ReducedPlanckConstant[s], MonochromaticRadiation540THzLuminousEfficacy[u] ReducedPlanckConstant[u]]];
 Luminance[u_UnitSystem, s_UnitSystem] := Unit[LuminousFlux[u, s]/Area[u, s]];
-LuminousEnergy[u_UnitSystem, s_UnitSystem] := Unit[Frequency[u, s] (MonochromaticRadiation540THzLuminousEfficacy[s] ReducedPlanckConstant[s])/(MonochromaticRadiation540THzLuminousEfficacy[u] ReducedPlanckConstant[u])];
+LuminousEnergy[u_UnitSystem, s_UnitSystem] := Unit[Frequency[u, s] measuratio[MonochromaticRadiation540THzLuminousEfficacy[s] ReducedPlanckConstant[s], MonochromaticRadiation540THzLuminousEfficacy[u] ReducedPlanckConstant[u]]];
 LuminousExposure[u_UnitSystem, s_UnitSystem] := Unit[Luminance[u, s] Time[u, s]];
 
 (* Physics *)
@@ -278,19 +247,20 @@ Cesium133HyperfineSplittingFrequency[u : UnitSystem[_?NumberQ, ___]] := Frequenc
 Cesium133HyperfineSplittingFrequency[u : UnitSystem[_Around, ___]] := Frequency[UnitData["\[CapitalDelta]\[Nu]Cs"], u];
 Cesium133HyperfineSplittingFrequency[u_UnitSystem] := Frequency["\[CapitalDelta]\[Nu]Cs", u];
 HubbleParameter[u_UnitSystem] := Time[u, MatchSystem[u,"Hubble"]]
+CosmologicalConstant[u_UnitSystem, c_Coupling] := 3 UniverseDarkEnergyMassDensity[c] (HubbleParameter[u]/SpeedOfLight[u, c])^2
 
 Map[(#[u_UnitSystem] := #[u, Universe[u]]) &, {CosmologicalConstant, AvogadroConstant, AtomicMassConstant, ProtonMass, EinsteinConstantSpeedOfLightToTheFourth, MolarGasConstant, StefanBoltzmannConstant, RadiationConstant, ElectricConstant, CoulombConstant, BiotSavartConstant, VacuumImpedance, FaradayConstant, JosephsonConstant, MagneticFluxQuantum, VonKlitzingConstant, ConductanceQuantum, HartreeEnergy, RydbergConstant, BohrRadius, RelativisticBohrRadius, ClassicalElectronRadius, BohrMagneton}];
-CosmologicalConstant[u_UnitSystem, c_Coupling] := 3 UniverseDarkEnergyMassDensity[c] (HubbleParameter[u]/SpeedOfLight[u, c])^2
 AvogadroConstant[u_UnitSystem, c_Coupling] := MolarMassConstant[u, c] ElectronRelativeAtomicMass[c]/ElectronMass[u, c];
 AtomicMassConstant[u_UnitSystem, c_Coupling] := ElectronMass[u, c]/ElectronRelativeAtomicMass[c];
 ProtonMass[u_UnitSystem, c_Coupling] := ProtonElectronMassRatio[c] ElectronMass[u, c];
-EinsteinConstantSpeedOfLightToTheFourth[u_UnitSystem, c_Coupling] := (8 Pi GravitationalConstant[u, c])/SpeedOfLight[u, c]^4;
+EinsteinConstantSpeedOfLightSquared[u_UnitSystem, c_Coupling] := (2 SphereAngle[u] GravitationalConstant[u, c])/SpeedOfLight[u, c]^2;
+EinsteinConstantSpeedOfLightToTheFourth[u_UnitSystem, c_Coupling] := (2 SphereAngle[u] GravitationalConstant[u, c])/SpeedOfLight[u, c]^4;
 MolarGasConstant[u_UnitSystem, c_Coupling] := BoltzmannConstant[u, c] AvogadroConstant[u, c];
-StefanBoltzmannConstant[u_UnitSystem, c_Coupling] := (2 Pi^5 BoltzmannConstant[u, c]^4)/(15 PlanckConstant[u, c]^3 SpeedOfLight[u, c]^2);
+StefanBoltzmannConstant[u_UnitSystem, c_Coupling] := (MM[Turn[u]]^4/2^5 SphereAngle[u] BoltzmannConstant[u, c]^4)/(15 PlanckConstant[u, c]^3 SpeedOfLight[u, c]^2);
 RadiationConstant[u_UnitSystem, c_Coupling] := (4 StefanBoltzmannConstant[u, c])/SpeedOfLight[u, c];
 ElectricConstant[u_UnitSystem, c_Coupling] := 1/(MagneticConstant[u, c] (SpeedOfLight[u, c] LorentzConstant[u])^2);
-CoulombConstant[u_UnitSystem, c_Coupling] := RationalizationConstant[u]/(4 Pi)/ ElectricConstant[u];
-BiotSavartConstant[u_UnitSystem, c_Coupling] := MagneticConstant[u, c] LorentzConstant[u] (RationalizationConstant[u]/(4 Pi));
+CoulombConstant[u_UnitSystem, c_Coupling] := RationalizationConstant[u]/SphereAngle[u]/ ElectricConstant[u];
+BiotSavartConstant[u_UnitSystem, c_Coupling] := MagneticConstant[u, c] LorentzConstant[u] (RationalizationConstant[u]/SphereAngle[u]);
 AmpereConstant[u_UnitSystem] := LorentzConstant[u] BiotSavartConstant[u];
 VacuumImpedance[u_UnitSystem, c_Coupling] := MagneticConstant[u, c] SpeedOfLight[u, c] RationalizationConstant[u] LorentzConstant[u]^2;
 FaradayConstant[u_UnitSystem, c_Coupling] := ElementaryCharge[u, c] AvogadroConstant[u, c];
