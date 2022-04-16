@@ -113,6 +113,20 @@ $(fuelefficiency(English,Metric))
 """ fuelefficiency
 
 @doc """
+$(convertext(:numberdensity,"1/volume(U,S)"))
+
+Number per `volume` or `numberdensity` (m⁻³ or ft⁻³), unit conversion factor.
+
+```Julia
+julia> numberdensity(CGS,Metric) # cm³⋅m⁻³
+$(numberdensity(CGS,Metric))
+
+julia> numberdensity(English,Metric) # ft³⋅m⁻³
+$(numberdensity(English,Metric))
+```
+""" numberdensity
+
+@doc """
 $(convertext(:frequency,"1/time(U,S)"))
 
 Number of occurences per unit of time (Hz or s⁻¹), unit conversion factor.
@@ -327,7 +341,7 @@ $(mass(IAU,Metric))
 julia> mass(PlanckGauss,Metric) # kg⋅mP⁻¹
 $(mass(PlanckGauss,Metric))
 ```
-""" mass, slug, M
+""" mass, M
 
 @doc """
 $(convertext(:inertia,"mass(U,S)/gravity(U,S)"))
@@ -420,10 +434,36 @@ $(force(MetricEngineering,Metric))
 """ force, F
 
 @doc """
-$(convertext(:gforce,"acceleration(U,S)/gravity(U,S)"))
+$(convertext(:specificforce,"acceleration(U,S)/gravity(U,S)"))
 
-Weight or force per `mass` or `gforce` (N/kg, m⋅s⁻²), unit conversion factor.
-""" gforce
+Weight or `force` per `mass` or `gforce` (N/kg, m⋅s⁻²), unit conversion factor.
+```Julia
+julia> specificforce(CGS,Metric)
+$(specificforce(CGS,Metric))
+
+julia> specificforce(MetricEngineering,Metric)
+$(specificforce(MetricEngineering,Metric))
+
+julia> specificforce(English,Metric)
+$(specificforce(English,Metric))
+```
+""" specificforce
+
+@doc """
+$(convertext(:gravityforce,"acceleration(U,S)/specificforce(U,S)"))
+
+Reference `acceleration` per `specificforce` (𝟏, F⁻¹MLT⁻²), unit conversion factor.
+```Julia
+julia> gravityforce(Metric,CGS)
+$(gravityforce(Metric,CGS))
+
+julia> gravityforce(Metric,MetricEngineering)
+$(gravityforce(Metric,MetricEngineering))
+
+julia> gravityforce(Metric,English)
+$(gravityforce(Metric,English))
+```
+""" gravityforce
 
 @doc """
 $(convertext(:pressure,"force(U,S)/area(U,S)"))
@@ -439,10 +479,11 @@ $(inv(atm))
 
 julia> pressure(English,Metric) # Pa⋅ft²⋅lb⁻¹
 $(pressure(English,Metric))
+
+julia> pressure(Metric,IPS) # psi⋅Pa⁻¹
+$(pressure(Metric,IPS))
 ```
 """ pressure
-#julia> pressure(Metric,English)/12^2 # psi⋅Pa⁻¹
-#$(pressure(Metric,English)/(𝟐^2*𝟑)^2)
 
 # mechanical
 
@@ -601,7 +642,7 @@ $(action(English,Metric))
 ```
 """ action
 
-@doc """
+#=@doc """
 $(convertext(:stiffness,"force(U,S)/length(U,S)"))
 
 Amount of `force` per `length` or `stiffness` (N⋅m⁻¹, J⋅m⁻², kg⋅s⁻²), unit conversion factor.
@@ -616,7 +657,7 @@ $(stiffness(CGS,English))
 julia> stiffness(English,Metric) # kg⋅lb⁻¹
 $(stiffness(English,Metric))
 ```
-""" stiffness
+""" stiffness=#
 
 @doc """
 $(convertext(:intensity,"power(U,S)/area(U,S)"))
@@ -751,19 +792,23 @@ $(compressibility(CGS,Metric))
 
 julia> compressibility(English,Metric) # lb⋅ft⁻²⋅Pa⁻¹
 $(compressibility(English,Metric))
+
+julia> compressibility(Metric,IPS) # Pa⋅psi⁻¹
+$(compressibility(Metric,IPS))
 ```
 """ compressibility
-#julia> compressibility(Metric,English)/12^2 # Pa⋅psi⁻¹
-#$(compressibility(Metric,English)/12^2)
 
 @doc """
 $(convertext(:fluence,"energy(U,S)/area(U,S"))
 
-Radiant exposure or `energy` per `area` or `fluence` (J⋅m⁻²), unit conversion factor.
+Radiant exposure or `force` per `length` or stiffness (N⋅m⁻¹, J⋅m⁻²), unit conversion factor.
 
 ```Julia
 julia> fluence(CGS,Metric) # kg⋅g⁻¹
 $(mass(CGS,Metric))
+
+julia> fluence(CGS,English) # lb⋅g⁻¹
+$(fluence(CGS,English))
 
 julia> fluence(CODATA,Metric) # kg⋅kg⁻¹
 $(mass(CODATA,Metric))

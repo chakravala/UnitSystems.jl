@@ -23,7 +23,7 @@ end
 @pure param(::Constant{D}) where D = D
 Base.float(x::Constant) = float(constant(x))
 Base.convert(::Type{Float64},c::Constant) = float(c)
-dB(x::Constant{D}) where D = Constant{dB(D)}()
+logdb(x::Constant{D}) where D = Constant{logdb(D)}()
 Base.:+(a::Constant,b::Constant) = Constant(constant(a)+constant(b))
 Base.:-(a::Constant,b::Constant) = Constant(constant(a)-constant(b))
 Base.:+(a::Constant{D},::Constant{D}) where D = 𝟐*a

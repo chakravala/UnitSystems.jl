@@ -3,7 +3,7 @@ using UnitSystems, Test
 for S ∈ UnitSystems.Systems
     U = eval(S)
     S ∉ () && @testset "UnitSystem: $S" begin
-        @testset "Dimensionless constants" begin
+        S≠:FFF && @testset "Dimensionless constants" begin
             @test μₑᵤ ≈ electronmass(U)/atomicmass(U)
             @test μₚᵤ ≈ protonmass(U)/atomicmass(U)
             @test μₚₑ ≈ protonmass(U)/electronmass(U)
@@ -11,41 +11,41 @@ for S ∈ UnitSystems.Systems
             @test αG ≈ (electronmass(U)/mass(PlanckGauss,U))^2
             @test 1/αinv ≈ elementarycharge(U)^2*rationalization(U)/4π/vacuumpermittivity(U)/planckreduced(U)/lightspeed(U)
             @test 1/αinv ≈ vacuumpermeability(U)*lightspeed(U)*(elementarycharge(U)*lorentz(U))^2*rationalization(U)/4π/planckreduced(U)
-            @test 1/αinv ≈ coulomb(U)*elementarycharge(U)^2/planckreduced(U)/lightspeed(U)
+            @test 1/αinv ≈ electrostatic(U)*elementarycharge(U)^2/planckreduced(U)/lightspeed(U)
             @test 1/αinv ≈ elementarycharge(U)^2*rationalization(U)/2vacuumpermittivity(U)/lightspeed(U)/planck(U)
             @test 1/αinv ≈ lightspeed(U)*vacuumpermeability(U)*rationalization(U)*lorentz(U)^2/2klitzing(U)
             @test 1/αinv ≈ elementarycharge(U)^2*vacuumimpedance(U)/2planck(U)
         end
         @testset "Fundamental constants" begin
             @testset "lightspeed" begin
-                @test lightspeed(U) ≈ 1/lorentz(U)/sqrt(vacuumpermeability(U)*vacuumpermittivity(U))
-                @test lightspeed(U) ≈ αinv*sqrt(hartree(U)/electronmass(U))
-                @test lightspeed(U) ≈ planckreduced(U)/αinv/electronmass(U)/electronradius(U)
-                @test lightspeed(U) ≈ elementarycharge(U)^2*coulomb(U)/planckreduced(U)*αinv
-                @test lightspeed(U) ≈ electronmass(U)^2*newton(U)/planckreduced(U)/αG
+                S≠:FFF && @test lightspeed(U) ≈ 1/lorentz(U)/sqrt(vacuumpermeability(U)*vacuumpermittivity(U))
+                @test lightspeed(U) ≈ αinv*sqrt(hartree(U)*gravity(U)/electronmass(U))
+                @test lightspeed(U) ≈ planckreduced(U)/αinv/electronmass(U)/electronradius(U)*gravity(U)
+                S≠:FFF && @test lightspeed(U) ≈ elementarycharge(U)^2*electrostatic(U)/planckreduced(U)*αinv
+                @test lightspeed(U) ≈ electronmass(U)^2*gravitation(U)/planckreduced(U)/αG
             end
-            @testset "planck" begin
+            S≠:FFF && @testset "planck" begin
                 @test planck(U) == 2π*planckreduced(U)
                 @test planck(U) ≈ 2elementarycharge(U)*lorentz(U)/josephson(U)
                 @test planck(U) ≈ 8/αinv/rationalization(U)/lightspeed(U)/vacuumpermeability(U)/josephson(U)^2
                 @test planck(U) ≈ 4lorentz(U)^2/josephson(U)^2/klitzing(U)
             end
             @testset "planckmass" begin
-                @test planckmass(U) ≈ sqrt(planckreduced(U)*lightspeed(U)/newton(U))
+                @test planckmass(U) ≈ sqrt(planckreduced(U)*lightspeed(U)/gravitation(U))
                 @test planckmass(U) ≈ electronmass(U)/sqrt(αG)
-                @test planckmass(U) ≈ 2rydberg(U)*planck(U)/lightspeed(U)*αinv^2/sqrt(αG)
+                @test planckmass(U) ≈ 2rydberg(U)*planck(U)/lightspeed(U)*αinv^2/sqrt(αG)*gravity(U)
             end
-            @testset "newton" begin
-                @test newton(U) ≈ planckreduced(U)*lightspeed(U)/planckmass(U)^2
-                @test newton(U) ≈ planckreduced(U)*lightspeed(U)*αG/electronmass(U)^2
-                @test newton(U) ≈ lightspeed(U)^3/αinv^4*αG/8π/rydberg(U)^2/planck(U)
-                @test newton(U) ≈ einstein(U)*lightspeed(U)^4/8π
+            @testset "gravitation" begin
+                @test gravitation(U) ≈ planckreduced(U)*lightspeed(U)/planckmass(U)^2
+                @test gravitation(U) ≈ planckreduced(U)*lightspeed(U)*αG/electronmass(U)^2
+                @test gravitation(U) ≈ lightspeed(U)^3/αinv^4*αG/8π/rydberg(U)^2/planck(U)/gravity(U)^2
+                @test gravitation(U) ≈ einstein(U)*lightspeed(U)^4/8π
             end
             @testset "einstein" begin
-                @test einstein(U) ≈ 8π*newton(U)/lightspeed(U)^4
+                @test einstein(U) ≈ 8π*gravitation(U)/lightspeed(U)^4
                 @test einstein(U) ≈ 8π*planckreduced(U)/lightspeed(U)^3/planckmass(U)^2
                 @test einstein(U) ≈ 8π*planckreduced(U)*αG/lightspeed(U)^3/electronmass(U)^2
-                @test einstein(U) ≈ αG/αinv^4/rydberg(U)^2/planck(U)/lightspeed(U)
+                @test einstein(U) ≈ αG/αinv^4/rydberg(U)^2/planck(U)/lightspeed(U)/gravity(U)^2
             end
         end
         @testset "Atomic constants" begin
@@ -53,51 +53,49 @@ for S ∈ UnitSystems.Systems
                 @test atomicmass(U) ≈ molarmass(U)/avogadro(U)
                 @test atomicmass(U) ≈ electronmass(U)/μₑᵤ
                 @test atomicmass(U) ≈ protonmass(U)/μₚᵤ
-                @test atomicmass(U) ≈ 2rydberg(U)*planck(U)/μₑᵤ/lightspeed(U)*αinv^2
+                @test atomicmass(U) ≈ 2rydberg(U)*planck(U)/μₑᵤ/lightspeed(U)*αinv^2*gravity(U)
                 @test atomicmass(U) ≈ planckmass(U)*sqrt(αG)/μₑᵤ
             end
             @testset "protonmass" begin
                 @test protonmass(U) ≈ μₚᵤ*atomicmass(U)
                 @test protonmass(U) ≈ μₚᵤ*molarmass(U)/avogadro(U)
                 @test protonmass(U) ≈ μₚₑ*electronmass(U)
-                @test protonmass(U) ≈ μₚₑ*2rydberg(U)*planck(U)/lightspeed(U)*αinv^2
+                @test protonmass(U) ≈ μₚₑ*2rydberg(U)*planck(U)/lightspeed(U)*αinv^2*gravity(U)
                 @test protonmass(U) ≈ planckmass(U)*μₚₑ*sqrt(αG)
             end
             @testset "electronmass" begin
                 @test electronmass(U) ≈ μₑᵤ*atomicmass(U)
                 @test electronmass(U) ≈ μₑᵤ*molarmass(U)/avogadro(U)
                 @test electronmass(U) ≈ protonmass(U)/μₚₑ
-                @test electronmass(U) ≈ 2rydberg(U)*planck(U)/lightspeed(U)*αinv^2
+                @test electronmass(U) ≈ 2rydberg(U)*planck(U)/lightspeed(U)*αinv^2*gravity(U)
                 @test electronmass(U) ≈ planckmass(U)*sqrt(αG)
             end
             @testset "hartree" begin
-                @test hartree(U) ≈ electronmass(U)*(lightspeed(U)/αinv)^2
+                @test hartree(U) ≈ electronmass(U)/gravity(U)*(lightspeed(U)/αinv)^2
                 @test hartree(U) ≈ planckreduced(U)*lightspeed(U)/αinv/bohr(U)
-                @test hartree(U) ≈ planckreduced(U)^2/electronmass(U)/bohr(U)^2
+                @test hartree(U) ≈ planckreduced(U)^2/electronmass(U)/bohr(U)^2*gravity(U)
                 @test hartree(U) ≈ 2rydberg(U)*planck(U)*lightspeed(U)
-                @test hartree(U) ≈ planckmass(U)*sqrt(αG)*(lightspeed(U)/αinv)^2
+                @test hartree(U) ≈ planckmass(U)*sqrt(αG)*(lightspeed(U)/αinv)^2/gravity(U)
             end
             @testset "rydberg" begin
                 @test rydberg(U) ≈ hartree(U)/2planck(U)/lightspeed(U)
-                @test rydberg(U) ≈ electronmass(U)*lightspeed(U)/αinv^2/2planck(U)
+                @test rydberg(U) ≈ electronmass(U)*lightspeed(U)/αinv^2/2planck(U)/gravity(U)
                 @test rydberg(U) ≈ 1/αinv/4π/bohr(U)
-                @test rydberg(U) ≈ electronmass(U)*electronradius(U)*lightspeed(U)/2planck(U)/bohr(U)
-                @test rydberg(U) ≈ electronmass(U)*lightspeed(U)/αinv^2/4π/planckreduced(U)
-                @test rydberg(U) ≈ planckmass(U)*lightspeed(U)*sqrt(αG)/αinv^2/2planck(U)
+                @test rydberg(U) ≈ electronmass(U)*electronradius(U)*lightspeed(U)/2planck(U)/bohr(U)/gravity(U)
+                @test rydberg(U) ≈ electronmass(U)*lightspeed(U)/αinv^2/4π/planckreduced(U)/gravity(U)
+                @test rydberg(U) ≈ planckmass(U)*lightspeed(U)*sqrt(αG)/αinv^2/2planck(U)/gravity(U)
             end
             @testset "bohr" begin
-                @test bohr(U) ≈ planckreduced(U)/electronmass(U)/lightspeed(U)*αinv
-                @test bohr(U) ≈ planckreduced(U)^2/coulomb(U)/electronmass(U)/elementarycharge(U)^2
-                @test bohr(U) ≈ μₚₑ*bohrreduced(U)/(μₚₑ+1)
+                @test bohr(U) ≈ planckreduced(U)/electronmass(U)/lightspeed(U)*αinv*gravity(U)
+                S≠:FFF && @test bohr(U) ≈ planckreduced(U)^2/electrostatic(U)/electronmass(U)/elementarycharge(U)^2*gravity(U)
                 @test bohr(U) ≈ electronradius(U)*αinv^2
                 @test bohr(U) ≈ 1/αinv/4π/rydberg(U)
-                @test bohrreduced(U) == (1+1/μₚₑ)*bohr(U)
             end
             @testset "electronradius" begin
-                @test electronradius(U) ≈ planckreduced(U)/αinv/electronmass(U)/lightspeed(U)
+                @test electronradius(U) ≈ planckreduced(U)/αinv/electronmass(U)/lightspeed(U)*gravity(U)
                 @test electronradius(U) ≈ bohr(U)/αinv^2
-                @test electronradius(U) ≈ elementarycharge(U)^2*coulomb(U)/electronmass(U)/lightspeed(U)^2
-                @test electronradius(U) ≈ 2planck(U)*rydberg(U)*bohr(U)/electronmass(U)/lightspeed(U)
+                S≠:FFF && @test electronradius(U) ≈ elementarycharge(U)^2*electrostatic(U)/electronmass(U)/lightspeed(U)^2*gravity(U)
+                @test electronradius(U) ≈ 2planck(U)*rydberg(U)*bohr(U)/electronmass(U)/lightspeed(U)*gravity(U)
                 @test electronradius(U) ≈ 1/αinv^3/4π/rydberg(U)
             end
         end
@@ -106,82 +104,82 @@ for S ∈ UnitSystems.Systems
                 @test molarmass(U) ≈ atomicmass(U)*avogadro(U)
                 @test molarmass(U) ≈ avogadro(U)*electronmass(U)/μₑᵤ
                 @test molarmass(U) ≈ avogadro(U)*protonmass(U)/μₚᵤ
-                @test molarmass(U) ≈ avogadro(U)*2rydberg(U)*planck(U)/μₑᵤ/lightspeed(U)*αinv^2
+                @test molarmass(U) ≈ avogadro(U)*2rydberg(U)*planck(U)/μₑᵤ/lightspeed(U)*αinv^2*gravity(U)
             end
             @testset "avogadro" begin
-                @test avogadro(U) ≈ universalgas(U)/boltzmann(U)
+                @test avogadro(U) ≈ molargas(U)/boltzmann(U)
                 @test avogadro(U) ≈ molarmass(U)/atomicmass(U)
                 @test avogadro(U) ≈ molarmass(U)*μₑᵤ/electronmass(U)
-                @test avogadro(U) ≈ molarmass(U)*μₑᵤ*lightspeed(U)/αinv^2/2rydberg(U)/planck(U)
+                @test avogadro(U) ≈ molarmass(U)*μₑᵤ*lightspeed(U)/αinv^2/2rydberg(U)/planck(U)/gravity(U)
             end
             @testset "boltzmann" begin
-                @test boltzmann(U) == universalgas(U)/avogadro(U)
+                @test boltzmann(U) == molargas(U)/avogadro(U)
                 @test boltzmann(U) ≈ atomicmass(U)*universal(U)/molarmass(U)
                 @test boltzmann(U) ≈ electronmass(U)*universal(U)/μₑᵤ/molarmass(U)
-                @test boltzmann(U) ≈ 2universalgas(U)*rydberg(U)*planck(U)/molarmass(U)/μₑᵤ/lightspeed(U)*αinv^2
+                @test boltzmann(U) ≈ 2molargas(U)*rydberg(U)*planck(U)/molarmass(U)/μₑᵤ/lightspeed(U)*αinv^2*gravity(U)
             end
-            @testset "universalgas" begin
-                @test universalgas(U) == boltzmann(U)*avogadro(U)
-                @test universalgas(U) ≈ boltzmann(U)*molarmass(U)/atomicmass(U)
-                @test universalgas(U) ≈ boltzmann(U)*molarmass(U)*μₑᵤ/electronmass(U)
-                @test universalgas(U) ≈ boltzmann(U)*molarmass(U)*μₑᵤ*lightspeed(U)/αinv^2/2planck(U)/rydberg(U)
+            @testset "molargas" begin
+                @test molargas(U) == boltzmann(U)*avogadro(U)
+                @test molargas(U) ≈ boltzmann(U)*molarmass(U)/atomicmass(U)
+                @test molargas(U) ≈ boltzmann(U)*molarmass(U)*μₑᵤ/electronmass(U)
+                @test molargas(U) ≈ boltzmann(U)*molarmass(U)*μₑᵤ*lightspeed(U)/αinv^2/2planck(U)/rydberg(U)/gravity(U)
             end
             S≠:Cosmological && @testset "stefan" begin
                 @test stefan(U) ≈ 2π^5*boltzmann(U)^4/15planck(U)^3/lightspeed(U)^2
                 @test stefan(U) ≈ π^2*boltzmann(U)^4/60planckreduced(U)^3/lightspeed(U)^2
-                @test stefan(U) ≈ 32π^5*planck(U)/15lightspeed(U)^6*αinv^8*(universalgas(U)*rydberg(U)/μₑᵤ/molarmass(U))^4
+                @test stefan(U) ≈ 32π^5*planck(U)/15lightspeed(U)^6*αinv^8*(molargas(U)*rydberg(U)/μₑᵤ/molarmass(U)*gravity(U))^4
             end
             S≠:Cosmological && @testset "radiationdensity" begin
                 @test radiationdensity(U) ≈ 4stefan(U)/lightspeed(U)
                 @test radiationdensity(U) ≈ 8π^5*boltzmann(U)^4/15planck(U)^3/lightspeed(U)^3
                 @test radiationdensity(U) ≈ π^2*boltzmann(U)^4/15planckreduced(U)^3/lightspeed(U)^3
-                @test radiationdensity(U) ≈ 2^7*π^5*planck(U)/15lightspeed(U)^7*αinv^8*(universalgas(U)*rydberg(U)/μₑᵤ/molarmass(U))^4
+                @test radiationdensity(U) ≈ 2^7*π^5*planck(U)/15lightspeed(U)^7*αinv^8*(molargas(U)*rydberg(U)/μₑᵤ/molarmass(U)*gravity(U))^4
             end
         end
-        @testset "Electromagnetic constants" begin
+        S≠:FFF && @testset "Electromagnetic constants" begin
             @testset "rationalization" begin
                 @test rationalization(U) ≈ 4π*biotsavart(U)/vacuumpermeability(U)/lorentz(U)
-                @test rationalization(U) ≈ 4π*coulomb(U)*vacuumpermittivity(U)
+                @test rationalization(U) ≈ 4π*electrostatic(U)*vacuumpermittivity(U)
                 @test rationalization(U) ≈ vacuumimpedance(U)*vacuumpermittivity(U)*lightspeed(U)
             end
             @testset "vacuumpermeability" begin
                 @test vacuumpermeability(U) ≈ 1/vacuumpermittivity(U)/(lightspeed(U)*lorentz(U))^2
-                @test vacuumpermeability(U) ≈ 4π*coulomb(U)/rationalization(U)/(lightspeed(U)*lorentz(U))^2
+                @test vacuumpermeability(U) ≈ 4π*electrostatic(U)/rationalization(U)/(lightspeed(U)*lorentz(U))^2
                 @test vacuumpermeability(U) ≈ 2planck(U)/αinv/rationalization(U)/lightspeed(U)/(elementarycharge(U)*lorentz(U))^2
                 @test vacuumpermeability(U) ≈ 2klitzing(U)/αinv/rationalization(U)/lightspeed(U)/lorentz(U)^2
             end
             @testset "vacuumpermittivity" begin
                 @test vacuumpermittivity(U) ≈ 1/vacuumpermeability(U)/(lightspeed(U)*lorentz(U))^2
-                @test vacuumpermittivity(U) ≈ rationalization(U)/4π/coulomb(U)
+                @test vacuumpermittivity(U) ≈ rationalization(U)/4π/electrostatic(U)
                 @test vacuumpermittivity(U) ≈ rationalization(U)*elementarycharge(U)^2*αinv/2planck(U)/lightspeed(U)
                 @test vacuumpermittivity(U) ≈ rationalization(U)/2klitzing(U)/lightspeed(U)*αinv
             end
-            @testset "coulomb" begin
-                @test coulomb(U) ≈ rationalization(U)/4π/vacuumpermittivity(U)
-                @test coulomb(U) ≈ vacuumpermeability(U)*rationalization(U)*(lorentz(U)*lightspeed(U))^2/4π
-                @test coulomb(U) ≈ planckreduced(U)*lightspeed(U)/αinv/elementarycharge(U)^2
-                @test coulomb(U) ≈ klitzing(U)*lightspeed(U)/αinv/2π
-                @test coulomb(U) ≈ biotsavart(U)/lorentz(U)/vacuumpermeability(U)/vacuumpermittivity(U)
-                @test coulomb(U) ≈ ampere(U)*lightspeed(U)^2
+            @testset "electrostatic" begin
+                @test electrostatic(U) ≈ rationalization(U)/4π/vacuumpermittivity(U)
+                @test electrostatic(U) ≈ vacuumpermeability(U)*rationalization(U)*(lorentz(U)*lightspeed(U))^2/4π
+                @test electrostatic(U) ≈ planckreduced(U)*lightspeed(U)/αinv/elementarycharge(U)^2
+                @test electrostatic(U) ≈ klitzing(U)*lightspeed(U)/αinv/2π
+                @test electrostatic(U) ≈ biotsavart(U)/lorentz(U)/vacuumpermeability(U)/vacuumpermittivity(U)
+                @test electrostatic(U) ≈ magnetostatic(U)*lightspeed(U)^2
             end
-            @testset "ampere" begin
-                @test ampere(U) == lorentz(U)*biotsavart(U)
-                @test ampere(U) ≈ vacuumpermeability(U)*lorentz(U)^2*rationalization(U)/4π
-                @test ampere(U) ≈ coulomb(U)/lightspeed(U)^2
-                @test ampere(U) ≈ planckreduced(U)/αinv/lightspeed(U)/elementarycharge(U)^2
-                @test ampere(U) ≈ klitzing(U)/αinv/2π/lightspeed(U)
+            @testset "magnetostatic" begin
+                @test magnetostatic(U) == lorentz(U)*biotsavart(U)
+                @test magnetostatic(U) ≈ vacuumpermeability(U)*lorentz(U)^2*rationalization(U)/4π
+                @test magnetostatic(U) ≈ electrostatic(U)/lightspeed(U)^2
+                @test magnetostatic(U) ≈ planckreduced(U)/αinv/lightspeed(U)/elementarycharge(U)^2
+                @test magnetostatic(U) ≈ klitzing(U)/αinv/2π/lightspeed(U)
             end
             @testset "lorentz" begin
                 @test lorentz(U) ≈ 1/lightspeed(U)/sqrt(vacuumpermeability(U)*vacuumpermittivity(U))
-                @test lorentz(U) ≈ biotsavart(U)/vacuumpermeability(U)/vacuumpermittivity(U)/coulomb(U)
+                @test lorentz(U) ≈ biotsavart(U)/vacuumpermeability(U)/vacuumpermittivity(U)/electrostatic(U)
                 @test lorentz(U) ≈ 4π*biotsavart(U)/rationalization(U)/vacuumpermeability(U)
-                @test lorentz(U) == ampere(U)/biotsavart(U)
+                @test lorentz(U) == magnetostatic(U)/biotsavart(U)
             end
             @testset "biotsavart" begin
                 @test biotsavart(U) ≈ vacuumpermeability(U)*lorentz(U)*rationalization(U)/4π
-                @test biotsavart(U) ≈ lorentz(U)*vacuumpermeability(U)*vacuumpermittivity(U)*coulomb(U)
-                @test biotsavart(U) == ampere(U)/lorentz(U)
-                @test biotsavart(U) ≈ coulomb(U)*sqrt(vacuumpermeability(U)*vacuumpermittivity(U))/lightspeed(U)
+                @test biotsavart(U) ≈ lorentz(U)*vacuumpermeability(U)*vacuumpermittivity(U)*electrostatic(U)
+                @test biotsavart(U) == magnetostatic(U)/lorentz(U)
+                @test biotsavart(U) ≈ electrostatic(U)*sqrt(vacuumpermeability(U)*vacuumpermittivity(U))/lightspeed(U)
             end
             @testset "elementarycharge" begin
                 @test elementarycharge(U) ≈ sqrt(2planck(U)/αinv/vacuumimpedance(U))
@@ -237,7 +235,7 @@ for S ∈ UnitSystems.Systems
                 @test magneton(U) ≈ planckreduced(U)*lorentz(U)^2/electronmass(U)/josephson(U)/klitzing(U)
                 @test magneton(U) ≈ planck(U)^2*josephson(U)/8π/electronmass(U)
                 @test magneton(U) ≈ lorentz(U)*planckreduced(U)*faraday(U)/2electronmass(U)/avogadro(U)
-                @test magneton(U) ≈ elementarycharge(U)*lightspeed(U)*lorentz(U)/αinv^2/8π/rydberg(U)
+                @test magneton(U) ≈ elementarycharge(U)*lightspeed(U)*lorentz(U)/αinv^2/8π/rydberg(U)/gravity(U)
             end
         end
     end
@@ -245,7 +243,6 @@ end
 
 @testset "CGS conversions" begin
     @test molarmass(Natural) == molarmass(CGS) == 1000molarmass(Metric)
-    @test molarmass(CGS2019) == 1000molarmass(SI2019)
 
     C = 100𝘤
 

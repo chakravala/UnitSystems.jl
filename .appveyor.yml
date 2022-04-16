@@ -19,6 +19,8 @@ platform:
 matrix:
   allow_failures:
   - platform: x86
+  - julia_version: 1.1
+  - julia_version: 1.2
   - julia_version: nightly
 
 branches:

@@ -46,6 +46,7 @@ Converts the number of moles `n` to number of molecules (dimensionless).
 @pure volumeheatcapacity(U::UnitSystem,S::UnitSystem) = unit(entropy(U,S)/volume(U,S))
 @pure thermalconductivity(U::UnitSystem,S::UnitSystem) = unit(force(U,S)/time(U,S)/temperature(U,S))
 @pure thermalconductance(U::UnitSystem,S::UnitSystem) = unit(thermalconductivity(U,S)*length(U,S))
+@pure thermalresistivity(U::UnitSystem,S::UnitSystem) = thermalconductivity(S,U)
 @pure thermalresistance(U::UnitSystem,S::UnitSystem) = thermalconductance(S,U)
 @pure thermalexpansion(U::UnitSystem,S::UnitSystem) = temperature(S,U)
 @pure lapserate(U::UnitSystem,S::UnitSystem) = unit(temperature(U,S)/length(U,S))
@@ -53,21 +54,23 @@ Converts the number of moles `n` to number of molecules (dimensionless).
 # molar
 
 @pure molality(U::UnitSystem,S::UnitSystem) = molarmass(S,U)
-@pure mole(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)*molality(U,S))
-@pure molarity(U::UnitSystem,S::UnitSystem) = unit(mole(U,S)/volume(U,S))
-@pure molarvolume(U::UnitSystem,S::UnitSystem) = unit(volume(U,S)/mole(U,S))
-@pure molarentropy(U::UnitSystem,S::UnitSystem) = unit(entropy(U,S)/mole(U,S))
-@pure molarenergy(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/mole(U,S))
-@pure molarconductivity(U::UnitSystem,S::UnitSystem) = unit(conductivity(U,S)*area(U,S)/mole(U,S))
+@pure molaramount(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)*molality(U,S))
+@pure molarity(U::UnitSystem,S::UnitSystem) = unit(molaramount(U,S)/volume(U,S))
+@pure molarvolume(U::UnitSystem,S::UnitSystem) = unit(volume(U,S)/molaramount(U,S))
+@pure molarentropy(U::UnitSystem,S::UnitSystem) = unit(entropy(U,S)/molaramount(U,S))
+@pure molarenergy(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/molaramount(U,S))
+@pure molarconductivity(U::UnitSystem,S::UnitSystem) = unit(conductivity(U,S)*area(U,S)/molaramount(U,S))
 @pure molarsusceptibility(U::UnitSystem,S::UnitSystem) = unit(specificsusceptibility(U,S)*molarmass(U,S))
-@pure catalysis(U::UnitSystem,S::UnitSystem) = unit(mole(U,S)/time(U,S))
-@pure specificity(U::UnitSystem,S::UnitSystem) = unit(volume(U,S)/mole(U,S)/time(U,S))
+@pure catalysis(U::UnitSystem,S::UnitSystem) = unit(molaramount(U,S)/time(U,S))
+@pure specificity(U::UnitSystem,S::UnitSystem) = unit(volume(U,S)/molaramount(U,S)/time(U,S))
 
 # photometrics
 
-@pure luminousflux(U::UnitSystem,S::UnitSystem) = unit(frequency(U,S)^2*(luminousefficacy(S)*planckreduced(S))/(luminousefficacy(U)*planckreduced(U)))
-@pure luminance(U::UnitSystem,S::UnitSystem) = unit(luminousflux(U,S)/area(U,S))
-@pure luminousenergy(U::UnitSystem,S::UnitSystem) = unit(frequency(U,S)*(luminousefficacy(S)*planckreduced(S))/(luminousefficacy(U)*planckreduced(U)))
-@pure luminousexposure(U::UnitSystem,S::UnitSystem) = unit(luminance(U,S)*time(U,S))
+@pure luminousflux(U::UnitSystem,S::UnitSystem) = unit(frequency(U,S)*luminousenergy(U,S))
+@pure luminousintensity(U::UnitSystem,S::UnitSystem) = unit(luminousflux(U,S)/solidangle(U,S))
+@pure illuminance(U::UnitSystem,S::UnitSystem) = unit(luminousflux(U,S)/area(U,S))
+@pure luminance(U::UnitSystem,S::UnitSystem) = unit(luminousintensity(U,S)/area(U,S))
+@pure luminousenergy(U::UnitSystem,S::UnitSystem) = unit(frequency(U,S)*(luminousefficacy(S)*planck(S))/(luminousefficacy(U)*planck(U)))
+@pure luminousexposure(U::UnitSystem,S::UnitSystem) = unit(illuminance(U,S)*time(U,S))
 
 include("thermodynamicdocs.jl")

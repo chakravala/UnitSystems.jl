@@ -146,7 +146,7 @@ $(magneticflux(Metric,SI2019))
 @doc """
 $(convertext(:magneticfluxdensity,"magneticflux(U,S)/area(U,S)"))
 
-Magnetic induction or surface `magneticfluxdensity` (T, Wb⋅m⁻²), unit conversion factor.
+Magnetic induction or `magneticmoment` per `volume` (T or Wb⋅m⁻²), unit conversion factor.
 
 ```Julia
 julia> magneticfluxdensity(EMU,Metric) # T⋅G⁻¹
@@ -373,7 +373,7 @@ $(linearchargedensity(Metric,SI2019))
 """ linearchargedensity
 
 @doc """
-$(convertext(:magneticdipolemoment,"current(U,S)*lorentz(U,S)/area(U,S)"))
+$(convertext(:magneticdipolemoment,"current(U,S)*lorentz(U,S)/area(U,S)/gravity(U,S)/angle(U,S)"))
 
 Magnetic dipole moment or `magneticdipolemoment` (J⋅T⁻¹, A⋅m²), unit conversion factor.
 
@@ -390,9 +390,9 @@ $(magneticdipolemoment(Metric,SI2019))
 """ magneticdipolemoment
 
 @doc """
-$(convertext(:mobility,"charge(U,S)*time(U,S)/mass(U,S)"))
+$(convertext(:mobility,"length(U,S)*speed(U,S)/electricpotential(U,S)"))
 
-Electron `mobility` in solid state physics (m²⋅V⁻¹⋅s⁻¹, A⋅s²⋅kg⁻¹), unit conversion factor.
+Electron `mobility` in solid state physics (m²⋅V⁻¹⋅s⁻¹, A⋅s⋅kg⁻¹), unit conversion factor.
 
 ```Julia
 julia> mobility(EMU,Metric) # C⋅g⋅abC⁻¹⋅kg
@@ -429,7 +429,7 @@ $(reluctance(Metric,SI2019))
 @doc """
 $(convertext(:vectorpotential,"magneticflux(U,S)/length(U,S)"))
 
-Magnetic `vectorpotential` (Wb⋅m⁻¹), unit conversion factor.
+Magnetic `vectorpotential` or electromagnetic rigidity (Wb⋅m⁻¹ or T⋅m), unit conversion factor.
 
 ```julia
 julia> vectorpotential(EMU,Metric) # Wb⋅cm⋅Mx⁻¹⋅m⁻¹
@@ -446,7 +446,7 @@ $(vectorpotential(Metric,SI2019))
 @doc """
 $(convertext(:magneticmoment,"magneticflux(U,S)*length(U,S)"))
 
-Amount of `magneticmoment` or `magneticflux` by `length` (Wb⋅m), unit conversion factor.
+Amount of `magneticmoment` or `magneticflux` by `length` (Wb⋅m or T⋅m³), unit conversion factor.
 
 ```Julia
 julia> magneticmoment(EMU,Metric) # Wb⋅m⋅Mx⁻¹⋅cm⁻¹
@@ -460,7 +460,7 @@ $(magneticmoment(Metric,SI2019))
 ```
 """ magneticmoment
 
-@doc """
+#=@doc """
 $(convertext(:rigidity,"magneticfluxdensity(U,S)*length(U,S)"))
 
 Electromagnetic `rigidity` (T⋅m), unit conversion factor.
@@ -475,7 +475,7 @@ $(rigidity(EMU,ESU))
 julia> rigidity(Metric,SI2019) # T⋅T⁻¹
 $(rigidity(Metric,SI2019))
 ```
-""" rigidity
+""" rigidity=#
 
 @doc """
 $(convertext(:susceptibility,"1/rationalization(U,S)"))
@@ -599,7 +599,7 @@ $(specificsusceptibility(Metric,SI2019))
 ```
 """ specificsusceptibility
 
-@doc """
+#=@doc """
 $(convertext(:magnetizability,"magneticmoment(U,S)/magneticfluxdensity(U,S)"))
 
 Quantity of `magneticmoment` per `magneticfluxdensity` (m⁻¹), unit conversion factor.
@@ -614,7 +614,7 @@ $(magnetizability(ESU,Metric))
 julia> magnetizability(Metric,SI2019) # m⋅m⁻¹
 $(magnetizability(Metric,SI2019))
 ```
-""" magnetizability
+""" magnetizability=#
 
 @doc """
 $(convertext(:electricpolarizability,"electricdipolemoment(U,S)/electricfield(U,S)"))
@@ -656,7 +656,7 @@ $(electricpolarizability(Metric,SI2019))
 ```
 """ magneticpolarizability
 
-@doc """
+#=@doc """
 $(convertext(:magnetization,"magneticmoment(U,S)/volume(U,S)"))
 
 Amount of `magneticmoment` per `volume` (Wb⋅m⁻²), unit conversion factor.
@@ -671,7 +671,7 @@ $(magnetization(ESU,Metric))
 julia> magnetization(Metric,SI2019) # Wb⋅Wb⁻¹
 $(magnetization(Metric,SI2019))
 ```
-""" magnetization
+""" magnetization=#
 
 # specificmagnetization, mass magnetization = 1?
 # magneticfluxdensity(Metric,EMU)/density(Metric,EMU)

@@ -13,14 +13,14 @@
 #   https://crucialflow.com
 
 """
-    kilograms(m::Real) = $(slug)m
+    kilograms(m::Real) = $(lb*g₀/ft)m
 
 Converts mass `m` from slugs to kilogram (kg).
 """
 @pure kilograms(m::Number,U::UnitSystem=English) = mass(m,Metric,U)
 
 """
-    slugs(m::Real) = $(1/slug)m
+    slugs(m::Real) = $(ft/lb/g₀)m
 
 Converts mass `m` from kilograms to slugs (slug).
 """
@@ -114,6 +114,7 @@ $(time(PlanckGauss,Metric))
 @pure wavenumber(U::UnitSystem,S::UnitSystem) = unit(length(S,U))
 @pure angularwavenumber(U::UnitSystem,S::UnitSystem) = unit(angle(U,S)*length(S,U))
 @pure fuelefficiency(U::UnitSystem,S::UnitSystem) = area(S,U)
+@pure numberdensity(U::UnitSystem,S::UnitSystem) = volume(S,U)
 @pure frequency(U::UnitSystem,S::UnitSystem) = time(S,U)
 @pure angularfrequency(U::UnitSystem,S::UnitSystem) = unit(angle(U,S)*time(S,U))
 @pure frequencydrift(U::UnitSystem,S::UnitSystem) = unit(time(S,U)^2)
@@ -132,7 +133,8 @@ $(time(PlanckGauss,Metric))
 @pure energy(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)*specificenergy(U,S))
 @pure power(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/time(U,S))
 @pure force(U::UnitSystem,S::UnitSystem) = unit(inertia(U,S)*acceleration(U,S))
-@pure gforce(U::UnitSystem,S::UnitSystem) = unit(acceleration(U,S)/gravity(U,S))
+@pure specificforce(U::UnitSystem,S::UnitSystem) = unit(acceleration(U,S)/gravity(U,S))
+@pure gravityforce(U::UnitSystem,S::UnitSystem) = unit(gravity(U,S))
 @pure pressure(U::UnitSystem,S::UnitSystem) = unit(force(U,S)/area(U,S))
 
 # mechanical
@@ -146,7 +148,7 @@ $(time(PlanckGauss,Metric))
 @pure specificweight(U::UnitSystem,S::UnitSystem) = unit(pressure(U,S)/speed(U,S)^2)
 @pure specificvolume(U::UnitSystem,S::UnitSystem) = unit(volume(U,S)/mass(U,S))
 @pure action(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)*time(U,S))
-@pure stiffness(U::UnitSystem,S::UnitSystem) = unit(force(U,S)/length(U,S))
+#@pure stiffness(U::UnitSystem,S::UnitSystem) = unit(force(U,S)/length(U,S))
 @pure intensity(U::UnitSystem,S::UnitSystem) = unit(power(U,S)/area(U,S))
 @pure diffusivity(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)*length(U,S))
 @pure viscosity(U::UnitSystem,S::UnitSystem) = unit(force(U,S)/speed(U,S)/length(U,S))

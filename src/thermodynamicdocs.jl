@@ -146,6 +146,24 @@ $(thermalresistance(English,Metric))
 """ thermalresistance
 
 @doc """
+$(convertext(:thermalresistivity,"1/thermalconductivity(U,S)"))
+
+Resistance to heat flow or `thermalresistance` (K⋅W⁻¹), unit conversion factor.
+
+```Julia
+julia> thermalresistance(Metric,SI2019) # K⋅K⁻¹
+$(thermalresistance(Metric,SI2019))
+
+julia> thermalresistance(CGS,Metric) # erg⋅s⁻¹⋅W⁻¹
+$(thermalresistance(CGS,Metric))
+
+julia> thermalresistance(English,Metric) # ft⋅lb⋅K⋅°R⁻¹⋅J⁻¹
+$(thermalresistance(English,Metric))
+```
+""" thermalresistivity
+
+
+@doc """
 $(convertext(:thermalexpansion,"1/temperature(U,S)"))
 
 Measurement scale for coefficient of `thermalexpansion` (K⁻¹), unit conversion factor.
@@ -190,7 +208,7 @@ $(convertext(:molarmass,"molarmass(S)/molarmass(U)"))
 Molar mass or `mass` per `mole` (kg⋅mol⁻¹), unit conversion factor.
 
 ```Julia
-julia> molarmass(CGS,Metric) # mol⋅mol⁻¹
+julia> molarmass(CGS,Metric) # kg⋅g⁻¹
 $(molarmass(CGS,Metric))
 
 julia> molarmass(Metric,SI2019) # mol⋅mol⁻¹
@@ -204,7 +222,7 @@ $(convertext(:molality,"molarmass(U)/molarmass(S)"))
 Molality or `mole` per `mass` (mol⋅kg⁻¹), unit conversion factor.
 
 ```Julia
-julia> molality(CGS,Metric) # mol⋅mol⁻¹
+julia> molality(CGS,Metric) # kg⋅g⁻¹
 $(molality(CGS,Metric))
 
 julia> molality(Metric,SI2019) # mol⋅mol⁻¹
@@ -213,28 +231,28 @@ $(molality(Metric,SI2019))
 """ molality
 
 @doc """
-$(convertext(:mole,"mass(U,S)*molality(U,S)"))
+$(convertext(:molaramount,"mass(U,S)*molality(U,S)"))
 
-Amount of molecular substance or `mole` (mol), unit conversion factor.
+Amount of molecular substance or `molaramount` (mol), unit conversion factor.
 
 ```Julia
-julia> mole(SI2019,Metric) # mol⋅mol⁻¹
-$(mole(SI2019,Metric))
+julia> molaramount(SI2019,Metric) # mol⋅mol⁻¹
+$(molaramount(SI2019,Metric))
 
-julia> mole(British,SI2019) # mol⋅slug-mol⁻¹
-$(mole(English,SI2019))
+julia> molaramount(British,SI2019) # mol⋅slug-mol⁻¹
+$(molaramount(English,SI2019))
 
-julia> mole(English,SI2019) # mol⋅lb-mol⁻¹
-$(mole(English,SI2019))
+julia> molaramount(English,SI2019) # mol⋅lb-mol⁻¹
+$(molaramount(English,SI2019))
 ```
-""" mole, N
-#julia> mole(English,SI2019)*ft/g₀ # mol⋅lb-mol⁻¹
-#$(mole(English,SI2019)*ft/g₀)
+""" molaramount, N
+#julia> molaramount(English,SI2019)*ft/g₀ # mol⋅lb-mol⁻¹
+#$(molaramount(English,SI2019)*ft/g₀)
 
 @doc """
-$(convertext(:molarity,"mole(U,S)/volume(U,S)"))
+$(convertext(:molarity,"molaramount(U,S)/volume(U,S)"))
 
-Molar concentration or `mole` per `volume` or `molarity` (mol⋅m⁻³), unit conversion factor.
+Molar concentration or `molaramount` per `volume` (mol⋅m⁻³), unit conversion factor.
 
 ```Julia
 julia> molarity(CGS,Metric) # cm³⋅m⁻³
@@ -246,9 +264,9 @@ $(molarity(English,SI2019))
 """ molarity
 
 @doc """
-$(convertext(:molarvolume,"volume(U,S)/mole(U,S)"))
+$(convertext(:molarvolume,"volume(U,S)/molaramount(U,S)"))
 
-Occupied `volume` per `mole` or `molarvolume` (m³⋅mol⁻¹), unit conversion factor.
+Occupied `volume` per `molaramount` or `molarvolume` (m³⋅mol⁻¹), unit conversion factor.
 
 ```Julia
 julia> molarvolume(CGS,Metric) # m³⋅cm⁻³
@@ -260,9 +278,9 @@ $(molarvolume(English,SI2019))
 """ molarvolume
 
 @doc """
-$(convertext(:molarentropy,"entropy(U,S)/mole(U,S)"))
+$(convertext(:molarentropy,"entropy(U,S)/molaramount(U,S)"))
 
-Molar heat capacity or `entropy` per `mole` (J⋅K⁻¹⋅mol⁻¹), unit conversion factor.
+Molar heat capacity or `entropy` per `molaramount` (J⋅K⁻¹⋅mol⁻¹), unit conversion factor.
 
 ```Julia
 julia> molarentropy(CGS,Metric) # J⋅erg⁻¹
@@ -274,7 +292,7 @@ $(molarentropy(English,SI2019))
 """ molarentropy
 
 @doc """
-$(convertext(:molarenergy,"energy(U,S)/mole(U,S)"))
+$(convertext(:molarenergy,"energy(U,S)/molaramount(U,S)"))
 
 Gibbs free `energy` per `mole` or `molarenergy` (J⋅mol⁻¹), unit conversion factor.
 
@@ -288,7 +306,7 @@ $(molarenergy(English,SI2019))
 """ molarenergy
 
 @doc """
-$(convertext(:molarconductivity,"conductivity(U,S)*area(U,S)/mole(U,S)"))
+$(convertext(:molarconductivity,"conductivity(U,S)*area(U,S)/molaramount(U,S)"))
 
 Conductivity per `molarvolume` or `molarconductivity` (S⋅m²⋅mol⁻¹), unit conversion factor.
 
@@ -316,9 +334,9 @@ $(molarsusceptibility(Metric,SI2019))
 """ molarsusceptibility
 
 @doc """
-$(convertext(:catalysis,"mole(U,S)/time(U,S)"))
+$(convertext(:catalysis,"molaramount(U,S)/time(U,S)"))
 
-Catalytic activity or `mole` per `time` or `catalysis` (kat, mol⋅s⁻¹), unit conversion factor.
+Catalytic activity or `molaramount` per `time` (kat, mol⋅s⁻¹), unit conversion factor.
 
 ```Julia
 julia> catalysis(English,Metric) # kat⋅s⋅lb-mol⁻¹
@@ -327,7 +345,7 @@ $(catalysis(English,Metric))
 """ catalysis
 
 @doc """
-$(convertext(:specificity,"volume(U,S)/mole(U,S)/time(U,S)"))
+$(convertext(:specificity,"volume(U,S)/molaramount(U,S)/time(U,S)"))
 
 Catalytic efficiency or `volume` per `mole` per `time` (m³⋅mol⁻¹⋅s⁻¹), unit conversion factor.
 
@@ -343,15 +361,21 @@ $(specificity(English,Metric))
 # photometrics
 
 @doc """
-$(convertext(:luminousflux,"luminousefficacy(U,S)*planck(U,S)/time(U,S)^2"))
+$(convertext(:luminousflux,"luminousenergy(U,S)*frequency(U,S)"))
 
-Perceived power of light or `luminousflux` (lm, cd⋅sr), unit conversion factor.
+Perceived power of light or `luminousflux` (lm, cd⋅rad⋅²), unit conversion factor.
 """ luminousflux, J
 
 @doc """
-$(convertext(:luminance,"luminousflux(U,S)/area(U,S)"))
+$(convertext(:luminousintensity,"luminousflux(U,S)/solidangle(U,S)"))
 
-Luminous intensity per `area` or `luminance` (lx, lm⋅m⁻², cd⋅m⁻²⋅sr), unit conversion factor.
+Perceived power of light or `luminousintensity` (cd, lm⋅rad⁻²), unit conversion factor.
+""" luminousintensity
+
+@doc """
+$(convertext(:luminance,"luminousintensity(U,S)/area(U,S)"))
+
+Luminous intensity per `area` or `luminance` (cd⋅m⁻², lm⋅m⁻²⋅rad⁻²), unit conversion factor.
 
 ```Julia
 julia> luminance(CGS,Metric) # lx⋅ph⁻¹
@@ -369,6 +393,26 @@ $(1/10.76)
 """ luminance
 
 @doc """
+$(convertext(:illuminance,"luminousflux(U,S)/area(U,S)"))
+
+Luminous flux per `area` or `luminance` (lx, lm⋅m⁻², cd⋅m⁻²⋅rad²), unit conversion factor.
+
+```Julia
+julia> illuminance(CGS,Metric) # lx⋅ph⁻¹
+$(illuminance(CGS,Metric))
+
+julia> illuminance(IAU,Metric) # lx⋅au²⋅lm⁻¹
+$(illuminance(IAU,Metric))
+
+julia> illuminance(English,Metric) # ft²⋅m⁻²
+$(illuminance(English,Metric))
+
+julia> 1/10.76 # lx⋅fc⁻¹
+$(1/10.76)
+```
+""" illuminance
+
+@doc """
 $(convertext(:luminousenergy,"luminousflux(U,S)*time(U,S)"))
 
 Perceived quantity of light or `luminousenergy` (lm⋅s, cd⋅s⋅sr), unit conversion factor.
@@ -380,7 +424,7 @@ $(luminousenergy(IAU,Metric))
 """ luminousenergy
 
 @doc """
-$(convertext(:luminousexposure,"luminance(U,S)*time(U,S)"))
+$(convertext(:luminousexposure,"illuminance(U,S)*time(U,S)"))
 
 Integrated `luminance` along `time` (lx⋅s, lm⋅s⋅m⁻², cd⋅s⋅m⁻²⋅sr), unit conversion factor.
 

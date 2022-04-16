@@ -12,17 +12,25 @@
 #   https://github.com/chakravala
 #   https://crucialflow.com
 
-export slug, ft, KJ1990, KJ2014, RK1990, RK2014, mₑ1990, mₑ2014, temp, units, °R
+export deka,hecto,kilo,mega,giga,tera,peta,exa,zetta,yotta
+export deci,centi,milli,micro,nano,pico,femto,atto,zepto,yocto
+export byte,kibi,mebi,gibi,tebi,pebi,exbi,zebi,yobi
+
+export slug, ft, KJ1990, KJ2014, RK1990, RK2014, mₑ1990, mₑ2014, temp, units, °R, T₀, eV
 export slugs, kilograms, lbm, meters, feet, rankine, kelvin, moles, molecules, universal
 export Universe, UnitSystem, US, universe, HOUR, DAY, th, lc, mc, tcq, lcq, mcq
-export similitude, 𝟙, F, M, L, T, Q, Θ, N, J, A, Λ, C
+export similitude, 𝟙, F, M, L, T, Q, Θ, N, J, A, Λ, C, sackurtetrode
+export °R, τ, 𝟏𝟎, 𝟐, 𝟑, 𝟓, nm, 𝟏, mₑ, μ₀, Mᵤ, Rᵤ, αG, GG, slug, ħ, μₚₑ, αL, 𝟕, 𝟏𝟏, 𝟏𝟗, 𝟒𝟑
+
+const EMU2019,ESU2019,stiffness = EMU,ESU,fluence
 
 # == Metric is different
+const eV = electronvolt(SI2019)
 const κ = einstein(SI2019)
 const σ = stefan(SI2019) #
 const μB = magneton(SI2019) #
 const ε₀ = vacuumpermittivity(SI2019) #
-const kₑ = coulomb(SI2019) #
+const kₑ = electrostatic(SI2019) #
 const mₚ = protonmass(SI2019)
 const mᵤ = atomicmass(SI2019)
 const 𝔉 = faraday(SI2019) #
@@ -61,7 +69,7 @@ const HP = horsepower(Metric)
 const gal = gallon(Metric)
 const kcal = kilocalorie(SI2019)
 const cal = calorie(SI2019)
-const universal = universalgas
+const universal = molargas
 
 # constant aliases
 
@@ -75,7 +83,7 @@ export lP, tP, TP, lS, tS, mS, qS, lA, tA, mA, qA, lQCD, tQCD, mQCD, ϵ₀, αL,
 # engineering unit systems docs
 
 @doc """
-    Metric = MetricSystem(𝟏𝟎^-3,𝟐*τ/𝟏𝟎^7)
+    Metric = MetricSystem(milli,𝟐*τ/𝟏𝟎^7)
 
 Systeme International d'Unites (the SI units) adopted as the preferred `UnitSystem`.
 
@@ -97,6 +105,9 @@ $(electronmass(Metric))
 
 julia> molarmass(Metric) # kg⋅mol⁻¹
 $(molarmass(Metric))
+
+julia> luminousefficacy(Metric) # lm⋅W⁻¹
+$(luminousefficacy(Metric))
 ```
 """ Metric, MKS
 
@@ -123,25 +134,28 @@ $(electronmass(SI2019))
 
 julia> molarmass(SI2019) # kg⋅mol⁻¹
 $(molarmass(SI2019))
+
+julia> luminousefficacy(SI2019) # lm⋅W⁻¹
+$(luminousefficacy(SI2019))
 ```
 """ SI2019, SI
 
 @doc """
-    MetricEngineering = MetricSystem(𝟏𝟎^-3,𝟐*τ/𝟏𝟎^7,Rᵤ,g₀)
+    MetricEngineering = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,g₀)
 
 Systeme International d'Unites (the SI units) based on kilogram and kilopond units.
 
 ```Julia
-julia> boltzmann(MetricEngineering) # J⋅K⁻¹
+julia> boltzmann(MetricEngineering) # kgf⋅m⋅K⁻¹
 $(boltzmann(MetricEngineering))
 
-julia> planckreduced(MetricEngineering) # J⋅s⋅rad⁻¹
+julia> planckreduced(MetricEngineering) # kgf⋅m⋅s⋅rad⁻¹
 $(planckreduced(MetricEngineering))
 
 julia> lightspeed(MetricEngineering) # m⋅s⁻¹
 $(lightspeed(MetricEngineering))
 
-julia> vacuumpermeability(MetricEngineering) # H⋅m⁻¹
+julia> vacuumpermeability(MetricEngineering) # kgf⋅s²⋅C⁻²
 $(vacuumpermeability(MetricEngineering))
 
 julia> electronmass(MetricEngineering) # kg
@@ -150,7 +164,10 @@ $(electronmass(MetricEngineering))
 julia> molarmass(MetricEngineering) # kg⋅mol⁻¹
 $(molarmass(MetricEngineering))
 
-julia> gravity(MetricEngineering) # kg⋅m⋅N⁻¹⋅s⁻²
+julia> luminousefficacy(MetricEngineering) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(MetricEngineering))
+
+julia> gravity(MetricEngineering) # kg⋅m⋅kgf⁻¹⋅s⁻²
 $(gravity(MetricEngineering))
 ```
 """ MetricEngineering, ME
@@ -161,16 +178,16 @@ $(gravity(MetricEngineering))
 Systeme International d'Unites (the SI units) based on kilogram and kilopond units.
 
 ```Julia
-julia> boltzmann(SI2019Engineering) # J⋅K⁻¹
+julia> boltzmann(SI2019Engineering) # kgf⋅m⋅K⁻¹
 $(boltzmann(SI2019Engineering))
 
-julia> planckreduced(SI2019Engineering) # J⋅s⋅rad⁻¹
+julia> planckreduced(SI2019Engineering) # kgf⋅m⋅s⋅rad⁻¹
 $(planckreduced(SI2019Engineering))
 
 julia> lightspeed(SI2019Engineering) # m⋅s⁻¹
 $(lightspeed(SI2019Engineering))
 
-julia> vacuumpermeability(SI2019Engineering) # H⋅m⁻¹
+julia> vacuumpermeability(SI2019Engineering) # kgf⋅s²⋅C⁻²
 $(vacuumpermeability(SI2019Engineering))
 
 julia> electronmass(SI2019Engineering) # kg
@@ -179,13 +196,16 @@ $(electronmass(SI2019Engineering))
 julia> molarmass(SI2019Engineering) # kg⋅mol⁻¹
 $(molarmass(SI2019Engineering))
 
-julia> gravity(SI2019Engineering) # kg⋅m⋅N⁻¹⋅s⁻²
+julia> luminousefficacy(SI2019Engineering) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(SI2019Engineering))
+
+julia> gravity(SI2019Engineering) # kg⋅m⋅kgf⁻¹⋅s⁻²
 $(gravity(SI2019Engineering))
 ```
 """ SI2019Engineering, SIE
 
 @doc """
-    SI1976 = MetricSystem(𝟏𝟎^-3,𝟐*τ/𝟏𝟎^7,8.31432)
+    SI1976 = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,8.31432)
 
 Systeme International d'Unites (the SI units) with universal gas constant of `8.31432`.
 
@@ -207,6 +227,9 @@ $(electronmass(SI1976))
 
 julia> molarmass(SI1976) # kg⋅mol⁻¹
 $(molarmass(SI1976))
+
+julia> luminousefficacy(SI1976) # lm⋅W⁻¹
+$(luminousefficacy(SI1976))
 ```
 """ SI1976
 
@@ -216,6 +239,12 @@ $(molarmass(SI1976))
 Metric `UnitSystem` based on Committee on Data of the International Science Council.
 
 ```Julia
+julia> josephson(CODATA) # Hz⋅V⁻¹
+$(josephson(CODATA))
+
+julia> klitzing(CODATA) # Ω
+$(klitzing(CODATA))
+
 julia> boltzmann(CODATA) # J⋅K⁻¹
 $(boltzmann(CODATA))
 
@@ -233,6 +262,9 @@ $(electronmass(CODATA))
 
 julia> molarmass(CODATA) # kg⋅mol⁻¹
 $(molarmass(CODATA))
+
+julia> luminousefficacy(CODATA) # lm⋅W⁻¹
+$(luminousefficacy(CODATA))
 ```
 """ CODATA
 
@@ -242,6 +274,12 @@ $(molarmass(CODATA))
 Conventional electronic `UnitSystem` with 1990 tuned `josephson` and `klitzing` constants.
 
 ```Julia
+julia> josephson(Conventional) # Hz⋅V⁻¹
+$(josephson(Conventional))
+
+julia> klitzing(Conventional) # Ω
+$(klitzing(Conventional))
+
 julia> boltzmann(Conventional) # J⋅K⁻¹
 $(boltzmann(Conventional))
 
@@ -259,15 +297,24 @@ $(electronmass(Conventional))
 
 julia> molarmass(Conventional) # kg⋅mol⁻¹
 $(molarmass(Conventional))
+
+julia> luminousefficacy(Conventional) # lm⋅W⁻¹
+$(luminousefficacy(Conventional))
 ```
 """ Conventional
 
 @doc """
-    International = ElectricSystem(Metric,Ωᵢₜ,Vᵢₜ)
+    International = ElectricSystem(Metric,$Ωᵢₜ,$Vᵢₜ)
 
 International `UnitSystem` with United States measurements of `Ωᵢₜ` and `Vᵢₜ`.
 
 ```Julia
+julia> resistance(International,Metric) # Ω⋅Ω⁻¹
+$(resistance(International,Metric))
+
+julia> electricpotential(International,Metric) # V⋅V⁻¹
+$(electricpotential(International,Metric))
+
 julia> boltzmann(International) # J⋅K⁻¹
 $(boltzmann(International))
 
@@ -285,6 +332,9 @@ $(electronmass(International))
 
 julia> molarmass(International) # kg⋅mol⁻¹
 $(molarmass(International))
+
+julia> luminousefficacy(International) # lm⋅W⁻¹
+$(luminousefficacy(International))
 ```
 """ International
 
@@ -294,6 +344,12 @@ $(molarmass(International))
 International `UnitSystem` with mean measurements of `Ωᵢₜ` and `Vᵢₜ`.
 
 ```Julia
+julia> resistance(InternationalMean,Metric) # Ω⋅Ω⁻¹
+$(resistance(InternationalMean,Metric))
+
+julia> electricpotential(InternationalMean,Metric) # V⋅V⁻¹
+$(electricpotential(InternationalMean,Metric))
+
 julia> boltzmann(InternationalMean) # J⋅K⁻¹
 $(boltzmann(InternationalMean))
 
@@ -311,8 +367,73 @@ $(electronmass(InternationalMean))
 
 julia> molarmass(InternationalMean) # kg⋅mol⁻¹
 $(molarmass(InternationalMean))
+
+julia> luminousefficacy(International) # lm⋅W⁻¹
+$(luminousefficacy(International))
 ```
 """ InternationalMean
+
+@doc """
+    Meridian = EntropySystem(Metric,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7,milli)
+
+Systeme International d'Unites (the SI units) adopted as the preferred `UnitSystem`.
+
+```Julia
+julia> boltzmann(Meridian) # eJ⋅K⁻¹
+$(boltzmann(Meridian))
+
+julia> planckreduced(Meridian) # eJ⋅s⋅rad⁻¹
+$(planckreduced(Meridian))
+
+julia> lightspeed(Meridian) # em⋅s⁻¹
+$(lightspeed(Meridian))
+
+julia> vacuumpermeability(Meridian) # kegf⋅s²⋅eC⁻²
+$(vacuumpermeability(Meridian))
+
+julia> electronmass(Meridian) # keg
+$(electronmass(Meridian))
+
+julia> molarmass(Meridian) # keg⋅eg-mol⁻¹
+$(molarmass(Meridian))
+
+julia> luminousefficacy(Meridian) # lm⋅W⁻¹
+$(luminousefficacy(Meridian))
+```
+""" Meridian
+
+@doc """
+    MeridianEngineering = EntropySystem(MetricEngineering,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7/g₀^2,milli)
+
+Systeme International d'Unites (the SI units) based on kilogram and kilopond units.
+
+```Julia
+julia> boltzmann(MeridianEngineering) # kegf⋅em⋅K⁻¹
+$(boltzmann(MeridianEngineering))
+
+julia> planckreduced(MeridianEngineering) # kegf⋅em⋅s⋅rad⁻¹
+$(planckreduced(MeridianEngineering))
+
+julia> lightspeed(MeridianEngineering) # em⋅s⁻¹
+$(lightspeed(MeridianEngineering))
+
+julia> vacuumpermeability(MeridianEngineering) # kegf⋅s²⋅eC⁻²
+$(vacuumpermeability(MeridianEngineering))
+
+julia> electronmass(MeridianEngineering) # keg
+$(electronmass(MeridianEngineering))
+
+julia> molarmass(MeridianEngineering) # keg⋅eg-mol⁻¹
+$(molarmass(MeridianEngineering))
+
+julia> luminousefficacy(MeridianEngineering) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(MeridianEngineering))
+
+julia> gravity(MeridianEngineering) # keg⋅em⋅kegf⁻¹⋅s⁻²
+$(gravity(MeridianEngineering))
+```
+""" MeridianEngineering
+
 
 cgstext(US,AMP,cgs=eval(US)) = """
 ```Julia
@@ -334,6 +455,9 @@ $(electronmass(cgs))
 julia> molarmass($US) # g⋅mol⁻¹
 $(molarmass(cgs))
 
+julia> luminousefficacy($US) # lm⋅s⋅erg⁻¹
+$(luminousefficacy(cgs))
+
 julia> rationalization($US)
 $(rationalization(cgs))
 ```
@@ -342,23 +466,23 @@ $(rationalization(cgs))
 for U ∈ (:CGSm,:CGSe,:EMU,:ESU)
     (EU,AMP) = QuoteNode.(U ∉ (:CGSe,:ESU) ? (:EMU,:Bi) : (:ESU,:statA))
 @eval @doc """
-    $($(QuoteNode(U))) = GaussSystem(Metric,$($EU≠:EMU ? "(𝟏𝟎*𝘤)^-2" : 𝟏),𝟐*τ)
+    $($(QuoteNode(U))) = GaussSystem(Metric,$($EU≠:EMU ? "(𝟏𝟎*𝘤)^-2" : "𝟏"),𝟐*τ)
 
 Centimetre-gram-second `UnitSystem` variant based on `$($EU)` (non-rationalized).
 
 $(cgstext($(QuoteNode(U)),$AMP))
 """ $U
 
-U ∉ (:CGSm,:CGSe) && @eval @doc """
+#=U ∉ (:CGSm,:CGSe) && @eval @doc """
     $(Symbol($(QuoteNode(U)),:2019)) = EntropySystem(SI2019,𝟏,0.01,0.001,𝟏,$($EU≠:EMU ? "1e3*μ₀/𝘤^2" : "1e7*μ₀"))
 
 Centimetre-gram-second `UnitSystem` variant of tuned `SI2019` based on `$($EU)` (rationalized).
 
 $(cgstext(Symbol($(QuoteNode(U)),:2019),$AMP))
-""" $(Symbol(U,:2019))
+""" $(Symbol(U,:2019))=#
 end
 
-@doc """
+#=@doc """
     Thomson = GaussSystem(Metric,𝟏,𝟐*τ,𝟏/𝟐)
 
 Centimetre-gram-second `UnitSystem` variant `Thomson` (EMU-Lorentz, non-rationalized).
@@ -382,13 +506,16 @@ $(electronmass(Thomson))
 julia> molarmass(Thomson) # g⋅mol⁻¹
 $(molarmass(Thomson))
 
+julia> luminousefficacy(Thomson) # lm⋅s⋅erg⁻¹
+$(luminousefficacy(Thomson))
+
 julia> rationalization(Thomson)
 $(rationalization(Thomson))
 
 julia> lorentz(Thomson)
 $(lorentz(Thomson))
 ```
-""" Thomson
+""" Thomson=#
 
 @doc """
     Gauss = GaussSystem(Metric,𝟏,𝟐*τ,𝟏𝟎^-2/𝘤)
@@ -414,6 +541,9 @@ $(electronmass(Gauss))
 julia> molarmass(Gauss) # g⋅mol⁻¹
 $(molarmass(Gauss))
 
+julia> luminousefficacy(Gauss) # lm⋅s⋅erg⁻¹
+$(luminousefficacy(Gauss))
+
 julia> rationalization(Gauss)
 $(rationalization(Gauss))
 
@@ -423,7 +553,7 @@ $(lorentz(Gauss))
 """ Gauss, CGS
 
 @doc """
-    LorentzHeaviside = GaussSystem(Metric,𝟏,𝟏,𝟏𝟎^-2/𝘤)
+    LorentzHeaviside = GaussSystem(Metric,𝟏,𝟏,centi/𝘤)
 
 Centimetre-gram-second `UnitSystem` variant `HLU` (Heaviside-Lorentz, rationalized).
 
@@ -445,6 +575,9 @@ $(electronmass(LorentzHeaviside))
 
 julia> molarmass(LorentzHeaviside) # g⋅mol⁻¹
 $(molarmass(LorentzHeaviside))
+
+julia> luminousefficacy(LorentzHeaviside) # lm⋅s⋅erg⁻¹
+$(luminousefficacy(LorentzHeaviside))
 
 julia> rationalization(LorentzHeaviside)
 $(rationalization(LorentzHeaviside))
@@ -478,6 +611,9 @@ $(electronmass(Kennelly))
 julia> molarmass(Kennelly) # kg⋅mol⁻¹
 $(molarmass(Kennelly))
 
+julia> luminousefficacy(Kennelly) # lm⋅W⁻¹
+$(luminousefficacy(Kennelly))
+
 julia> rationalization(Kennelly)
 $(rationalization(Kennelly))
 ```
@@ -489,10 +625,10 @@ $(rationalization(Kennelly))
 Systeme International d'Unites (the SI units) based on hyl and kilopond units.
 
 ```Julia
-julia> boltzmann(GravitationalMetric) # J⋅K⁻¹
+julia> boltzmann(GravitationalMetric) # kgf⋅m⋅K⁻¹
 $(boltzmann(GravitationalMetric))
 
-julia> planckreduced(GravitationalMetric) # J⋅s⋅rad⁻¹
+julia> planckreduced(GravitationalMetric) # kgf⋅m⋅s⋅rad⁻¹
 $(planckreduced(GravitationalMetric))
 
 julia> lightspeed(GravitationalMetric) # m⋅s⁻¹
@@ -506,6 +642,9 @@ $(electronmass(GravitationalMetric))
 
 julia> molarmass(GravitationalMetric) # hyl⋅mol⁻¹
 $(molarmass(GravitationalMetric))
+
+julia> luminousefficacy(GravitationalMetric) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(GravitationalMetric))
 ```
 """ GravitationalMetric, GM
 
@@ -515,28 +654,60 @@ $(molarmass(GravitationalMetric))
 Systeme International d'Unites (the SI units) based on hyl and kilopond units.
 
 ```Julia
-julia> boltzmann(GravitationalSI2019) # J⋅K⁻¹
+julia> boltzmann(GravitationalSI2019) # kgf⋅m⋅K⁻¹
 $(boltzmann(GravitationalSI2019))
 
-julia> planckreduced(GravitationalSI2019) # J⋅s⋅rad⁻¹
+julia> planckreduced(GravitationalSI2019) # kgf⋅m⋅s⋅rad⁻¹
 $(planckreduced(GravitationalSI2019))
 
 julia> lightspeed(GravitationalSI2019) # m⋅s⁻¹
 $(lightspeed(GravitationalSI2019))
 
-julia> vacuumpermeability(SI2019Engineering) # H⋅m⁻¹
+julia> vacuumpermeability(GravitationalSI2019) # kgf⋅s²⋅C⁻²
 $(vacuumpermeability(GravitationalSI2019))
 
-julia> electronmass(SI2019Engineering) # hyl
+julia> electronmass(GravitationalSI2019) # hyl
 $(electronmass(GravitationalSI2019))
 
-julia> molarmass(SI2019) # hyl⋅mol⁻¹
-$(molarmass(SI2019Engineering))
+julia> molarmass(GravitationalSI2019) # hyl⋅mol⁻¹
+$(molarmass(GravitationalSI2019))
+
+julia> luminousefficacy(GravitationalMetric) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(GravitationalMetric))
 ```
 """ GravitationalSI2019, GSI, GSI2019
 
 @doc """
-    MTS = EntropySystem(SI2019,𝟏,𝟏,𝟏𝟎^3)
+    GravitationalMeridian = EntropySystem(Metric,𝟏,em,g₀*em^3,𝟏,τ/𝟐^6/𝟓^7/g₀,milli)
+
+Systeme International d'Unites (the SI units) based on hyl and kilopond units.
+
+```Julia
+julia> boltzmann(GravitationalMeridian) # kegf⋅em⋅K⁻¹
+$(boltzmann(GravitationalMeridian))
+
+julia> planckreduced(GravitationalMeridian) # kegf⋅em⋅s⋅rad⁻¹
+$(planckreduced(GravitationalMeridian))
+
+julia> lightspeed(GravitationalMeridian) # em⋅s⁻¹
+$(lightspeed(GravitationalMeridian))
+
+julia> vacuumpermeability(GravitationalMeridian) # kegf⋅s²⋅eC⁻²
+$(vacuumpermeability(GravitationalMeridian))
+
+julia> electronmass(GravitationalMeridian) # ehyl
+$(electronmass(GravitationalMeridian))
+
+julia> molarmass(GravitationalMeridian) # ehyl⋅eg-mol⁻¹
+$(molarmass(GravitationalMeridian))
+
+julia> luminousefficacy(GravitationalMeridian) # lm⋅s⋅em⁻¹⋅kegf⁻¹
+$(luminousefficacy(GravitationalMeridian))
+```
+""" GravitationalMeridian
+
+@doc """
+    MTS = EntropySystem(SI2019,𝟏,𝟏,kilo)
 
 Metre-tonne-second `UnitSystem` variant of `Metric` system.
 
@@ -558,25 +729,28 @@ $(electronmass(MTS))
 
 julia> molarmass(MTS) # t⋅mol⁻¹
 $(molarmass(MTS))
+
+julia> luminousefficacy(MTS) # lm⋅kW⁻¹
+$(luminousefficacy(MTS))
 ```
 """ MTS
 
 @doc """
-    KKH = EntropySystem(Metric,HOUR,𝟏𝟎^3,𝟏)
+    KKH = EntropySystem(Metric,HOUR,kilo,𝟏)
 
 Kilometer-kilogram-hour `UnitSystem` variant of `Metric` system.
 
 ```Julia
-julia> boltzmann(KKH)
+julia> boltzmann(KKH) # kg⋅km²⋅h⁻²⋅K⁻¹
 $(boltzmann(KKH))
 
-julia> planckreduced(KKH)
+julia> planckreduced(KKH) # kg⋅km²⋅h⁻¹
 $(planckreduced(KKH))
 
 julia> lightspeed(KKH) # km⋅hr⁻¹
 $(lightspeed(KKH))
 
-julia> vacuumpermeability(KKH)
+julia> vacuumpermeability(KKH) # kg⋅km⋅C⁻²
 $(vacuumpermeability(KKH))
 
 julia> electronmass(KKH) # kg
@@ -584,6 +758,9 @@ $(electronmass(KKH))
 
 julia> molarmass(KKH) # kg⋅mol⁻¹
 $(molarmass(KKH))
+
+julia> luminousefficacy(KKH) # lm⋅h³⋅kg⁻¹⋅km⁻²
+$(luminousefficacy(KKH))
 ```
 """ KKH
 
@@ -611,8 +788,11 @@ $(electronmass(IAU))
 julia> molarmass(IAU) # M☉⋅mol⁻¹
 $(molarmass(IAU))
 
-julia> newton(IAU)
-$(newton(IAU))
+julia> luminousefficacy(IAU) # lm⋅D³⋅M☉⁻¹⋅au⁻²
+$(luminousefficacy(IAU))
+
+julia> gaussgravitation(IAU) # au³ᐟ²⋅M☉⁻¹ᐟ²⋅D⁻¹
+$(gaussgravitation(IAU))
 ```
 """ IAU☉, IAU
 
@@ -639,6 +819,9 @@ $(electronmass(IAUE))
 
 julia> molarmass(IAUE) # ME⋅mol⁻¹
 $(molarmass(IAUE))
+
+julia> luminousefficacy(IAUE) # lm⋅D³⋅ME⁻¹⋅au⁻²
+$(luminousefficacy(IAUE))
 ```
 """ IAUE
 
@@ -660,15 +843,18 @@ $(lightspeed(IAUJ))
 julia> vacuumpermeability(IAUJ) # MJ⋅au²⋅C⁻²
 $(vacuumpermeability(IAUJ))
 
-julia> electronmass(IAU) # MJ
+julia> electronmass(IAUJ) # MJ
 $(electronmass(IAUJ))
 
 julia> molarmass(IAUJ) # MJ⋅mol⁻¹
 $(molarmass(IAUJ))
+
+julia> luminousefficacy(IAUJ) # lm⋅D³⋅MJ⁻¹⋅au⁻²
+$(luminousefficacy(IAUJ))
 ```
 """ IAUJ
 
-@doc """
+#=@doc """
     Astronomical = AstronomicalSystem(Metric)
 
 Astronomical `UnitSystem` defined by making the `newton` gravitational constant 1.
@@ -692,10 +878,13 @@ $(electronmass(Astronomical))
 julia> molarmass(Astronomical)
 $(molarmass(Astronomical))
 
-julia> newton(Astronomical)
-$(newton(Astronomical))
+julia> luminousefficacy(Astronomical)
+$(luminousefficacy(Astronomical))
+
+julia> gravitation(Astronomical)
+$(gravitation(Astronomical))
 ```
-""" Astronomical
+""" Astronomical=#
 
 @doc """
     Hubble = EntropySystem(Metric,th,𝘤*th,𝟏)
@@ -721,8 +910,14 @@ $(electronmass(Hubble))
 julia> molarmass(Hubble)
 $(molarmass(Hubble))
 
+julia> luminousefficacy(Hubble)
+$(luminousefficacy(Hubble))
+
 julia> hubble(Hubble)
 $(hubble(Hubble))
+
+julia> cosmological(Hubble)
+$(cosmological(Hubble))
 ```
 """ Hubble
 
@@ -749,6 +944,15 @@ $(electronmass(Cosmological))
 
 julia> molarmass(Cosmological)
 $(molarmass(Cosmological))
+
+julia> luminousefficacy(Cosmological)
+$(luminousefficacy(Cosmological))
+
+julia> hubble(Cosmological)
+$(hubble(Cosmological))
+
+julia> cosmological(Cosmological)
+$(cosmological(Cosmological))
 ```
 """ Cosmological
 
@@ -773,8 +977,11 @@ $(vacuumpermeability(CosmologicalQuantum))
 julia> electronmass(CosmologicalQuantum)
 $(electronmass(CosmologicalQuantum))
 
-julia> molarmass(Cosmological)
-$(molarmass(Cosmological))
+julia> molarmass(CosmologicalQuantum)
+$(molarmass(CosmologicalQuantum))
+
+julia> luminousefficacy(CosmologicalQuantum)
+$(luminousefficacy(CosmologicalQuantum))
 ```
 """ CosmologicalQuantum
 
@@ -793,7 +1000,7 @@ $(planckreduced(British))
 julia> lightspeed(British) # ft⋅s⁻¹
 $(lightspeed(British))
 
-julia> vacuumpermeability(British) # slug⋅ft²⋅?⁻²
+julia> vacuumpermeability(British) # slug⋅ft⋅C⁻²
 $(vacuumpermeability(British))
 
 julia> electronmass(British) # slugs
@@ -801,34 +1008,11 @@ $(electronmass(British))
 
 julia> molarmass(British) # slug⋅slug-mol⁻¹
 $(molarmass(British))
+
+julia> luminousefficacy(British) # lm⋅s⋅ft⁻¹⋅lb⁻¹
+$(luminousefficacy(British))
 ```
 """ British, BritishGravitational, BG
-
-@doc """
-    British2019 = RankineSystem(SI2019,ft,slug)
-
-British Gravitational `UnitSystem` historically used by Britain and United States.
-
-```Julia
-julia> boltzmann(British2019) # ft⋅lb⋅°R⁻¹
-$(boltzmann(British2019))
-
-julia> planckreduced(British2019) # ft⋅lb⋅s⋅rad⁻¹
-$(planckreduced(British2019))
-
-julia> lightspeed(British2019) # ft⋅s⁻¹
-$(lightspeed(British2019))
-
-julia> vacuumpermeability(British2019) # slug⋅ft²⋅?⁻²
-$(vacuumpermeability(British2019))
-
-julia> electronmass(British2019) # slugs
-$(electronmass(British2019))
-
-julia> molarmass(British2019) # slug⋅slug-mol⁻¹
-$(molarmass(British2019))
-```
-""" British2019, BritishGravitational2019, BG2019
 
 @doc """
     English = RankineSystem(Metric,ft,lb,g₀/ft)
@@ -845,7 +1029,7 @@ $(planckreduced(English))
 julia> lightspeed(English) # ft⋅s⁻¹
 $(lightspeed(English))
 
-julia> vacuumpermeability(English) # lbm⋅ft²⋅?⁻²
+julia> vacuumpermeability(English) # lbm⋅ft⋅C⁻²
 $(vacuumpermeability(English))
 
 julia> electronmass(English) # lbm
@@ -854,39 +1038,13 @@ $(electronmass(English))
 julia> molarmass(English) # lbm⋅lb-mol⁻¹
 $(molarmass(English))
 
+julia> luminousefficacy(English) # lm⋅s⋅ft⁻¹⋅lbf⁻¹
+$(luminousefficacy(English))
+
 julia> gravity(English) # lbm⋅ft⋅lbf⁻¹⋅s⁻²
 $(gravity(English))
 ```
 """ English, EnglishEngineering, EE
-
-@doc """
-    English2019 = RankineSystem(SI2019,ft,lb,g₀/ft)
-
-English Engineering `UnitSystem` historically used in the United States of America.
-
-```Julia
-julia> boltzmann(English2019) # ftUS⋅lbf⋅°R⁻¹
-$(boltzmann(English2019))
-
-julia> planckreduced(English2019) # ft⋅lbf⋅s⋅rad⁻¹
-$(planckreduced(English2019))
-
-julia> lightspeed(English2019) # ft⋅s⁻¹
-$(lightspeed(English2019))
-
-julia> vacuumpermeability(English2019) # lbm⋅ft²⋅?⁻²
-$(vacuumpermeability(English2019))
-
-julia> electronmass(English2019) # lbm
-$(electronmass(English2019))
-
-julia> molarmass(English2019) # lbm⋅lb-mol⁻¹
-$(molarmass(English2019))
-
-julia> gravity(English2019) # lbm⋅ft⋅lbf⁻¹⋅s⁻²
-$(gravity(English2019))
-```
-""" English2019, EnglishEngineering2019, EE2019
 
 @doc """
     Survey = RankineSystem(Metric,ftUS,lb,g₀/ftUS)
@@ -903,7 +1061,7 @@ $(planckreduced(Survey))
 julia> lightspeed(Survey) # ftUS⋅s⁻¹
 $(lightspeed(Survey))
 
-julia> vacuumpermeability(Survey) # lbm⋅ftUS²⋅?⁻²
+julia> vacuumpermeability(Survey) # lbm⋅ftUS⋅C⁻²
 $(vacuumpermeability(Survey))
 
 julia> electronmass(Survey) # lbm
@@ -912,39 +1070,13 @@ $(electronmass(Survey))
 julia> molarmass(Survey) # lbm⋅lb-mol⁻¹
 $(molarmass(Survey))
 
+julia> luminousefficacy(Survey) # lm⋅s⋅ft⁻¹⋅lbf⁻¹
+$(luminousefficacy(Survey))
+
 julia> gravity(Survey) # lbm⋅ftUS⋅lbf⁻¹⋅s⁻²
 $(gravity(Survey))
 ```
 """ Survey, EnglishUS
-
-@doc """
-    Survey2019 = RankineSystem(SI2019,ftUS,lb,g₀/ftUS)
-
-English Engineering `UnitSystem` based on the geophysical US survey foot (1200/3937).
-
-```Julia
-julia> boltzmann(Survey2019) # ftUS⋅lbf⋅°R⁻¹
-$(boltzmann(Survey2019))
-
-julia> planckreduced(Survey2019) # ftUS⋅lbf⋅s⋅rad⁻¹
-$(planckreduced(Survey2019))
-
-julia> lightspeed(Survey2019) # ftUS⋅s⁻¹
-$(lightspeed(Survey2019))
-
-julia> vacuumpermeability(Survey2019) # lbm⋅ftUS²⋅?⁻²
-$(vacuumpermeability(Survey2019))
-
-julia> electronmass(Survey2019) # lbm
-$(electronmass(Survey2019))
-
-julia> molarmass(Survey2019) # lbm⋅lb-mol⁻¹
-$(molarmass(Survey2019))
-
-julia> gravity(Survey2019) # lbm⋅ftUS⋅lbf⁻¹⋅s⁻²
-$(gravity(Survey2019))
-```
-""" Survey2019
 
 @doc """
     FPS = RankineSystem(Metric,ft,lb)
@@ -961,7 +1093,7 @@ $(planckreduced(FPS))
 julia> lightspeed(FPS) # ft⋅s⁻¹
 $(lightspeed(FPS))
 
-julia> vacuumpermeability(FPS) # lb⋅ft²⋅?⁻²
+julia> vacuumpermeability(FPS) # lb⋅ft⋅C⁻²
 $(vacuumpermeability(FPS))
 
 julia> electronmass(FPS) # lb
@@ -969,34 +1101,40 @@ $(electronmass(FPS))
 
 julia> molarmass(FPS) # lb⋅lb-mol⁻¹
 $(molarmass(FPS))
+
+julia> luminousefficacy(FPS) # lm⋅s³⋅lb⁻¹⋅ft⁻²
+$(luminousefficacy(FPS))
 ```
 """ FPS, AbsoluteEnglish, AE
 
 @doc """
-    FPS2019 = RankineSystem(SI2019,ft,lb)
+    IPS = RankineSystem(Metric,ft/𝟐^2/𝟑,lb*g₀*𝟐^2*𝟑/ft)
 
-Absolute English `UnitSystem` based on the foot, pound, second, and poundal.
+British Gravitational `UnitSystem` historically used in the United States of America.
 
 ```Julia
-julia> boltzmann(FPS2019) # ft⋅pdl⋅°R⁻¹
-$(boltzmann(FPS2019))
+julia> boltzmann(IPS) # in⋅lb⋅°R⁻¹
+$(boltzmann(IPS))
 
-julia> planckreduced(FPS2019) # ft⋅pdl⋅s⋅rad⁻¹
-$(planckreduced(FPS2019))
+julia> planckreduced(IPS) # in⋅lb⋅s⋅rad⁻¹
+$(planckreduced(IPS))
 
-julia> lightspeed(FPS2019) # ft⋅s⁻¹
-$(lightspeed(FPS2019))
+julia> lightspeed(IPS) # in⋅s⁻¹
+$(lightspeed(IPS))
 
-julia> vacuumpermeability(FPS2019) # lb⋅ft²⋅?⁻²
-$(vacuumpermeability(FPS2019))
+julia> vacuumpermeability(IPS) # slinch⋅in⋅C⁻²
+$(vacuumpermeability(IPS))
 
-julia> electronmass(FPS2019) # lb
-$(electronmass(FPS2019))
+julia> electronmass(IPS) # slinch
+$(electronmass(IPS))
 
-julia> molarmass(FPS2019) # lb⋅lb-mol⁻¹
-$(molarmass(FPS2019))
+julia> molarmass(IPS) # slinch⋅slinch-mol⁻¹
+$(molarmass(IPS))
+
+julia> luminousefficacy(IPS) # lm⋅s⋅in⁻¹⋅lb⁻¹
+$(luminousefficacy(IPS))
 ```
-""" FPS2019, AE2019, AbsoluteEnglish2019
+""" IPS
 
 @doc """
     FFF = EntropySystem(Metric,𝟐*𝟕*DAY,fur,𝟐*𝟑^2*𝟓*lb,°R,0,𝟏)
@@ -1013,7 +1151,7 @@ $(planckreduced(FFF))
 julia> lightspeed(FFF) # fur⋅ftn⁻¹
 $(lightspeed(FFF))
 
-julia> vacuumpermeability(FFF) # fir⋅fur²⋅Inf⁻²
+julia> vacuumpermeability(FFF) # fir⋅fur⋅Inf⁻²
 $(vacuumpermeability(FFF))
 
 julia> electronmass(FFF) # fir
@@ -1021,13 +1159,16 @@ $(electronmass(FFF))
 
 julia> molarmass(FFF) # fir⋅fir-mol⁻¹
 $(molarmass(FFF))
+
+julia> luminousefficacy(FFF) # lm⋅ftn³⋅fir⁻¹⋅fur⁻²
+$(luminousefficacy(FFF))
 ```
 """ FFF
 
 @doc """
-    MPH = EntropySystem(English,HOUR,𝟐^5*𝟑*𝟓*𝟏𝟏,𝟏)
+    MPH = EntropySystem(FPS,HOUR,mi,𝟏)
 
-Miles, pound, hour specification based on `English` Engineering `UnitSystem`.
+Miles, pound, hour specification based on `FPS` absolute `UnitSystem`.
 
 ```Julia
 julia> boltzmann(MPH) # lbf⋅mi²⋅hr⁻²⋅F⁻¹
@@ -1039,7 +1180,7 @@ $(planckreduced(MPH))
 julia> lightspeed(MPH) # mi⋅hr⁻¹
 $(lightspeed(MPH))
 
-julia> vacuumpermeability(MPH) # lbm⋅mi²⋅Inf⁻²
+julia> vacuumpermeability(MPH) # lbm⋅mi⋅C⁻²
 $(vacuumpermeability(MPH))
 
 julia> electronmass(MPH) # lbm
@@ -1047,32 +1188,38 @@ $(electronmass(MPH))
 
 julia> molarmass(MPH) # lbm⋅lb-mol⁻¹
 $(molarmass(MPH))
+
+julia> luminousefficacy(MPH) # lm⋅h³⋅lb⁻¹⋅mi⁻²
+$(luminousefficacy(MPH))
 ```
 """ MPH
 
 @doc """
-    Nautical = EntropySystem(English,HOUR,𝟐^6*𝟓*𝟏𝟗,𝟏)
+    Nautical = EntropySystem(Metric,HOUR,nm,em^3,𝟏,τ*𝟑^3/𝟐^10/𝟓^12,milli)
 
-Nautical miles, pound, hour specification based on `English` Engineering `UnitSystem`.
+Nautical miles, kilo-earthgram, hour specification based on `Meridian` definition.
 
 ```Julia
-julia> boltzmann(Nautical) # lbf⋅nm²⋅hr⁻²⋅F⁻¹
+julia> boltzmann(Nautical) # keg⋅nm²⋅hr⁻²⋅K⁻¹
 $(boltzmann(Nautical))
 
-julia> planckreduced(Nautical) # lbf⋅nm²⋅hr⁻¹⋅rad⁻¹
+julia> planckreduced(Nautical) # keg⋅nm²⋅hr⁻¹⋅rad⁻¹
 $(planckreduced(Nautical))
 
 julia> lightspeed(Nautical) # nm⋅hr⁻¹
 $(lightspeed(Nautical))
 
-julia> vacuumpermeability(Nautical) # lbm⋅nm²⋅Inf⁻²
+julia> vacuumpermeability(Nautical) # keg⋅nm⋅eC⁻²
 $(vacuumpermeability(Nautical))
 
-julia> electronmass(Nuatical) # lbm
+julia> electronmass(Nautical) # keg
 $(electronmass(Nautical))
 
-julia> molarmass(Nautical) # lbm⋅lb-mol⁻¹
+julia> molarmass(Nautical) # keg⋅eg-mol⁻¹
 $(molarmass(Nautical))
+
+julia> luminousefficacy(Nautical) # lm⋅h³⋅keg⁻¹⋅nm⁻²
+$(luminousefficacy(Nautical))
 ```
 """ Nautical
 

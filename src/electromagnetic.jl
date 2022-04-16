@@ -37,12 +37,12 @@ const voltage = electricpotential
 @pure exposure(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/mass(U,S))
 @pure resistivity(U::UnitSystem,S::UnitSystem) = unit(resistance(U,S)*length(U,S))
 @pure linearchargedensity(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/length(U,S))
-@pure magneticdipolemoment(U::UnitSystem,S::UnitSystem) = unit(current(U,S)*lorentz(U,S)*area(U,S))
-@pure mobility(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*time(U,S)/mass(U,S))
+@pure magneticdipolemoment(U::UnitSystem,S::UnitSystem) = unit(current(U,S)*lorentz(U,S)*area(U,S)/gravity(U,S)/angle(U,S))
+@pure mobility(U::UnitSystem,S::UnitSystem) = unit(length(U,S)*speed(U,S)*electricpotential(U,S))
 @pure reluctance(U::UnitSystem,S::UnitSystem) = unit(rationalization(U,S)*lorentz(U,S)^2/inductance(U,S))
 @pure vectorpotential(U::UnitSystem,S::UnitSystem) = unit(magneticflux(U,S)/length(U,S))
 @pure magneticmoment(U::UnitSystem,S::UnitSystem) = unit(magneticflux(U,S)*length(U,S))
-@pure rigidity(U::UnitSystem,S::UnitSystem) = unit(magneticfluxdensity(U,S)*length(U,S))
+#@pure rigidity(U::UnitSystem,S::UnitSystem) = unit(magneticfluxdensity(U,S)*length(U,S))
 @pure susceptibility(U::UnitSystem,S::UnitSystem) = unit(rationalization(S,U))
 
 # WARNING unchecked: rigidity, magneticmoment, vectorpotential, mobility, linearchargedensity, exposure
@@ -55,10 +55,10 @@ const voltage = electricpotential
 @pure polestrength(U::UnitSystem,S::UnitSystem) = unit(magneticdipolemoment(U,S)/length(U,S))
 @pure permeance(U::UnitSystem,S::UnitSystem) = reluctance(S,U)
 @pure specificsusceptibility(U::UnitSystem,S::UnitSystem) = unit(magneticdipolemoment(U,S)/magneticfield(U,S)/mass(U,S))
-@pure magnetizability(U::UnitSystem,S::UnitSystem) = unit(magneticmoment(U,S)/magneticfluxdensity(U,S))
+#@pure magnetizability(U::UnitSystem,S::UnitSystem) = unit(magneticmoment(U,S)/magneticfluxdensity(U,S))
 @pure electricpolarizability(U::UnitSystem,S::UnitSystem) = unit(electricdipolemoment(U,S)/electricfield(U,S))
 @pure magneticpolarizability(U::UnitSystem,S::UnitSystem) = unit(magneticdipolemoment(U,S)/magneticfield(U,S))
-@pure magnetization(U::UnitSystem,S::UnitSystem) = unit(magneticmoment(U,S)/volume(U,S))
+#@pure magnetization(U::UnitSystem,S::UnitSystem) = unit(magneticmoment(U,S)/volume(U,S))
 
 # specificmagnetization, mass magnetization = 1?
 # magneticfluxdensity(Metric,EMU)/density(Metric,EMU)
