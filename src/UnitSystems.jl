@@ -245,9 +245,9 @@ However, most other constructors for `UnitSystem` derivations are based on inter
 This means `EntropySystem` also constructs the examples listed there.
 """
 function EntropySystem(u,t,l,m,θ=one(u)); tt = t*t; e = m*l*l/tt
-    EntropySystem(u,t,l,m,θ,permeability(u)/(m*l),molarmass(u)/m,gravity(u)*tt/l,m*l*l/(t*t))
+    EntropySystem(u,t,l,m,θ,permeability(u)/(m*l),molarmass(u)/m,gravity(u),m*l*l/(t*t))
 end
-function EntropySystem(u,t,l,m,θ,μ0,Mu=molarmass(u)/m,g0=gravity(u)*(t*t/l),e=m*l*l/(t*t),λ=one(u),αL=one(u))
+function EntropySystem(u,t,l,m,θ,μ0,Mu=molarmass(u)/m,g0=gravity(u),e=m*l*l/(t*t),λ=one(u),αL=one(u))
     UnitSystem(
         boltzmann(u)*θ/e/g0,
         planckreduced(u)/t/e/g0,
