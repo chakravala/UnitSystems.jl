@@ -186,10 +186,6 @@ $(planck(British))
 $(unitext(:boltzmann,"molargas(x)/avogadro(x)"))
 
 Boltzmann constant `kB` is the entropy amount of a unit number microstate permutation.
-```Julia
-pressure*molecularmass == density*boltzmann*temperature
-```
-It satisfies the ideal gas law.
 
 ```Julia
 julia> boltzmann(SI2019) # J⋅K⁻¹
@@ -238,6 +234,9 @@ $(lightspeed(Metric))
 
 julia> lightspeed(English) # ft⋅s⁻¹
 $(lightspeed(English))
+
+julia> lightspeed(IAU) # au⋅D⁻¹
+$(lightspeed(IAU))
 ```
 """ lightspeed, 𝘤, cc
 
@@ -473,10 +472,6 @@ $(gravity(English))
 $(unitext(:molargas,"boltzmann(x)*avogadro(x)"))
 
 Universal gas constant `Rᵤ` is factored into specific `gasconstant(x)*molarmass(x)` values.
-```Julia
-pressure*molarmass == density*universal*temperature
-```
-It satisfies the ideal gas law.
 
 ```Julia
 julia> molargas(SI2019) # J⋅K⁻¹⋅mol⁻¹
@@ -1083,7 +1078,7 @@ $(wienwavelength(English))
 @doc """
 $(unitext(:wienfrequency,"(𝟑+W₀(-𝟑*exp(-𝟑)))*boltzmann(U)/planck(U)"))
 
-Wien frequency displacement law constant based on Lambert `W₀` evaluation (Hz⋅K⁻¹).
+Wien frequency radiation law constant based on Lambert `W₀` evaluation (Hz⋅K⁻¹).
 ```Julia
 julia> wienfrequency(Metric) # Hz⋅K⁻¹
 $(wienfrequency(Metric))

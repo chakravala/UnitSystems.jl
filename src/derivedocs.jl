@@ -422,8 +422,8 @@ $(astronomicalunit(Metric))
 julia> astronomicalunit(English) # ft
 $(astronomicalunit(English))
 
-julia> astronomicalunit(Nautical) # nm
-$(astronomicalunit(Nautical))
+julia> astronomicalunit(Metric)/lightspeed(Metric) # s
+$(astronomicalunit(Metric)/lightspeed(Metric))
 ```
 """ astronomicalunit, au
 
@@ -435,11 +435,11 @@ Standard distance between the Earth and the Moon (m or ft).
 julia> lunardistance(Metric) # m
 $(lunardistance(Metric))
 
-julia> lunardistance(English) # ft
-$(lunardistance(English))
-
 julia> lunardistance(Nautical) # nm
 $(lunardistance(Nautical))
+
+julia> lunardistance(Metric)/lightspeed(Metric) # s
+$(lunardistance(Metric)/lightspeed(Metric))
 ```
 """ lunardistance, LD
 
@@ -2029,6 +2029,38 @@ $(rankine(British))
 ```
 """ rankine
 
+@doc """
+$(unitext(:celsius,"temperature(T₀,U,Metric)"))
+
+Metric unit of `temperature` (K or °R).
+```Julia
+julia> celsius(Metric) # K
+$(celsius(Metric))
+
+julia> celsius(SI2019) # K
+$(celsius(SI2019))
+
+julia> celsius(British) # °R
+$(celsius(British))
+```
+""" celsius, T₀
+
+@doc """
+$(unitext(:fahrenheit,"temperature(Constant(459.67),U,English)"))
+
+English unit of `temperature` (K or °R).
+```Julia
+julia> fahrenheit(Metric) # K
+$(fahrenheit(Metric))
+
+julia> fahrenheit(SI2019) # K
+$(fahrenheit(SI2019))
+
+julia> fahrenheit(British) # °R
+$(fahrenheit(British))
+```
+""" fahrenheit
+
 #=@doc """
 $(unitext(:delisle,"temperature(𝟐/𝟑,U,Metric)"))
 
@@ -2059,7 +2091,39 @@ $(reaumur(SI2019))
 julia> reaumur(British) # °R
 $(reaumur(British))
 ```
-""" reaumur=#
+""" reaumur
+
+@doc """
+$(unitext(:freezing,"temperature(T₀-milli,U)"))
+
+Standard `temperature` reference at `freezing` point of water (K or °R).
+```Julia
+julia> freezing(Metric) # K
+$(freezing(Metric))
+
+julia> freezing(SI2019) # K
+$(freezing(SI2019))
+
+julia> freezing(English) # °R
+$(freezing(English))
+```
+""" freezing=#
+
+@doc """
+$(unitext(:boiling,"temperature(T₀+Constant(99.9839),U)"))
+
+Standard `temperature` reference at `boiling` point of water (K or °R).
+```Julia
+julia> boiling(Metric) # K
+$(boiling(Metric))
+
+julia> boiling(SI2019) # K
+$(boiling(SI2019))
+
+julia> boiling(English) # °R
+$(boiling(English))
+```
+""" boiling
 
 @doc """
 $(unitext(:sealevel,"temperature(T₀+𝟑*𝟓,U)"))
@@ -2075,7 +2139,7 @@ $(sealevel(SI2019))
 julia> sealevel(English) # °R
 $(sealevel(English))
 ```
-""" sealevel, T₀
+""" sealevel
 
 # mole
 

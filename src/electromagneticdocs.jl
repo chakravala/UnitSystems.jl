@@ -554,10 +554,10 @@ $(magneticpotential(Metric,SI2019))
 @doc """
 $(convertext(:polestrength,"magneticdipolemoment(U,S)/length(U,S)"))
 
-Magnetic `polestrength` is analogous to `charge` (A⋅m⁻¹), unit conversion factor.
+Magnetic `polestrength` is analogous to `charge` (A⋅m), unit conversion factor.
 
 ```Julia
-julia> polestrength(EMU,Metric) # A⋅m⁻¹⋅pole⁻¹
+julia> polestrength(EMU,Metric) # A⋅m⋅pole⁻¹
 $(polestrength(EMU,Metric))
 
 julia> polestrength(Metric,SI2019) # A⋅A⁻¹⋅

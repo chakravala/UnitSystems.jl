@@ -80,6 +80,17 @@ export αG, αinv, μₚₑ, μₑᵤ, μₚᵤ, mpe, meu, mpu, mP, δμ₀, M�
 export cal, kcal, calₜₕ, kcalₜₕ, calᵢₜ, kcalᵢₜ, ℓP, g₀, g0, atm, lbm, BTUJ, BTUftlb, aG
 export lP, tP, TP, lS, tS, mS, qS, lA, tA, mA, qA, lQCD, tQCD, mQCD, ϵ₀, αL, aL
 
+@doc """
+    Constant{D} <: Real
+
+Numerical constant `D` used in `UnitSystem` derivations.
+```Julia
+julia> Constant(100)
+$(Constant(100))
+```
+Can be multiplied, added, subtracted, and so on.
+""" Constant
+
 # engineering unit systems docs
 
 @doc """

@@ -21,7 +21,7 @@ import Base: @pure, length, time, angle, rem
 const Systems = (:Metric,:SI2019,:SI1976,:CODATA,:Conventional,:International,:InternationalMean,:MetricEngineering,:SI2019Engineering,:GravitationalMetric,:GravitationalSI2019,:MTS,:EMU,:ESU,:Gauss,:LorentzHeaviside,:Kennelly,:FPS,:IPS,:British,:English,:Survey,:FFF,:MPH,:KKH,:Nautical,:Meridian,:MeridianEngineering,:GravitationalMeridian,:IAU☉,:IAUE,:IAUJ,:Hubble,:Cosmological,:CosmologicalQuantum,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
 const Dimensionless = (:coupling,:finestructure,:electronunit,:protonunit,:protonelectron,:darkenergydensity)
 const Constants = (:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:boltzmann,:permeability,:rationalization,:lorentz,:luminousefficacy,:gravity) #angle
-const Physics = (:turn,:spat,:atomicmass,:protonmass,:planckmass,:gravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermeability,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton,:gaussgravitation)
+const Physics = (:turn,:spat,:atomicmass,:protonmass,:planckmass,:gravitation,:gaussgravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermeability,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton)
 const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanicalheat,:solarmass,:jupitermass,:earthmass,:lunarmass,:earthradius,:greatcircle,:radarmile,:hubble,:cosmological,
     :radian,:steradian,:degree,:gradian,:arcminute,:arcsecond,
     :second,:minute,:hour,:day,:year,:gaussianyear,:siderealyear,
@@ -36,7 +36,7 @@ const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanica
     :coulomb,:earthcoulomb,:ampere,:volt,:henry,:ohm,:siemens,:farad,:weber,:tesla,
     :abcoulomb,:abampere,:abvolt,:abhenry,:abohm,:abmho,:abfarad,:maxwell,:gauss,:oersted,:gilbert,
     :statcoulomb,:statampere,:statvolt,:stathenry,:statohm,:statmho,:statfarad,:statweber,:stattesla,
-    :kelvin,:rankine,:sealevel,:mole,:earthmole,:poundmole,:slugmole,:slinchmole,:katal,:amagat,
+    :kelvin,:rankine,:celsius,:fahrenheit,:sealevel,:boiling,:mole,:earthmole,:poundmole,:slugmole,:slinchmole,:katal,:amagat,
     :lumen,:candela,:lux,:phot,:footcandle,:nit,:apostilb,:stilb,:lambert,:footlambert,:bril,
     :neper,:bel,:decibel,:hertz,:rpm,
     :kayser,:diopter,:bubnoff,:gforce,:galileo,:eotvos,:darcy,:poise,:reyn,:stokes,:rayl,
@@ -52,6 +52,11 @@ const Convert = [Mechanics...,Electromagnetic...,Thermodynamic...,Molar...,Photo
 
 listext(x) = join(x,"`, `")
 
+"""
+    UnitSystems.similitude() = haskey(ENV,"SIMILITUDE")
+
+An optional environment variable `ENV["SIMILITUDE"]` induces `UnitSystems.similitude()` to return `true`, giving flexibility for building dependencies whenever it is desirable to toggle usage between `UnitSystems` (default) and `Similitude` (requires environment variable specification). For example, in `MeasureSystems` and `Geophysics` this option is used to increase flexibility with variety in local compilation workflow.
+"""
 similitude() = haskey(ENV,"SIMILITUDE")
 
 include("constant.jl")
@@ -244,7 +249,7 @@ Examples of this type include `Nautical`, `Meridian`, `MeridianEngineering`, `Gr
 However, most other constructors for `UnitSystem` derivations are based on internally calling `EntropySystem`, such as `AstronomicalSystem`, `ElectricSystem`, `GaussSystem`, and `RankineSystem`.
 This means `EntropySystem` also constructs the examples listed there.
 """
-function EntropySystem(u,t,l,m,θ=one(u)); tt = t*t; e = m*l*l/tt
+function EntropySystem(u,t,l,m,θ=one(u))
     EntropySystem(u,t,l,m,θ,permeability(u)/(m*l),molarmass(u)/m,gravity(u),m*l*l/(t*t))
 end
 function EntropySystem(u,t,l,m,θ,μ0,Mu=molarmass(u)/m,g0=gravity(u),e=m*l*l/(t*t),λ=one(u),αL=one(u))
@@ -310,7 +315,8 @@ const RK2014,KJ2014 = Constant(25812.8074555),Constant(4.835978525e14)
 const GME,GMJ = Constant(398600441.8e6),Constant(1.26686534e17)
 const kG,H0,ΩΛ = Constant(3548.18761),Constant(67.66),Constant(0.6889)
 const aⱼ,au,LD = Constant(365.25),Constant(149597870.7e3),Constant(384402e3)
-const zetta, yotta, yocto = Constant(1e21), Constant(1e24), Constant(1e-24)
+const zetta,zepto = Constant(1e21),Constant(1e-21)
+const yotta,yocto = Constant(1e24),Constant(1e-24)
 const 𝟏,𝟐,𝟑,𝟓,𝟕,𝟏𝟎,𝟏𝟏,𝟏𝟗,𝟒𝟑,τ,α = Constant(1),Constant(2),Constant(3),Constant(5),Constant(7),Constant(10),Constant(11),Constant(19),Constant(43),Constant(2π),inv(αinv)
 
 include("initdata.jl")
@@ -325,6 +331,35 @@ const units, temp = UnitSystem, temperature
 
 const kcalₜₕ,kcal₄,kcal₁₀,kcal₂₀,kcalₘ,kcalᵢₜ = 4184,4204,4185.5,4182,4190,4186.8
 const calₜₕ,cal₄,cal₁₀,cal₂₀,calₘ,calᵢₜ = (kcalₜₕ,kcal₄,kcal₁₀,kcal₂₀,kcalₘ,kcalᵢₜ)./1e3
+
+@pure deka(U::UnitSystem) = two(U)*five(U)
+@pure hecto(U::UnitSystem) = deka(U)^2
+@pure kilo(U::UnitSystem) = deka(U)^3
+@pure mega(U::UnitSystem) = (Constant(1.0)*kilo(U))^2
+@pure giga(U::UnitSystem) = (Constant(1.0)*kilo(U))^3
+@pure tera(U::UnitSystem) = (Constant(1.0)*kilo(U))^4
+@pure peta(U::UnitSystem) = (Constant(1.0)*kilo(U))^5
+@pure exa(U::UnitSystem) = (Constant(1.0)*kilo(U))^6
+@pure zetta(U::UnitSystem) = (Constant(1.0)*kilo(U))^7
+@pure yotta(U::UnitSystem) = (Constant(1.0)*kilo(U))^8
+@pure deci(U::UnitSystem) = inv(deka(U))
+@pure centi(U::UnitSystem) = inv(hecto(U))
+@pure milli(U::UnitSystem) = inv(kilo(U))
+@pure micro(U::UnitSystem) = inv(mega(U))
+@pure nano(U::UnitSystem) = inv(giga(U))
+@pure pico(U::UnitSystem) = inv(tera(U))
+@pure femto(U::UnitSystem) = inv(peta(U))
+@pure atto(U::UnitSystem) = inv(exa(U))
+@pure zepto(U::UnitSystem) = inv(zetta(U))
+@pure yocto(U::UnitSystem) = inv(yotta(U))
+@pure kibi(U::UnitSystem) = two(U)^10
+@pure mebi(U::UnitSystem) = two(U)^20
+@pure gibi(U::UnitSystem) = two(U)^30
+@pure tebi(U::UnitSystem) = two(U)^40
+@pure pebi(U::UnitSystem) = two(U)^50
+@pure exbi(U::UnitSystem) = two(U)^60
+@pure zebi(U::UnitSystem) = (Constant(1.0)*two(U))^70
+@pure yobi(U::UnitSystem) = (Constant(1.0)*two(U))^80
 
 # physical constants
 

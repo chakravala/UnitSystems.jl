@@ -45,7 +45,7 @@ const voltage = electricpotential
 #@pure rigidity(U::UnitSystem,S::UnitSystem) = unit(magneticfluxdensity(U,S)*length(U,S))
 @pure susceptibility(U::UnitSystem,S::UnitSystem) = unit(rationalization(S,U))
 
-# WARNING unchecked: rigidity, magneticmoment, vectorpotential, mobility, linearchargedensity, exposure
+# WARNING unchecked: rigidity, magneticmoment, vectorpotential linearchargedensity
 
 # CGS extra: polarizability, permeance, magnetic-current? + density, magneticresistance
 

@@ -12,35 +12,6 @@
 #   https://github.com/chakravala
 #   https://crucialflow.com
 
-@pure deka(U::UnitSystem) = two(U)*five(U)
-@pure hecto(U::UnitSystem) = deka(U)^2
-@pure kilo(U::UnitSystem) = deka(U)^3
-@pure mega(U::UnitSystem) = (Constant(1.0)*kilo(U))^2
-@pure giga(U::UnitSystem) = (Constant(1.0)*kilo(U))^3
-@pure tera(U::UnitSystem) = (Constant(1.0)*kilo(U))^4
-@pure peta(U::UnitSystem) = (Constant(1.0)*kilo(U))^5
-@pure exa(U::UnitSystem) = (Constant(1.0)*kilo(U))^6
-@pure zetta(U::UnitSystem) = (Constant(1.0)*kilo(U))^7
-@pure yotta(U::UnitSystem) = (Constant(1.0)*kilo(U))^8
-@pure deci(U::UnitSystem) = inv(deka(U))
-@pure centi(U::UnitSystem) = inv(hecto(U))
-@pure milli(U::UnitSystem) = inv(kilo(U))
-@pure micro(U::UnitSystem) = inv(mega(U))
-@pure nano(U::UnitSystem) = inv(giga(U))
-@pure pico(U::UnitSystem) = inv(tera(U))
-@pure femto(U::UnitSystem) = inv(peta(U))
-@pure atto(U::UnitSystem) = inv(exa(U))
-@pure zepto(U::UnitSystem) = inv(zetta(U))
-@pure yocto(U::UnitSystem) = inv(yotta(U))
-@pure kibi(U::UnitSystem) = two(U)^10
-@pure mebi(U::UnitSystem) = two(U)^20
-@pure gibi(U::UnitSystem) = two(U)^30
-@pure tebi(U::UnitSystem) = two(U)^40
-@pure pebi(U::UnitSystem) = two(U)^50
-@pure exbi(U::UnitSystem) = two(U)^60
-@pure zebi(U::UnitSystem) = (Constant(1.0)*two(U))^70
-@pure yobi(U::UnitSystem) = (Constant(1.0)*two(U))^80
-
 # angle
 
 @pure radian(U::UnitSystem) = angle(one(U),U,Metric)
@@ -203,9 +174,13 @@
 
 # temperature
 
+#@pure freezing(U::UnitSystem) = temperature(T₀-milli,U,Metric)
+@pure boiling(U::UnitSystem) = temperature(T₀+Constant(99.9839),U,Metric)
 @pure sealevel(U::UnitSystem) = temperature(T₀+𝟑*𝟓,U,Metric)
 @pure kelvin(U::UnitSystem) = temperature(one(U),U,Metric)
 @pure rankine(U::UnitSystem) = temperature(one(U),U,English)
+@pure celsius(U::UnitSystem) = temperature(T₀,U,Metric)
+@pure fahrenheit(U::UnitSystem) = temperature(Constant(459.67),U,English)
 #@pure delisle(U::UnitSystem) = temperature(two(U)/three(U),U,Metric)
 #@pure reaumur(U::UnitSystem) = temperature(five(U)/two(U)^2,U,Metric)
 

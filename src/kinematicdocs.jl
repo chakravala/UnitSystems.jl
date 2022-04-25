@@ -750,7 +750,7 @@ $(massflow(English,Metric))
 @doc """
 $(convertext(:spectralflux,"power(U,S)/length(U,S)"))
 
-Spectral power or `radiantflux` per wave `length` (W⋅m⁻¹), unit conversion factor.
+Spectral power or `power` per wave `length` (W⋅m⁻¹), unit conversion factor.
 
 ```Julia
 julia> spectralflux(CGS,Metric) # kg⋅m⋅g⁻¹⋅cm⁻¹
@@ -899,7 +899,7 @@ $(admittance(English,Metric))
 @doc """
 $(convertext(:compliance,"time(U,S)^2/mass(U,S)"))
 
-Acoustic `compliance` is reciprocal of `stiffness` (m⋅N⁻¹, m³⋅Pa⁻¹), unit conversion factor.
+Acoustic `compliance` is reciprocal of `fluence` (m⋅N⁻¹, m³⋅Pa⁻¹), unit conversion factor.
 
 ```Julia
 julia> compliance(CGS,Metric) # kg⋅g⁻¹

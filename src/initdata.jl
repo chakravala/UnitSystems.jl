@@ -15,7 +15,7 @@
 const deka,byte = 𝟐*𝟓,𝟐^3
 const hecto, kilo =  deka^2, deka^3
 const mega,giga,tera,peta,exa = kilo^2, kilo^3, kilo^4, kilo^5, kilo^6
-const deci,centi,milli,micro,nano,pico,femto,atto,zepto = inv(deka),inv(hecto),inv(kilo),inv(mega),inv(giga),inv(tera),inv(peta),inv(exa),inv(zetta)
+const deci,centi,milli,micro,nano,pico,femto,atto = inv(deka),inv(hecto),inv(kilo),inv(mega),inv(giga),inv(tera),inv(peta),inv(exa)
 const kibi,mebi,gibi,tebi,pebi,exbi,zebi,yobi = 𝟐^10,𝟐^20,𝟐^30,𝟐^40,𝟐^50,𝟐^60,(Constant(1.0)*𝟐)^70,(Constant(1.0)*𝟐)^80
 
 const fur,°R,K,HOUR,k = 𝟐^2*𝟑*𝟓*𝟏𝟏*ft,𝟓/𝟑^2,𝟑^2/𝟓,𝟐^4*𝟑^2*𝟓^2,kG*τ/(𝟐^7*𝟑^4*𝟓^3)
@@ -106,7 +106,7 @@ const Meridian = Quantity(EntropySystem(Metric,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^
 const MeridianEngineering = Quantity(EntropySystem(Metric,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7*em/g₀,milli,g₀/em))
 const GravitationalSI2019 = Quantity(EntropySystem(SI2019,𝟏,𝟏,g₀))
 const GravitationalMetric = Quantity(EntropySystem(Metric,𝟏,𝟏,g₀))
-const GravitationalMeridian = Quantity(EntropySystem(Metric,𝟏,em,g₀*em^3,𝟏,τ/𝟐^6/𝟓^7/g₀,milli))
+const GravitationalMeridian = Quantity(EntropySystem(Metric,𝟏,em,g₀*em^2,𝟏,τ/𝟐^6/𝟓^7*em/g₀,milli))
 const IAU☉ = Quantity(EntropySystem(Metric,DAY,au,GM☉/G))
 const IAUE = Quantity(EntropySystem(Metric,DAY,au,GME/G))
 const IAUJ = Quantity(EntropySystem(Metric,DAY,au,GMJ/G))

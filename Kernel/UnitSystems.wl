@@ -18,54 +18,51 @@
 
 Unprotect[UnitSystem];
 ProtectedList = {Length, Area, Volume, Power, Entropy, MomentOfInertia, SolidAngle};
-UnitSystemsList = {"Metric", "SI2019", "MetricEngineering", "SI2019Engineering",
-	"GravitationalMetric", "GravitationalSI2019", "CODATA", "Conventional",
-	"MTS", "KKH", "MPH", "Nautical", "International", "InternationalMean", "Astronomical",
-	"British","British2019","Survey","Survey2019","English","English2019","FPS","FPS2019",
-    "FFF", "IAU", "IAUE", "IAUJ", "SI1976", "Mixed", "ESU2019", "EMU2019", "EMU", "ESU",
-	"Gauss", "LorentzHeaviside", "Thomson", "Kennelly", "Planck", "PlanckGauss", "Stoney",
+UnitSystemsList = {"Metric", "SI2019", "SI1976", "CODATA", "Conventional", "International", "InternationalMean", "MetricEngineering", "SI2019Engineering",
+	"GravitationalMetric", "GravitationalSI2019",
+	"MTS", "EMU", "ESU", "Gauss", "LorentzHeaviside", "Kennelly", "FPS", "IPS", "British", "English", "Survey", "FFF", "MPH", "KKH", "Nautical", "Meridian", "MeridianEngineering", "GravitationalMeridian", "IAU", "IAUE", "IAUJ", "Hubble",
+	"Cosmological", "CosmologicalQuantum", "Planck", "PlanckGauss", "Stoney",
 	"Hartree", "Rydberg", "Schrodinger", "Electronic", "Natural", "NaturalGauss",
-	"QCD", "QCDGauss", "QCDoriginal", "Hubble", "Cosmological", "CosmologicalQuantum"};
+	"QCD", "QCDGauss", "QCDoriginal"};
 DimensionlessList = {GravitationalCouplingConstantElectronElectron, FineStructureConstant, ElectronRelativeAtomicMass, ProtonRelativeAtomicMass, ProtonElectronMassRatio, UniverseDarkEnergyMassDensity}
 ConstantsList = {SpeedOfLight, PlanckConstant, ReducedPlanckConstant, ElectronMass,
 	MolarMassConstant, BoltzmannConstant, MagneticConstant, RationalizationConstant,
 	LorentzConstant, MonochromaticRadiation540THzLuminousEfficacy,AngleConstant,GravityConstant};
 (*Cesium133HyperfineSplittingFrequency, HubbleParameter, CosmologicalConstant,*)
-PhysicsList = {Turn, SphereAngle, AtomicMassConstant, ProtonMass, PlanckMass,
-	GravitationalConstant, EinsteinConstantSpeedOfLightToTheFourth,
-	HartreeEnergy, RydbergConstant, BohrRadius,
-	RelativisticBohrRadius, ClassicalElectronRadius,
+PhysicsList = {Turn, Spat, AtomicMassConstant, ProtonMass, PlanckMass,
+	GravitationalConstant, GaussianGravitationalConstant, EinsteinConstantSpeedOfLightToTheFourth,
+	HartreeEnergy, RydbergConstant, BohrRadius, ClassicalElectronRadius,
 	AvogadroConstant, MolarGasConstant, StefanBoltzmannConstant,
 	RadiationConstant, ElectricConstant, CoulombConstant, AmpereConstant,
 	BiotSavartConstant, ElementaryCharge, FaradayConstant, VacuumImpedance,
 	ConductanceQuantum, VonKlitzingConstant, JosephsonConstant,
 	MagneticFluxQuantum, BohrMagneton};
 KinematicList = {Angle, SolidAngle, Time, Length, Area, Volume, Wavenumber,
-	AngularWavenumber, FuelEconomy, Frequency, AngularFrequency, FrequencyDrift, Speed,
+	AngularWavenumber, FuelEconomy, NumberDensity, Frequency, AngularFrequency, FrequencyDrift, Speed,
 	Acceleration, Jerk, Snap, Crackle, Pop, VolumeFlowRate};
 MechanicalList = {Inertia, Mass, MassFlowRate, LinearMassDensity, MassPerArea, MassDensity,
-	SpecificWeight, SpecificVolume, Force, GForce, Stiffness, Pressure, Compressibility,
+	SpecificWeight, SpecificVolume, Force, SpecificForce, GravityForce, Pressure, Compressibility,
    DynamicViscosity, KinematicViscosity, MomentOfInertia, Impulse, Momentum,
    AngularMomentum, ForceOnsetRate, Energy, SpecificEnergy, Action, EnergyPerArea,
    Power, PowerDensity, Irradiance, PowerGradient, SoundExposure,
    AcousticImpedance, SpecificAcousticImpedance, Admittance, Compliance, Inertance};
 ElectromagneticList = {ElectricCharge, ElectricChargeDensity, LinearElectricChargeDensity,
-   ElectricChargePerMass, ElectricalMobility, ElectricCapacitance, ElectricResistance, MagneticInductance, MagneticReluctance, MagneticPermeance,
-    ElectricPermittivity, MagneticPermeability, MagneticSusceptibility, ElectricCurrent, ElectricConductance,
+   ElectricChargePerMass, ElectricalMobility, ElectricCurrent, ElectricCurrentDensity, ElectricResistance, ElectricConductance, Resistivity, Conductivity,
+	ElectricCapacitance, MagneticInductance, MagneticReluctance, MagneticPermeance,
+    ElectricPermittivity, MagneticPermeability, MagneticSusceptibility,
    SpecificSusceptibility, DemagnetizationFactor, MagneticVectorPotential,
    ElectricPotential, MagnetomotiveForce, ElectricFieldStrength, MagneticFieldStrength,
     ElectricFlux, MagneticFlux, ElectricFluxDensity,
    MagneticFluxDensity, ElectricDipoleMoment, MagneticDipoleMoment,
    ElectricPolarizability, MagneticPolarizability, MagneticMoment,
-   Magnetizability, Magnetization, SpecificMagnetization, MagneticRigidity,
-   MagneticPoleStrength};
+   SpecificMagnetization, MagneticPoleStrength};
 ThermodynamicList = {Temperature, Entropy, SpecificEntropy,
-   EntropyPerVolume, ThermalConductivity, ThermalConductance,
+   EntropyPerVolume, ThermalConductivity, ThermalConductance, ThermalResistivity,
    ThermalResistance, ThermalExpansion, TemperatureGradient};
 MolarList = {MolarMass, Molality, Amount, AmountConcentration, MolarVolume,
    MolarEntropy, MolarEnergy, MolarConductivity, MolarMagneticSusceptibility,
    Catalysis, Specificity};
-PhotometricList = {LuminousFlux, Luminance, LuminousEnergy,
+PhotometricList = {LuminousFlux, LuminousIntensity, Luminance, Illuminance, LuminousEnergy,
    LuminousExposure, LuminousEfficacyOfRadiation};
 MechanicsList = Join[KinematicList, MechanicalList];
 ConvertList =
@@ -91,7 +88,7 @@ LorentzConstant[UnitSystem[_, _, _, _, _, _, _, _, _, \[Alpha]L_, ___]] := \[Alp
 
 AngleConstant[UnitSystem[_, _, _, _, _, _, _, A_, ___]] := A
 UnitSystem /: Angle[u_UnitSystem,s_UnitSystem] := Unit[measuratio[AngleConstant[s],AngleConstant[u]]]
-RationalizedQ[u_UnitSystem] := RationalizationConstant[u] != SphereAngle[u]
+RationalizedQ[u_UnitSystem] := RationalizationConstant[u] != Spat[u]
 RationalizedQ[u_String] := RationalizedQ[UnitSystem[u]]
 
 MonochromaticRadiation540THzLuminousEfficacy[UnitSystem[_, _, _, _, _, _, Kcd_, ___]] := Kcd
@@ -272,6 +269,8 @@ CreateEntity[u_String] := u -> <|
 EntityRegister[EntityStore["UnitSystem" -> <|
 	"Entities" -> Association[Map[CreateEntity, UnitSystemsList]]|>]]
 
+Get["UnitSystems`standards`"]
+
 (* more *)
 
 DerivedUnits = <|
@@ -370,50 +369,49 @@ AbstractSI2019 = AbstractUnitSystem["SI2019"]
 AbstractInternational = AbstractUnitSystem["International"]
 AbstractCGS = AbstractUnitSystem["Gauss"]
 AbstractMTS = AbstractUnitSystem["MTS"]
+AbstractIPS = AbstractUnitSystem["IPS"]
 AbstractBritish = AbstractUnitSystem["British"]
 AbstractEnglish = AbstractUnitSystem["English"]
 AbstractSurvey = AbstractUnitSystem["Survey"]
 AbstractIAU = AbstractUnitSystem["IAU"]
 AbstractFFF = AbstractUnitSystem["FFF"]
+AbstractMeridian = AbstractUnitSystem["Meridian"]
+AbstractNautical = AbstractUnitSystem["Nautical"]
 
 Gauss = UnitSystem["Gauss"]
 LorentzHeaviside = UnitSystem["LorentzHeaviside"]
-Thomson = UnitSystem["Thomson"]
 Kennelly = UnitSystem["Kennelly"]
 ESU = UnitSystem["ESU"]
-ESU2019 = UnitSystem["ESU2019"]
 EMU = UnitSystem["EMU"]
-EMU2019 = UnitSystem["EMU2019"]
+Meridian = UnitSystem["Meridian"]
 Nautical = UnitSystem["Nautical"]
 MPH = UnitSystem["MPH"]
 KKH = UnitSystem["KKH"]
 MTS = UnitSystem["MTS"]
-Mixed = UnitSystem["Mixed"]
 Metric = UnitSystem["Metric"]
 SI1976 = UnitSystem["SI1976"]
 SI2019 = UnitSystem["SI2019"]
 MetricEngineering = UnitSystem["MetricEngineering"]
 SI2019Engineering = UnitSystem["SI2019Engineering"]
+MeridianEngineering = UnitSystem["MeridianEngineering"]
 GravitationalMetric = UnitSystem["GravitationalMetric"]
 GravitationalSI2019 = UnitSystem["GravitationalSI2019"]
+GravitationalMeridian = UnitSystem["GravitationalMeridian"]
 International = UnitSystem["International"]
 InternationalMean = UnitSystem["InternationalMean"]
 
 CODATA = UnitSystem["CODATA"]
 Conventional = UnitSystem["Conventional"]
 British = UnitSystem["British"]
-British2019 = UnitSystem["British2019"]
 Survey = UnitSystem["Survey"]
-Survey2019 = UnitSystem["Survey2019"]
 English = UnitSystem["English"]
-English2019 = UnitSystem["English2019"]
 FPS = UnitSystem["FPS"]
-FPS2019 = UnitSystem["FPS2019"]
+IPS = UnitSystem["IPS"]
 IAU = UnitSystem["IAU"]
 IAUE = UnitSystem["IAUE"]
 IAUJ = UnitSystem["IAUJ"]
 FFF = UnitSystem["FFF"]
-Astronomical = UnitSystem["Astronomical"]
+(*Astronomical = UnitSystem["Astronomical"]*)
 Hubble = UnitSystem["Hubble"]
 Cosmological = UnitSystem["Cosmological"]
 CosmologicalQuantum = UnitSystem["CosmologicalQuantum"]
@@ -428,7 +426,6 @@ QCDGauss = UnitSystem["QCDGauss"]
 QCDoriginal = UnitSystem["QCDoriginal"]
 
 {SI, MKS, SIE, ME, GSI2019, GSI, GM} = {SI2019, Metric, SI2019Engineering, MetricEngineering, GravitationalSI2019, GravitationalSI2019, GravitationalMetric}
-{CGS, CGS2019, CGSm, CGSe, HLU} = {Gauss, EMU2019, EMU, ESU, LorentzHeaviside}
+{CGS, CGSm, CGSe, HLU} = {Gauss, EMU, ESU, LorentzHeaviside}
 {EnglishEngineering, BritishGravitational, BG} = {English, British, British}
-{EnglishUS, AbsoluteEnglish, AE, EE, EE2019} = {Survey, FPS, FPS, English, English2019}
-{EnglishEngineering2019, BritishGravitational2019, BG2019, AbsoluteEnglish2019, AE2019} = {English2019, British2019, British2019, FPS2019, FPS2019};
+{EnglishUS, AbsoluteEnglish, AE, EE} = {Survey, FPS, FPS, English};
