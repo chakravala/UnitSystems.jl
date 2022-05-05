@@ -96,7 +96,7 @@ Can be multiplied, added, subtracted, and so on.
 @doc """
     Metric = MetricSystem(milli,𝟐*τ/𝟏𝟎^7)
 
-Systeme International d'Unites (the SI units) adopted as the preferred `UnitSystem`.
+Standard `Metric` system based on exact `molarmass` and `vacuumpermeability`.
 
 ```Julia
 julia> boltzmann(Metric) # J⋅K⁻¹
@@ -125,7 +125,7 @@ $(luminousefficacy(Metric))
 @doc """
     SI2019 = MetricSystem(Mᵤ,μ₀)
 
-Systeme International d'Unites (the SI units) with `μ₀` for a tuned `charge` exactly.
+Systeme International d'Unites based on approximate `molarmass` and `vacuumpermeability`.
 
 ```Julia
 julia> boltzmann(SI2019) # J⋅K⁻¹
@@ -154,7 +154,7 @@ $(luminousefficacy(SI2019))
 @doc """
     MetricEngineering = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,g₀)
 
-Systeme International d'Unites (the SI units) based on kilogram and kilopond units.
+Standard `MetricEngineering` system based on kilogram and kilopond (kilogram-force) units.
 
 ```Julia
 julia> boltzmann(MetricEngineering) # kgf⋅m⋅K⁻¹
@@ -186,7 +186,7 @@ $(gravity(MetricEngineering))
 @doc """
     SI2019Engineering = MetricSystem(Mᵤ,μ₀,Rᵤ,g₀)
 
-Systeme International d'Unites (the SI units) based on kilogram and kilopond units.
+Systeme International d'Unites based on kilogram and kilopond (kilogram-force) units.
 
 ```Julia
 julia> boltzmann(SI2019Engineering) # kgf⋅m⋅K⁻¹
@@ -218,7 +218,7 @@ $(gravity(SI2019Engineering))
 @doc """
     SI1976 = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,8.31432)
 
-Systeme International d'Unites (the SI units) with universal gas constant of `8.31432`.
+Reference `UnitSystem` with universal gas constant of `8.31432` from 1976 standard atmosphere.
 
 ```Julia
 julia> boltzmann(SI1976) # J⋅K⁻¹
@@ -247,7 +247,7 @@ $(luminousefficacy(SI1976))
 @doc """
     CODATA = ConventionalSystem(RK2014,KJ2014,Rᵤ2014)
 
-Metric `UnitSystem` based on Committee on Data of the International Science Council.
+Reference `UnitSystem` based on Committee on Data of the International Science Council.
 
 ```Julia
 julia> josephson(CODATA) # Hz⋅V⁻¹
@@ -387,9 +387,12 @@ $(luminousefficacy(International))
 @doc """
     Meridian = EntropySystem(Metric,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7,milli)
 
-Systeme International d'Unites (the SI units) adopted as the preferred `UnitSystem`.
+Modern ideal `Meridian` system defined by France's original `earthmeter` definition.
 
 ```Julia
+julia> greatcircle(Meridian) # em
+$(greatcircle(Meridian))
+
 julia> boltzmann(Meridian) # eJ⋅K⁻¹
 $(boltzmann(Meridian))
 
@@ -416,9 +419,12 @@ $(luminousefficacy(Meridian))
 @doc """
     MeridianEngineering = EntropySystem(MetricEngineering,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7/g₀^2,milli)
 
-Systeme International d'Unites (the SI units) based on kilogram and kilopond units.
+Modern ideal engineering `UnitSystem` variant of the original French `Meridian` system.
 
 ```Julia
+julia> greatcircle(MeridianEngineering) # em
+$(greatcircle(MeridianEngineering))
+
 julia> boltzmann(MeridianEngineering) # kegf⋅em⋅K⁻¹
 $(boltzmann(MeridianEngineering))
 
@@ -633,7 +639,7 @@ $(rationalization(Kennelly))
 @doc """
     GravitationalMetric = EntropySystem(Metric,𝟏,𝟏,g₀)
 
-Systeme International d'Unites (the SI units) based on hyl and kilopond units.
+Standard `GravitationalMetric` system based on `hyl` and `kilopond` units.
 
 ```Julia
 julia> boltzmann(GravitationalMetric) # kgf⋅m⋅K⁻¹
@@ -662,7 +668,7 @@ $(luminousefficacy(GravitationalMetric))
 @doc """
     GraviationalSI2019 = EntropySystem(SI2019,𝟏,𝟏,g₀)
 
-Systeme International d'Unites (the SI units) based on hyl and kilopond units.
+Gravitational Systeme International d'Unites based on `hyl` and `kilopond` units.
 
 ```Julia
 julia> boltzmann(GravitationalSI2019) # kgf⋅m⋅K⁻¹
@@ -691,9 +697,12 @@ $(luminousefficacy(GravitationalMetric))
 @doc """
     GravitationalMeridian = EntropySystem(Metric,𝟏,em,g₀*em^3,𝟏,τ/𝟐^6/𝟓^7/g₀,milli)
 
-Systeme International d'Unites (the SI units) based on hyl and kilopond units.
+Gravitational `UnitSystem` variant of the original French `Meridian` unit defintion.
 
 ```Julia
+julia> greatcircle(GravitationalMeridian) # em
+$(greatcircle(GravitationalMeridian))
+
 julia> boltzmann(GravitationalMeridian) # kegf⋅em⋅K⁻¹
 $(boltzmann(GravitationalMeridian))
 
@@ -778,7 +787,7 @@ $(luminousefficacy(KKH))
 @doc """
     IAU☉ = EntropySystem(Metric,DAY,au,GM☉/G)
 
-Astronomical (solar) `UnitSystem` defined by International Astronomical Union.
+Solar `UnitSystem` defined by International Astronomical Union and `solarmass`.
 
 ```Julia
 julia> boltzmann(IAU) # M⊙⋅au²⋅D⁻²⋅K⁻¹
@@ -802,27 +811,27 @@ $(molarmass(IAU))
 julia> luminousefficacy(IAU) # lm⋅D³⋅M☉⁻¹⋅au⁻²
 $(luminousefficacy(IAU))
 
-julia> gaussgravitation(IAU) # au³ᐟ²⋅M☉⁻¹ᐟ²⋅D⁻¹
+julia> gaussgravitation(IAU) # D⁻¹
 $(gaussgravitation(IAU))
 ```
 """ IAU☉, IAU
 
 @doc """
-    IAUE = EntropySystem(Metric,DAY,au,GME/G)
+    IAUE = EntropySystem(Metric,DAY,LD,GME/G)
 
-Astronomical (Earth) `UnitSystem` defined by International Astronomical Union.
+Astronomical (Earth) `UnitSystem` defined by `lunardistance` around the `earthmass`.
 
 ```Julia
-julia> boltzmann(IAUE) # ME⋅au²⋅D⁻²⋅K⁻¹
+julia> boltzmann(IAUE) # ME⋅LD²⋅D⁻²⋅K⁻¹
 $(boltzmann(IAUE))
 
-julia> planckreduced(IAUE) # ME⋅au²⋅D⁻¹⋅rad⁻¹
+julia> planckreduced(IAUE) # ME⋅LD²⋅D⁻¹⋅rad⁻¹
 $(planckreduced(IAUE))
 
-julia> lightspeed(IAUE) # au⋅D⁻¹
+julia> lightspeed(IAUE) # LD⋅D⁻¹
 $(lightspeed(IAUE))
 
-julia> vacuumpermeability(IAUE) # ME⋅au²⋅C⁻²
+julia> vacuumpermeability(IAUE) # ME⋅LD²⋅C⁻²
 $(vacuumpermeability(IAUE))
 
 julia> electronmass(IAUE) # ME
@@ -831,27 +840,30 @@ $(electronmass(IAUE))
 julia> molarmass(IAUE) # ME⋅mol⁻¹
 $(molarmass(IAUE))
 
-julia> luminousefficacy(IAUE) # lm⋅D³⋅ME⁻¹⋅au⁻²
+julia> luminousefficacy(IAUE) # lm⋅D³⋅ME⁻¹⋅LD⁻²
 $(luminousefficacy(IAUE))
+
+julia> turn(IAU)/gaussianmonth(IAU) # D⁻¹
+$(turn(IAU)/gaussianmonth(IAU))
 ```
 """ IAUE
 
 @doc """
-    IAUJ = EntropySystem(Metric,DAY,au,GMJ/G)
+    IAUJ = EntropySystem(Metric,DAY,JD,GMJ/G)
 
-Astronomical (Jupiter) `UnitSystem` defined by International Astronomical Union.
+Astronomical (Jupiter) `UnitSystem` defined by `jupiterdistance` around the `solarmass`.
 
 ```Julia
-julia> boltzmann(IAUJ) # MJ⋅au²⋅D⁻²⋅K⁻¹
+julia> boltzmann(IAUJ) # MJ⋅JD²⋅D⁻²⋅K⁻¹
 $(boltzmann(IAUJ))
 
-julia> planckreduced(IAUJ) # MJ⋅au²⋅D⁻¹⋅rad⁻¹
+julia> planckreduced(IAUJ) # MJ⋅JD²⋅D⁻¹⋅rad⁻¹
 $(planckreduced(IAUJ))
 
-julia> lightspeed(IAUJ) # au⋅D⁻¹
+julia> lightspeed(IAUJ) # JD⋅D⁻¹
 $(lightspeed(IAUJ))
 
-julia> vacuumpermeability(IAUJ) # MJ⋅au²⋅C⁻²
+julia> vacuumpermeability(IAUJ) # MJ⋅JD²⋅C⁻²
 $(vacuumpermeability(IAUJ))
 
 julia> electronmass(IAUJ) # MJ
@@ -860,8 +872,11 @@ $(electronmass(IAUJ))
 julia> molarmass(IAUJ) # MJ⋅mol⁻¹
 $(molarmass(IAUJ))
 
-julia> luminousefficacy(IAUJ) # lm⋅D³⋅MJ⁻¹⋅au⁻²
+julia> luminousefficacy(IAUJ) # lm⋅D³⋅MJ⁻¹⋅JD⁻²
 $(luminousefficacy(IAUJ))
+
+julia> sqrt(gravitation(IAUJ)*solarmass(IAUJ)/jupiterdistance(IAUJ)^3) # D⁻¹
+$(sqrt(gravitation(IAUJ)*solarmass(IAUJ)/jupiterdistance(IAUJ)^3))
 ```
 """ IAUJ
 
@@ -1179,7 +1194,7 @@ $(luminousefficacy(FFF))
 @doc """
     MPH = EntropySystem(FPS,HOUR,mi,𝟏)
 
-Miles, pound, hour specification based on `FPS` absolute `UnitSystem`.
+Mile-pound-hour specification based on `FPS` absolute `UnitSystem`.
 
 ```Julia
 julia> boltzmann(MPH) # lbf⋅mi²⋅hr⁻²⋅F⁻¹
@@ -1211,6 +1226,9 @@ $(luminousefficacy(MPH))
 Nautical miles, kilo-earthgram, hour specification based on `Meridian` definition.
 
 ```Julia
+julia> greatcircle(Nautical) # nm
+$(greatcircle(Nautical))
+
 julia> boltzmann(Nautical) # keg⋅nm²⋅hr⁻²⋅K⁻¹
 $(boltzmann(Nautical))
 

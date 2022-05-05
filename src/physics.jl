@@ -15,7 +15,7 @@
 @pure avogadro(U::UnitSystem,C::Coupling=universe(U)) = molarmass(U,C)*electronunit(C)/electronmass(U,C)
 @pure atomicmass(U::UnitSystem,C::Coupling=universe(U)) = electronmass(U,C)/electronunit(C)
 @pure protonmass(U::UnitSystem,C::Coupling=universe(U)) = protonelectron(C)*electronmass(U,C)
-@pure gaussgravitation(U::UnitSystem,C::Coupling=universe(U)) = sqrt(gravitation(U,C))
+@pure gaussgravitation(U::UnitSystem,C::Coupling=universe(U)) = sqrt(normal(gravitation(IAU)))*radian(U)/day(U)
 @pure einstein(U::UnitSystem,C::Coupling=universe(U)) = two(U)*spat(U)*gravitation(U,C)/lightspeed(U,C)^4
 #@pure einstein2(U::UnitSystem,C::Coupling=universe(U)) = two(U)*spat(U)*gravitation(U,C)/lightspeed(U,C)^2
 @pure molargas(U::UnitSystem,C::Coupling=universe(U)) = boltzmann(U,C)*avogadro(U,C)
@@ -50,8 +50,12 @@
 @pure jupitermass(U::UnitSystem) = mass(GMJ/G,U,Metric)
 @pure lunarmass(U::UnitSystem) = earthmass(U)/μE☾
 @pure mechanicalheat(U::UnitSystem) = molargas(U)*normal(calorie(Metric)/molargas(Metric))
-@pure gaussianyear(U::UnitSystem) = (τ/k)*day(U)
-@pure siderealyear(U::UnitSystem) = gaussianyear(U)/√(solarmass(IAU)+earthmass(IAU)+lunarmass(IAU))
+@pure gaussianyear(U::UnitSystem) = turn(U)/gaussgravitation(U)
+@pure siderealyear(U::UnitSystem) = gaussianyear(U)/normal(sqrt(solarmass(IAU)+earthmass(IAU)+lunarmass(IAU)))
+@pure gaussianmonth(U::UnitSystem) = normal(turn(Metric)*sqrt(normal(lunardistance(Metric))^3/GME))*time(Metric,U)
+@pure siderealmonth(U::UnitSystem) = gaussianmonth(U)/normal(sqrt(earthmass(IAUE)+lunarmass(IAUE)))
+@pure synodicmonth(U::UnitSystem) = inv(inv(siderealmonth(U))-inv(siderealyear(U)))
+@pure jovianyear(U::UnitSystem) = day(U)*sqrt(normal(jupiterdistance(U)^3/solarmass(U)/gravitation(U)))*turn(U)/radian(U)/normal(sqrt(solarmass(IAU)+jupitermass(IAU)))
 
 include("derived.jl")
 

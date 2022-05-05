@@ -411,22 +411,6 @@ $(gravitation(PlanckGauss))
 """ gravitation, G, GG
 
 @doc """
-$(unitext(:gaussgravitation,"sqrt(lightspeed(U)*planckreduced(U))/planckmass(U)"))
-
-Gaussian  gravitational constant `k` of Newton's laws.
-```Julia
-julia> gaussgravitation(IAU)
-$(gaussgravitation(IAU))
-
-juila> gaussgravitation(Cosmological)
-$(gaussgravitation(Cosmological))
-
-julia> gaussgravitation(PlanckGauss)
-$(gaussgravitation(PlanckGauss))
-```
-""" gaussgravitation, k, kG
-
-@doc """
 $(unitext(:einstein,"𝟐*spat(U)*gravitation(U)/lightspeed(U)^4"))
 
 Einstein's gravitational constant from the Einstein field equations (s⋅²⋅m⁻¹⋅kg⁻¹).
@@ -988,6 +972,12 @@ Bohr radius of the hydrogen atom in its ground state `a₀` (m).
 ```Julia
 julia> bohr(Metric) # m
 $(bohr(Metric))
+
+julia> bohr(IPS) # in
+$(bohr(IPS))
+
+julia> bohr(Hartree) # a₀
+$(bohr(Hartree))
 ```
 """ bohr, a₀, a0
 #julia> bohr(Metric)/length(PlanckGauss) # ℓP
@@ -1278,9 +1268,25 @@ $(lunarmass(IAUJ))
 """ lunarmass
 
 @doc """
-$(unitext(:gaussianyear,"(τ/k)*day(U)"))
+$(unitext(:gaussgravitation,"sqrt(gravitation(U)*solarmass(U)/astronomicalunit(U)^3)"))
 
-Orbit `time` defined by `gaussgravitation(IAU)` constant `k` value for neglible `mass`.
+Gaussian  gravitational constant `k` of Newton's laws (Hz or rad⋅D⁻¹).
+```Julia
+julia> gaussgravitation(Metric)
+$(gaussgravitation(Metric))
+
+juila> gaussgravitation(MPH)
+$(gaussgravitation(MPH))
+
+julia> gaussgravitation(IAU)
+$(gaussgravitation(IAU))
+```
+""" gaussgravitation, k, kG
+
+@doc """
+$(unitext(:gaussianyear,"turn(U)/gaussgravitation(U)"))
+
+Orbit `time` defined by `gaussgravitation` constant `kG` for neglible `mass` satellite.
 ```Julia
 julia> gaussianyear(Metric) # s
 $(gaussianyear(Metric))
@@ -1296,7 +1302,7 @@ $(gaussianyear(IAU))
 @doc """
 $(unitext(:siderealyear,"gaussianyear(U)/√(𝟏+earthmass(IAU)+lunarmass(IAU))"))
 
-Orbit `time` defined by `gaussgravitation(IAU)` constant and the Earth system `mass`.
+Orbit `time` defined by `gaussgravitation` constant `kG` and the Earth-Moon system `mass`.
 ```Julia
 julia> siderealyear(Metric) # s
 $(siderealyear(Metric))
@@ -1308,6 +1314,70 @@ julia> siderealyear(IAU) # D
 $(siderealyear(IAU))
 ```
 """ siderealyear
+
+@doc """
+$(unitext(:jovianyear,"τ*day(U)*√(jupiterdistance(U)^3/solarmass(U)/gravitation(U))/√(𝟏+jupitermass(IAU))"))
+
+Orbit `time` defined by `jupiterdistance` and the Sun-Jupiter system `mass`.
+```Julia
+julia> jovianyear(Metric) # s
+$(jovianyear(Metric))
+
+julia> jovianyear(MPH) # h
+$(jovianyear(MPH))
+
+julia> jovianyear(IAU) # D
+$(jovianyear(IAU))
+```
+""" jovianyear
+
+@doc """
+$(unitext(:gaussianmonth,"τ*sqrt(lunardistance(U)^3/earthmass(U)/gravitation(U))"))
+
+Orbit `time` defined by `lunardistance` and `earthmass` for neglible `mass` satellite.
+```Julia
+julia> gaussianmonth(Metric) # s
+$(gaussianmonth(Metric))
+
+julia> gaussianmonth(MPH) # h
+$(gaussianmonth(MPH))
+
+julia> gaussianmonth(IAU) # D
+$(gaussianmonth(IAU))
+```
+""" gaussianmonth
+
+@doc """
+$(unitext(:siderealmonth,"gaussianmonth(U)/√(𝟏+lunarmass(IAU))"))
+
+Orbit `time` defined by standard `lunardistance` and the Earth-Moon system `mass`.
+```Julia
+julia> siderealmonth(Metric) # s
+$(siderealmonth(Metric))
+
+julia> siderealmonth(MPH) # h
+$(siderealmonth(MPH))
+
+julia> siderealmonth(IAU) # D
+$(siderealmonth(IAU))
+```
+""" siderealmonth
+
+@doc """
+$(unitext(:synodicmonth,"𝟏/(𝟏/siderealmonth(U)-𝟏/siderealyear(U))"))
+
+Orbit `time` defined by `siderealmonth` and `siderealyear` of the Sun-Earth-Moon system.
+```Julia
+julia> synodicmonth(Metric) # s
+$(synodicmonth(Metric))
+
+julia> synodicmonth(MPH) # h
+$(synodicmonth(MPH))
+
+julia> synodicmonth(IAU) # D
+$(synodicmonth(IAU))
+```
+""" synodicmonth
 
 @doc """
 $(unitext(:earthradius,"sqrt(earthmass(U)*gravitation(U)/gforce(U))"))
@@ -1342,10 +1412,10 @@ $(greatcircle(IAU))
 """ greatcircle
 
 @doc """
-    sackurtetrode(P,T=𝟏) = log(Constant(exp(5/2))*T*kB/P*sqrt(mₑ/μₑᵤ*kB*T/τ/ħ^2)^3)
-    sackurtetrode(U::UnitSystem,P=atm,T=𝟏) = # Sackur-Tetrode formula
+    sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=mᵤ) = log(kB*T/P*sqrt(m*kB*T/τ/ħ^2)^3)+5/2
+    dimensionless : [𝟙], [𝟙], [𝟙], [𝟙], [𝟙]
 
-Entropy ratio of a monatomic ideal gas at pressure `P` and temperature `T` (dimensionless).
+Ideal gas entropy density for pressure `P`, temperature `T`, atomicmass `m` (dimensionless).
 ```Julia
 julia> sackurtetrode(Metric)
 $(sackurtetrode(Metric))

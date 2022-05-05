@@ -24,10 +24,11 @@ const Constants = (:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:
 const Physics = (:turn,:spat,:atomicmass,:protonmass,:planckmass,:gravitation,:gaussgravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermeability,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton)
 const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanicalheat,:solarmass,:jupitermass,:earthmass,:lunarmass,:earthradius,:greatcircle,:radarmile,:hubble,:cosmological,
     :radian,:steradian,:degree,:gradian,:arcminute,:arcsecond,
-    :second,:minute,:hour,:day,:year,:gaussianyear,:siderealyear,
-    :angstrom,:inch,:foot,:surveyfoot,:yard,:meter,:earthmeter,:mile,:statutemile,:meridianmile,:admiraltymile,:nauticalmile,:lunardistance,:astronomicalunit,:lightyear,:parsec,
+    :second,:minute,:hour,:day,:gaussianmonth,:siderealmonth,:synodicmonth,:year,:gaussianyear,:siderealyear,:jovianyear,
+    :angstrom,:inch,:foot,:surveyfoot,:yard,:meter,:earthmeter,:mile,:statutemile,:meridianmile,:admiraltymile,:nauticalmile,:lunardistance,:astronomicalunit,:jupiterdistance,:lightyear,:parsec,
     :barn,:hectare,:acre,:surveyacre,
     :liter,:gallon,:quart,:pint,:cup,:fluidounce,:teaspoon,:tablespoon,
+    :bubnoff,:ips,:fps,:fpm,:ms,:kmh,:mph,:knot,:mps,
     :grain,:gram,:earthgram,:kilogram,:tonne,:ton,:pound,:ounce,:slug,:slinch,:hyl,
     :dyne,:newton,:poundal,:poundforce,:kilopond,
     :psi,:pascal,:bar,:barye,:technicalatmosphere,:atmosphere,:inchmercury,:torr,
@@ -38,8 +39,8 @@ const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanica
     :statcoulomb,:statampere,:statvolt,:stathenry,:statohm,:statmho,:statfarad,:statweber,:stattesla,
     :kelvin,:rankine,:celsius,:fahrenheit,:sealevel,:boiling,:mole,:earthmole,:poundmole,:slugmole,:slinchmole,:katal,:amagat,
     :lumen,:candela,:lux,:phot,:footcandle,:nit,:apostilb,:stilb,:lambert,:footlambert,:bril,
-    :neper,:bel,:decibel,:hertz,:rpm,
-    :kayser,:diopter,:bubnoff,:gforce,:galileo,:eotvos,:darcy,:poise,:reyn,:stokes,:rayl,
+    :neper,:bel,:decibel,:hertz,:apm,:rpm,
+    :kayser,:diopter,:gforce,:galileo,:eotvos,:darcy,:poise,:reyn,:stokes,:rayl,
     :mpge,:langley,:jansky,:solarflux,:curie,:sievert,:roentgen,:rem)
 const Kinematic = (:solidangle,:time,:length,:area,:volume,:wavenumber,:angularwavenumber,:fuelefficiency,:numberdensity,:frequency,:angularfrequency,:frequencydrift,:speed,:acceleration,:jerk,:snap,:crackle,:pop,:volumeflow) #angle
 const Mechanical = (:inertia,:mass,:massflow,:lineardensity,:areadensity,:density,:specificweight,:specificvolume,:force,:specificforce,:gravityforce,:pressure,:compressibility,:viscosity,:diffusivity,:rotationalinertia,:impulse,:momentum,:angularmomentum,:yank,:energy,:specificenergy,:action,:fluence,:power,:powerdensity,:intensity,:spectralflux,:soundexposure,:impedance,:specificimpedance,:admittance,:compliance,:inertance)
@@ -314,7 +315,8 @@ const RK1990,KJ1990,Rᵤ2014 = Constant(25812.807),Constant(4.835979e14),Constan
 const RK2014,KJ2014 = Constant(25812.8074555),Constant(4.835978525e14)
 const GME,GMJ = Constant(398600441.8e6),Constant(1.26686534e17)
 const kG,H0,ΩΛ = Constant(3548.18761),Constant(67.66),Constant(0.6889)
-const aⱼ,au,LD = Constant(365.25),Constant(149597870.7e3),Constant(384402e3)
+const aⱼ,au = Constant(365.25),Constant(149597870.7e3)
+const LD,JD = Constant(384399e3),Constant(778479e6)
 const zetta,zepto = Constant(1e21),Constant(1e-21)
 const yotta,yocto = Constant(1e24),Constant(1e-24)
 const 𝟏,𝟐,𝟑,𝟓,𝟕,𝟏𝟎,𝟏𝟏,𝟏𝟗,𝟒𝟑,τ,α = Constant(1),Constant(2),Constant(3),Constant(5),Constant(7),Constant(10),Constant(11),Constant(19),Constant(43),Constant(2π),inv(αinv)

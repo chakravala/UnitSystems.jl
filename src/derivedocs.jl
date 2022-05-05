@@ -428,7 +428,7 @@ $(astronomicalunit(Metric)/lightspeed(Metric))
 """ astronomicalunit, au
 
 @doc """
-$(unitext(:lunardistance,"length($LD,U,Metric)"))
+$(unitext(:lunardistance,"length(𝟏,U,IAUE)"))
 
 Standard distance between the Earth and the Moon (m or ft).
 ```Julia
@@ -442,6 +442,22 @@ julia> lunardistance(Metric)/lightspeed(Metric) # s
 $(lunardistance(Metric)/lightspeed(Metric))
 ```
 """ lunardistance, LD
+
+@doc """
+$(unitext(:jupiterdistance,"length(𝟏,U,IAUJ)"))
+
+Standard distance between the Sun and the planet Jupiter (m or ft).
+```Julia
+julia> jupiterdistance(Metric) # m
+$(jupiterdistance(Metric))
+
+julia> jupiterdistance(IAU) # au
+$(jupiterdistance(IAU))
+
+julia> jupiterdistance(Metric)/lightspeed(Metric) # s
+$(jupiterdistance(Metric)/lightspeed(Metric))
+```
+""" jupiterdistance, JD
 
 @doc """
 $(unitext(:mile,"length(𝟏,U,MPH)"))
@@ -734,6 +750,146 @@ julia> tablespoon(IPS) # in³
 $(tablespoon(IPS))
 ```
 """ tablespoon
+
+# speed
+
+@doc """
+$(unitext(:bubnoff,"meter(U)/year(U)"))
+
+Reference unit of erosion `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> bubnoff(CGS) # cm⋅s⁻¹
+$(bubnoff(CGS))
+
+julia> bubnoff(English) # ft⋅s⁻¹
+$(bubnoff(English))
+```
+""" bubnoff
+
+@doc """
+$(unitext(:ips,"inch(U)/second(U)"))
+
+Inch per second unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> ips(CGS) # cm⋅s⁻¹
+$(ips(CGS))
+
+julia> ips(English) # ft⋅s⁻¹
+$(ips(English))
+```
+""" ips
+
+@doc """
+$(unitext(:fps,"feet(U)/second(U)"))
+
+Feet per second unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> fps(Metric) # m⋅s⁻¹
+$(fps(Metric))
+
+julia> fps(KKH) # km⋅h⁻¹
+$(fps(KKH))
+
+julia> fps(MPH) # mi⋅h⁻¹
+$(fps(MPH))
+```
+""" fps
+
+@doc """
+$(unitext(:fpm,"feet(U)/minute(U)"))
+
+Feet per minute unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> fpm(CGS) # cm⋅s⁻¹
+$(fpm(CGS))
+
+julia> fpm(IPS) # in⋅s⁻¹
+$(fpm(IPS))
+
+julia> fpm(English) # ft⋅s⁻¹
+$(fpm(English))
+```
+""" fpm
+
+@doc """
+$(unitext(:ms,"meter(U)/second(U)"))
+
+Meters per second unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> ms(KKH) # km⋅h⁻¹
+$(ms(KKH))
+
+julia> ms(MPH) # mi⋅h⁻¹
+$(ms(MPH))
+
+julia> ms(Nautical) # nm⋅h⁻¹
+$(ms(Nautical))
+```
+""" ms
+
+@doc """
+$(unitext(:kmh,"kilo(U)*meter(U)/hour(U)"))
+
+Kilometers per hour unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> kmh(Metric) # m⋅s⁻¹
+$(kmh(Metric))
+
+julia> kmh(MPH) # mi⋅h⁻¹
+$(kmh(MPH))
+
+julia> kmh(Nautical) # nm⋅h⁻¹
+$(kmh(Nautical))
+```
+""" kmh
+
+@doc """
+$(unitext(:mph,"mile(U)/hour(U)"))
+
+Miles per hour unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> mph(Metric) # m⋅s⁻¹
+$(mph(Metric))
+
+julia> mph(KKH) # km⋅h⁻¹
+$(mph(KKH))
+
+julia> mph(Nautical) # nm⋅h⁻¹
+$(mph(Nautical))
+```
+""" mph
+
+@doc """
+$(unitext(:knot,"nauticalmile(U)/hour(U)"))
+
+Nautical miles per hour unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> knot(Metric) # m⋅s⁻¹
+$(knot(Metric))
+
+julia> knot(KKH) # km⋅h⁻¹
+$(knot(KKH))
+
+julia> knot(MPH) # mi⋅h⁻¹
+$(knot(MPH))
+```
+""" knot
+
+@doc """
+$(unitext(:mps,"mile(U)/second(U)"))
+
+Miles per second unit of `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
+```Julia
+julia> mps(KKH) # km⋅h⁻¹
+$(mps(KKH))
+
+julia> mps(MPH) # mi⋅h⁻¹
+$(mps(MPH))
+
+julia> mps(Nautical) # nm⋅h⁻¹
+$(mps(Nautical))
+```
+""" mps
 
 # mass
 
@@ -2417,9 +2573,22 @@ $(hertz(IAU))
 """ hertz
 
 @doc """
-$(unitext(:rpm,"𝟏/minute(U)"))
+$(unitext(:apm,"𝟏/minute(U)"))
 
-Engineering unit of `frequency` (s⁻¹).
+Actions per minute `apm` unit of `frequency` (s⁻¹).
+```Julia
+julia> apm(MetricEngineering) # s⁻¹
+$(apm(MetricEngineering))
+
+julia> apm(IAU) # D⁻¹
+$(apm(IAU))
+```
+""" apm
+
+@doc """
+$(unitext(:rpm,"turn(U)/minute(U)"))
+
+Revolutions per minute `rpm` unit of `angularfrequency` (s⁻¹).
 ```Julia
 julia> rpm(MetricEngineering) # rad⋅s⁻¹
 $(rpm(MetricEngineering))
@@ -2460,22 +2629,6 @@ julia> diopter(English) # ft⁻¹
 $(diopter(English))
 ```
 """ diopter
-
-@doc """
-$(unitext(:bubnoff,"meter(U)/year(U)"))
-
-Reference unit of erosion `speed` (m⋅s⁻¹ or ft⋅s⁻¹).
-```Julia
-julia> bubnoff(Metric) # m⋅s⁻¹
-$(bubnoff(Metric))
-
-julia> bubnoff(CGS) # cm⋅s⁻¹
-$(bubnoff(CGS))
-
-julia> bubnoff(English) # ft⋅s⁻¹
-$(bubnoff(English))
-```
-""" bubnoff
 
 @doc """
 $(unitext(:gforce,"specificforce(𝟏,U,English)"))

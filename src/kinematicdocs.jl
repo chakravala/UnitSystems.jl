@@ -593,18 +593,18 @@ $(density(English,Metric))
 """ density
 
 @doc """
-$(convertext(:specificweight,"pressure(U,S)/speed(U,S)^2"))
+$(convertext(:specificweight,"force(U,S)/volume(U,S)"))
 
-Specific weight or `force` per `volume` or `density` (N⋅m⁻³), unit conversion factor.
+Specific weight or `force` per `volume` (N⋅m⁻³ or lb⋅ft⁻³), unit conversion factor.
 ```Julia
-julia> density(CGS,Metric) # N⋅cm³⋅dyn⁻¹⋅m⁻³
-$(density(CGS,Metric))
+julia> specificweight(CGS,Metric) # N⋅cm³⋅dyn⁻¹⋅m⁻³
+$(specificweight(CGS,Metric))
 
-julia> density(CGS,Brtish) # lb⋅cm³⋅dyn⁻¹⋅ft⁻³
-$(density(CGS,British))
+julia> specificweight(CGS,Brtish) # lb⋅cm³⋅dyn⁻¹⋅ft⁻³
+$(specificweight(CGS,British))
 
-julia> density(English,Metric) # N⋅ft³⋅lb⁻¹⋅m⁻³
-$(density(English,Metric))
+julia> specificweight(English,Metric) # N⋅ft³⋅lb⁻¹⋅m⁻³
+$(specificweight(English,Metric))
 ```
 """ specificweight
 

@@ -27,8 +27,7 @@ const lc,mc,ρΛ = 𝟐*sqrt(τ/ΛC),𝘤^2/(𝟐*sqrt(τ*ΛC*G)),ΛC*𝘤^4/(�
 const lcq,mcq = sqrt.(sqrt.((𝘤*ħ/ρΛ,ρΛ*ħ^3/𝘤^5)))
 const tcq,em,mi = lcq*sqrt(mcq/sqrt(sqrt(ρΛ*(𝘤*ħ)^3))),sqrt(GME/g₀)*τ/𝟐^9/𝟓^7,𝟐^5*𝟑*𝟓*𝟏𝟏
 
-@pure sackurtetrode(P,T=𝟏) = sackurtetrode(SI2019,P,T)
-@pure sackurtetrode(U::UnitSystem,P=atm,T=𝟏) = normal(log(Constant(exp(5/2))*T*boltzmann(U)/P*sqrt(electronmass(U)/gravity(U)/electronunit(U)*boltzmann(U)*T/turn(U)/planckreduced(U)^2)^3))
+@pure sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=atomicmass(U)) = normal(log((Constant(exp(5/2))*boltzmann(U)*sqrt(boltzmann(U)/gravity(U)/turn(U)/planckreduced(U)^2)^3)*(T/P*sqrt(m*T)^3)))
 
 const Universe = Coupling(αG,α,μₑᵤ,μₚᵤ,ΩΛ)
 
@@ -108,8 +107,8 @@ const GravitationalSI2019 = Quantity(EntropySystem(SI2019,𝟏,𝟏,g₀))
 const GravitationalMetric = Quantity(EntropySystem(Metric,𝟏,𝟏,g₀))
 const GravitationalMeridian = Quantity(EntropySystem(Metric,𝟏,em,g₀*em^2,𝟏,τ/𝟐^6/𝟓^7*em/g₀,milli))
 const IAU☉ = Quantity(EntropySystem(Metric,DAY,au,GM☉/G))
-const IAUE = Quantity(EntropySystem(Metric,DAY,au,GME/G))
-const IAUJ = Quantity(EntropySystem(Metric,DAY,au,GMJ/G))
+const IAUE = Quantity(EntropySystem(Metric,DAY,LD,GME/G))
+const IAUJ = Quantity(EntropySystem(Metric,DAY,JD,GMJ/G))
 const MTS = Quantity(EntropySystem(Metric,𝟏,𝟏,kilo))
 const KKH = Quantity(EntropySystem(Metric,HOUR,kilo,𝟏))
 const MPH = Quantity(EntropySystem(FPS,HOUR,mi,𝟏))

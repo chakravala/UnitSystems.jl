@@ -21,8 +21,8 @@
 @pure arcminute(U::UnitSystem) = degree(U)/two(U)^2/three(U)/five(U)
 @pure arcsecond(U::UnitSystem) = arcminute(U)/two(U)^2/three(U)/five(U)
 
-@pure rpm(U::UnitSystem) = one(U)/minute(U)
-#@pure rpd(U::UnitSystem) = turn(U)/day(U)
+@pure apm(U::UnitSystem) = one(U)/minute(U)
+@pure rpm(U::UnitSystem) = turn(U)/minute(U)
 
 # time
 
@@ -52,7 +52,8 @@
 @pure nauticalmile(U::UnitSystem) = length(one(U),U,Nautical)
 #@pure navigationmile(U::UnitSystem) = greatcircle(U)/two(U)^5/three(U)^3/five(U)^2
 @pure astronomicalunit(U::UnitSystem) = length(𝟏,U,IAU)
-@pure lunardistance(U::UnitSystem) = length(LD,U,Metric)
+@pure lunardistance(U::UnitSystem) = length(𝟏,U,IAUE)
+@pure jupiterdistance(U::UnitSystem) = length(𝟏,U,IAUJ)
 @pure mile(U::UnitSystem) = length(two(U)^5*three(U)*five(U)*eleven(U),U,English)
 @pure admiraltymile(U::UnitSystem) = length(two(U)^6*five(U)*nineteen(U),U,English)
 @pure meridianmile(U::UnitSystem) = length(two(U)^4*five(U)^5/three(U)^3,U,Metric)
@@ -79,6 +80,18 @@
 @pure teaspoon(U::UnitSystem) = five(U)*milli(U)*liter(U)
 @pure tablespoon(U::UnitSystem) = three(U)*teaspoon(U)
 #@pure oilbarrel(U::UnitSystem) = two(U)*three(U)*seven(U)*gallon(U)
+
+# speed
+
+@pure bubnoff(U::UnitSystem) = meter(U)/year(U)
+@pure ips(U::UnitSystem) = inch(U)/second(U)
+@pure fps(U::UnitSystem) = foot(U)/second(U)
+@pure fpm(U::UnitSystem) = foot(U)/minute(U)
+@pure ms(U::UnitSystem) = meter(U)/second(U)
+@pure kmh(U::UnitSystem) = kilo(U)*meter(U)/hour(U)
+@pure mph(U::UnitSystem) = mile(U)/hour(U)
+@pure knot(U::UnitSystem) = nauticalmile(U)/hour(U)
+@pure mps(U::UnitSystem) = mile(U)/second(U)
 
 # mass
 
@@ -212,7 +225,6 @@
 @pure hertz(U::UnitSystem) = one(U)/second(U)
 @pure kayser(U::UnitSystem) = wavenumber(one(U),U,Gauss)
 @pure diopter(U::UnitSystem) = wavenumber(one(U),U,Metric)
-@pure bubnoff(U::UnitSystem) = meter(U)/year(U)
 @pure gforce(U::UnitSystem) = specificforce(one(U),U,English)
 @pure galileo(U::UnitSystem) = specificforce(one(U),U,Gauss)
 @pure eotvos(U::UnitSystem) = specificforce(nano(U),U,Gauss)/length(one(U),U,Gauss)
