@@ -20,14 +20,14 @@ const kibi,mebi,gibi,tebi,pebi,exbi,zebi,yobi = 𝟐^10,𝟐^20,𝟐^30,𝟐^40,
 
 const fur,°R,K,HOUR,k = 𝟐^2*𝟑*𝟓*𝟏𝟏*ft,𝟓/𝟑^2,𝟑^2/𝟓,𝟐^4*𝟑^2*𝟓^2,kG*τ/(𝟐^7*𝟑^4*𝟓^3)
 const mₑ,μ₀ = αinv^2*R∞*𝟐*𝘩/𝘤,𝟐*𝘩/𝘤*α/𝘦^2 # ≈ 4π*(1e-7+5.5e-17), exact charge
-const ħ,μₚₑ,Rᵤ,αL,αG,Mᵤ = 𝘩/τ,μₚᵤ/μₑᵤ,NA*kB,centi/𝘤,(mₑ/mP)^2,NA*mₑ/μₑᵤ
+const ħ,μₚₑ,μₑₚ,Rᵤ,αL,αG,Mᵤ = 𝘩/τ,μₚᵤ/μₑᵤ,μₑᵤ/μₚᵤ,NA*kB,centi/𝘤,(mₑ/mP)^2,NA*mₑ/μₑᵤ
 const pc,G,DAY,nm = au*𝟐^7*𝟑^4*𝟓^3/τ,𝘤*ħ/mP^2,𝟐^7*𝟑^3*𝟓^2,sqrt(GME/g₀)*τ/𝟐^5/𝟑^3/𝟓^2
 const GM☉ =au^3*k^2/DAY^2; const th = 𝟏𝟎^3*pc/H0; const ΛC = 𝟑*ΩΛ*(th*𝘤)^-2
-const lc,mc,ρΛ = 𝟐*sqrt(τ/ΛC),𝘤^2/(𝟐*sqrt(τ*ΛC*G)),ΛC*𝘤^4/(𝟐^2*τ)/G
-const lcq,mcq = sqrt.(sqrt.((𝘤*ħ/ρΛ,ρΛ*ħ^3/𝘤^5)))
+const lc,mc,ρΛ,𝘦ₙ = 𝟐*sqrt(τ/ΛC),𝘤^2/(𝟐*G*sqrt(τ*ΛC)),ΛC*𝘤^4/(𝟐^2*τ)/G,𝘦/√α
+const lcq,mcq = sqrt.(sqrt.((𝘤*ħ/ρΛ,ρΛ*ħ^3/𝘤^5))); const 𝘦ᵣ = 𝘦ₙ/√(𝟐*τ)
 const tcq,em,mi = lcq*sqrt(mcq/sqrt(sqrt(ρΛ*(𝘤*ħ)^3))),sqrt(GME/g₀)*τ/𝟐^9/𝟓^7,𝟐^5*𝟑*𝟓*𝟏𝟏
 
-@pure sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=atomicmass(U)) = normal(log((Constant(exp(5/2))*boltzmann(U)*sqrt(boltzmann(U)/gravity(U)/turn(U)/planckreduced(U)^2)^3)*(T/P*sqrt(m*T)^3)))
+@pure sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=dalton(U)) = normal(log((Constant(exp(5/2))*boltzmann(U)*sqrt(boltzmann(U)/gravity(U)/turn(U)/planckreduced(U)^2)^3)*(T/P*sqrt(m*T)^3)))
 
 const Universe = Coupling(αG,α,μₑᵤ,μₚᵤ,ΩΛ)
 
@@ -37,13 +37,13 @@ export MetricSystem, ConventionalSystem, RankineSystem
 export AstronomicalSystem, ElectricSystem, GaussSystem, EntropySystem
 
 """
-    MetricSystem(Mu=Mᵤ,μ0=μ₀,Ru=Rᵤ,g0=𝟏,h=𝘩)
+    MetricSystem(Mu=Mᵤ,μ0=μ₀,Ru=Rᵤ,g0=𝟏,θ=𝟏,h=𝘩)
 
-Constructs new `UnitSystem` from `molarmass` constant, `vacuumpermeability`, `molargas` constant, `gravity` force reference, and `planck` constant.
+Constructs new `UnitSystem` from `molarmass` constant, `vacuumpermeability`, `molargas` constant, `gravity` force reference, `angle` scale, and `planck` constant.
 
-Examples include `SI2019`, `Metric`, `SI2019Engineering`, `MetricEngineering`, `SI1976`. In addition, the `ConventionalSystem` constructor further builds on `MetricSystem`, resulting in variations.
+Examples include `SI2019`, `Metric`, `SI2019Engineering`, `MetricEngineering`, `SI1976`, `MetricDegree`, `MetricGradian`. In addition, the `ConventionalSystem` constructor further builds on `MetricSystem`, resulting in variations.
 """
-MetricSystem(Mu=Mᵤ,μ0=μ₀,Ru=Rᵤ,g0=𝟏,h=𝘩,me=αinv^2*R∞*𝟐*h/𝘤) = UnitSystem(Ru*me/Mu/μₑᵤ/g0,h/τ/g0,𝘤,μ0,me,Mu,Kcd*(mₑ/me)^2*(h/𝘩)*g0,𝟏,𝟏,𝟏,g0,Universe,τ,𝟐,𝟑,𝟓,𝟕,𝟏𝟏,𝟏𝟗,𝟒𝟑)
+MetricSystem(Mu=Mᵤ,μ0=μ₀,Ru=Rᵤ,g0=𝟏,θ=𝟏,h=𝘩,me=αinv^2*R∞*𝟐*h/𝘤) = UnitSystem(Ru*me/Mu/μₑᵤ/g0,h/τ/g0,𝘤,μ0,me,Mu,Kcd*(mₑ/me)^2*(h/𝘩)*g0,θ,𝟏,𝟏,g0,Universe,τ,𝟐,𝟑,𝟓,𝟕,𝟏𝟏,𝟏𝟗,𝟒𝟑)
 
 """
     ConventionalSystem(RK,KJ,Ru=Rᵤ,g0=𝟏) = MetricSystem(milli,𝟐*RK/𝘤*α,Ru,g0,𝟐^2/RK/KJ^2)
@@ -52,7 +52,7 @@ Constructs new `UnitSystem` from von `klitzing` constant and `josephson` constan
 
 Examples include `Conventional` (based on 1990) and `CODATA` (based on 2014).
 """
-ConventionalSystem(klitz,joseph,Ru=Rᵤ,g0=𝟏) = MetricSystem(milli,𝟐*klitz/𝘤*α,Ru,g0,(𝟐*𝟐)/klitz/(joseph*joseph))
+ConventionalSystem(klitz,joseph,Ru=Rᵤ,g0=𝟏,θ=𝟏) = MetricSystem(milli,𝟐*klitz/𝘤*α,Ru,g0,θ,(𝟐*𝟐)/klitz/(joseph*joseph))
 
 """
     RankineSystem(U::UnitSystem,l,m,g0=𝟏) = EntropySystem(U,𝟏,l,m,°R,vacuumpermeability(U)/m/l/g0,kilo*molarmass(U),g0)
@@ -67,8 +67,13 @@ RankineSystem(u,l,m,g0=𝟏) = EntropySystem(u,𝟏,l,m,°R,UnitSystems.vacuumpe
 
 const SI2019 = Quantity(MetricSystem())
 const Metric = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7))
-const SI2019Engineering = Quantity(MetricSystem(Mᵤ,μ₀/g₀,Rᵤ,g₀))
+#const SI2019Engineering = Quantity(MetricSystem(Mᵤ,μ₀/g₀,Rᵤ,g₀))
 const MetricEngineering = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7/g₀,Rᵤ,g₀))
+const MetricTurn = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7,Rᵤ,𝟏,𝟏/τ))
+const MetricDegree = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7,Rᵤ,𝟏,𝟐^3*𝟑^2*𝟓/τ))
+const MetricArcminute = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7,Rᵤ,𝟏,𝟐^5*𝟑^3*𝟓^2/τ))
+const MetricArcsecond = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7,Rᵤ,𝟏,𝟐^7*𝟑^4*𝟓^3/τ))
+const MetricGradian = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7,Rᵤ,𝟏,𝟐^4*𝟓^2/τ))
 const SI1976 = Quantity(MetricSystem(milli,τ/𝟐^6/𝟓^7,Constant(8.31432)))
 const CODATA = Quantity(ConventionalSystem(RK2014,KJ2014,Rᵤ2014))
 const Conventional = Quantity(ConventionalSystem(RK1990,KJ1990))
@@ -93,19 +98,19 @@ const FPS = Quantity(RankineSystem(Metric,ft,lb))
 const IPS = Quantity(RankineSystem(Metric,ft/𝟐^2/𝟑,lb*g₀*𝟐^2*𝟑/ft))
 #const IPS2019 = Quantity(RankineSystem(SI2019,ft/𝟐^2/𝟑,lb*g₀*𝟐^2*𝟑/ft))
 
-#const Astronomical = Quantity(AstronomicalSystem(Metric))
-const Hubble = Quantity(EntropySystem(Metric,th,𝘤*th,𝟏))
-const Cosmological = Quantity(EntropySystem(Metric,lc/𝘤,lc,mc))
-const CosmologicalQuantum = Quantity(EntropySystem(Metric,tcq,lcq,mcq))
+#const Astronomical = Quantity(EntropySystem(Metric,𝟏,𝟏,𝟏/G))
+const Hubble = Quantity(AstronomicalSystem(Metric,th,𝘤*th,mₑ))#ħ/th/𝘤^2/mP^2))
+const Cosmological = Quantity(AstronomicalSystem(Metric,lc/𝘤,lc,mc))
+const CosmologicalQuantum = Quantity(AstronomicalSystem(Metric,tcq,lcq,mcq))
 #const EMU2019 = Quantity(EntropySystem(SI2019,𝟏,centi,milli))
 #const ESU2019 = Quantity(EntropySystem(SI2019,𝟏,centi,milli,𝟏,kilo*μ₀/𝘤^2))
 #const Mixed = Quantity(EntropySystem(Metric,𝟏,𝟏,𝟏,𝟏,μ₀))
 const Nautical = Quantity(EntropySystem(Metric,HOUR,nm,em^3,𝟏,τ*𝟑^3/𝟐^10/𝟓^12,milli))
 const Meridian = Quantity(EntropySystem(Metric,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7,milli))
-const MeridianEngineering = Quantity(EntropySystem(Metric,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7*em/g₀,milli,g₀/em))
-const GravitationalSI2019 = Quantity(EntropySystem(SI2019,𝟏,𝟏,g₀))
+#const MeridianEngineering = Quantity(EntropySystem(Metric,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7*em/g₀,milli,g₀/em))
+#const GravitationalSI2019 = Quantity(EntropySystem(SI2019,𝟏,𝟏,g₀))
 const GravitationalMetric = Quantity(EntropySystem(Metric,𝟏,𝟏,g₀))
-const GravitationalMeridian = Quantity(EntropySystem(Metric,𝟏,em,g₀*em^2,𝟏,τ/𝟐^6/𝟓^7*em/g₀,milli))
+#const GravitationalMeridian = Quantity(EntropySystem(Metric,𝟏,em,g₀*em^2,𝟏,τ/𝟐^6/𝟓^7*em/g₀,milli))
 const IAU☉ = Quantity(EntropySystem(Metric,DAY,au,GM☉/G))
 const IAUE = Quantity(EntropySystem(Metric,DAY,LD,GME/G))
 const IAUJ = Quantity(EntropySystem(Metric,DAY,JD,GMJ/G))
@@ -129,10 +134,10 @@ const QCD = Quantity(UnitSystem(𝟏,𝟏,𝟏,𝟏,inv(μₚₑ)))
 const QCDGauss = Quantity(UnitSystem(𝟏,𝟏,𝟏,𝟐*τ,inv(μₚₑ)))
 const QCDoriginal = Quantity(UnitSystem(𝟏,𝟏,𝟏,𝟐*τ*α,inv(μₚₑ)))
 
-export SI, MKS, SIE, ME, GSI2019, GSI, GM, CGS, CGS2019, CGSm, CGSe, HLU, FFF, AE, EE, BG
+export SI, MKS, ME, GM, CGS, CGS2019, CGSm, CGSe, HLU, FFF, AE, EE, BG # SIE, GSI, GSI2019
 export EnglishEngineering, BritishGravitational, AbsoluteEnglish, EnglishUS, EE2019, IAU
-const SI, MKS, SIE, ME, IAU = SI2019, Metric, SI2019Engineering, MetricEngineering, IAU☉
-const GSI2019, GSI, GM = GravitationalSI2019, GravitationalSI2019, GravitationalMetric
+#const SIE, GSI2019, GSI = SI2019Engineering, GravitationalSI2019, GravitationalSI2019
+const SI, MKS, ME, GM, IAU = SI2019, Metric, MetricEngineering, GravitationalMetric, IAU☉
 const CGS, CGSm, CGSe, HLU = Gauss, EMU, ESU, LorentzHeaviside
 const EnglishEngineering, BritishGravitational, BG = English, British, British
 const EnglishUS, AbsoluteEnglish, AE, EE = Survey, FPS, FPS, English

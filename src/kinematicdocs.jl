@@ -660,21 +660,75 @@ $(stiffness(English,Metric))
 """ stiffness=#
 
 @doc """
-$(convertext(:intensity,"power(U,S)/area(U,S)"))
+$(convertext(:irradiance,"power(U,S)/area(U,S)"))
 
 Heat flux density or irradiance or `power` per `area` (W⋅m⁻², kg⋅s⁻³), unit conversion factor.
 
 ```Julia
-julia> intensity(CGS,Metric) # kg⋅g⁻¹
-$(intensity(CGS,Metric))
+julia> irradiance(CGS,Metric) # kg⋅g⁻¹
+$(irradiance(CGS,Metric))
 
-julia> intensity(CGS,English) # lb⋅g⁻¹
-$(intensity(CGS,English))
+julia> irradiance(CGS,English) # lb⋅g⁻¹
+$(irradiance(CGS,English))
 
-julia> intensity(English,Metric) # kg⋅lb⁻¹
-$(intensity(English,Metric))
+julia> irradiance(English,Metric) # kg⋅lb⁻¹
+$(irradiance(English,Metric))
 ```
-""" intensity
+""" irradiance, intensity
+
+@doc """
+$(convertext(:radiance,"irradiance(U,S)/solidangle(U,S)"))
+
+Radiance or `irradiance` per `solidangle` (W⋅m⁻²⋅sr⁻¹, kg⋅s⁻³⋅sr⁻¹), unit conversion factor.
+
+```Julia
+julia> radiance(CGS,Metric) # kg⋅g⁻¹
+$(radiance(CGS,Metric))
+
+julia> radiance(CGS,English) # lb⋅g⁻¹
+$(radiance(CGS,English))
+
+julia> radiance(English,Metric) # kg⋅lb⁻¹
+$(radiance(English,Metric))
+```
+""" radiance
+
+@doc """
+$(convertext(:radiantintensity,"power(U,S)/solidangle(U,S)"))
+
+Radiant intensity or `power` per `solidangle` (W⋅sr⁻¹, W⋅rad⁻²), unit conversion factor.
+
+```Julia
+julia> radiantintensity(CGS,Metric) # W⋅s⋅erg⁻¹
+$(radiantintensity(CGS,Metric))
+
+julia> radiantintensity(English,Metric) # W⋅s⋅ft⁻¹⋅lb⁻¹
+$(radiantintensity(English,Metric))
+```
+""" radiantintensity
+
+@doc """
+$(convertext(:spectralexposure,"force(U,S)/speed(U,S)"))
+
+Spectral exposure or `fluence` per `frequency` (N⋅s⋅m⁻¹, J⋅s⋅m⁻²), unit conversion factor.
+
+```Julia
+julia> spectralexposure(CGS,Metric) # kg⋅g⁻¹
+$(spectralexposure(CGS,Metric))
+
+julia> spectralexposure(CGS,English) # lb⋅g⁻¹
+$(spectralexposure(CGS,English))
+
+julia> spectralexposure(CODATA,Metric) # kg⋅kg⁻¹
+$(spectralexposure(CODATA,Metric))
+
+julia> spectralexposure(Conventional,Metric) # kg⋅kg⁻¹
+$(spectralexposure(Conventional,Metric))
+
+julia> spectralexposure(English,Metric) # kg⋅lb⁻¹
+$(spectralexposure(English,Metric))
+```
+""" spectralexposure
 
 @doc """
 $(convertext(:diffusivity,"speed(U,S)*length(U,S)"))

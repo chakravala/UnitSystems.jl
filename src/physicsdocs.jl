@@ -36,7 +36,7 @@ $αG
 julia> ΩΛ # darkenergydensity(Universe)
 $ΩΛ
 ```
-""" Universe, μₑᵤ, μₚᵤ, μₚₑ, αinv, αG, meu, mpu, mpe, ainv, aG, ΩΛ, electronunit, protonunit, protonelectron, finestructure, coupling, darkenergydensity
+""" Universe, μₑᵤ, μₚᵤ, μₚₑ, μₑₚ, αinv, αG, meu, mpu, mpe, ainv, aG, ΩΛ, electronunit, protonunit, protonelectron, finestructure, coupling, darkenergydensity
 
 @doc """
 $(unitext(:turn,"2π/angle(U)"))
@@ -45,6 +45,18 @@ Complete rotation `angle` of revolution from a full circle.
 ```Julia
 julia> turn(MetricEngineering)
 $(turn(MetricEngineering))
+
+julia> turn(MetricDegree)
+$(turn(MetricDegree))
+
+julia> turn(MetricArcminute)
+$(turn(MetricArcminute))
+
+julia> turn(MetricArcsecond)
+$(turn(MetricArcsecond))
+
+julia> turn(MetricGradian)
+$(turn(MetricGradian))
 ```
 """ turn
 
@@ -55,6 +67,18 @@ Complete spherical `solidangle` around point from a full sphere.
 ```Julia
 julia> spat(MetricEngineering)
 $(spat(MetricEngineering))
+
+julia> spat(MetricDegree)
+$(spat(MetricDegree))
+
+julia> spat(MetricArcminute)
+$(spat(MetricArcminute))
+
+julia> spat(MetricArcsecond)
+$(spat(MetricArcsecond))
+
+julia> spat(MetricGradian)
+$(spat(MetricGradian))
 ```
 """ spat
 
@@ -100,9 +124,9 @@ $(molarmass(International))
 """ molarmass, Mᵤ, Mu
 
 @doc """
-$(unitext(:avogadro, "molargas(x)/boltzmann(x) # Mᵤ/atomicmass(x)"))
+$(unitext(:avogadro, "molargas(x)/boltzmann(x) # Mᵤ/dalton(x)"))
 
-Avogadro `NA` is `molarmass(x)/atomicmass(x)` number of atoms in a 12 g sample of C₁₂.
+Avogadro `NA` is `molarmass(x)/dalton(x)` number of atoms in a 12 g sample of C₁₂.
 ```Julia
 julia> avogadro(SI2019) # mol⁻¹
 $(avogadro(SI2019))
@@ -317,8 +341,14 @@ $(electronmass(Conventional))
 julia> electronmass(International) # kg
 $(electronmass(International))
 
-julia> electronmass(Metric)/atomicmass(Metric) # Da
-$μₑᵤ
+julia> electronmass(Metric)/dalton(Metric) # Da
+$(electronmass(Metric)/dalton(Metric))
+
+julia> electronmass(QCD) # mₚ
+$(electronmass(QCD))
+
+julia> electronmass(Hartree) # mₑ
+$(electronmass(Hartree))
 
 julia> electronmass(Metric)*lightspeed(Metric)^2 # J
 $(electronmass(Metric)*lightspeed(Metric)^2)
@@ -332,29 +362,32 @@ $(electronmass(English))
 """ electronmass, mₑ, me
 
 @doc """
-$(unitext(:atomicmass,"Mᵤ/avogadro(U) # $(molarmass(SI2019)) ≈ 0.001-3.5e-13"))
+$(unitext(:dalton,"molarmass(U)/avogadro(U)"))
 
-Atomic mass unit `mᵤ` of 1/12 of the C₁₂ carbon-12 atom's mass  (kg or slugs).
+Atomic mass unit `Da` of 1/12 of the C₁₂ carbon-12 atom's mass  (kg or slugs).
 ```Julia
-julia> atomicmass(Metric) # kg
-$(atomicmass(Metric))
+julia> dalton(Metric) # kg
+$(dalton(Metric))
 
-julia> atomicmass(Metric)/electronmass(Metric) # mₑ
-$(atomicmass(Metric)/electronmass(Metric))
+julia> dalton(Hartree) # mₑ
+$(dalton(Hartree))
 
-julia> atomicmass(Metric)*lightspeed(Metric)^2 # J
-$(atomicmass(Metric)*lightspeed(Metric)^2)
+julia> dalton(QCD) # mₚ
+$(dalton(QCD))
 
-julia> atomicmass(SI2019)*lightspeed(SI2019)^2/elementarycharge(SI2019) # eV⋅𝘤⁻²
-$(atomicmass(SI2019)*lightspeed(SI2019)^2/elementarycharge(SI2019))
+julia> dalton(Metric)*lightspeed(Metric)^2 # J
+$(dalton(Metric)*lightspeed(Metric)^2)
 
-julia> atomicmass(British) # lb
-$(atomicmass(British))
+julia> dalton(SI2019)*lightspeed(SI2019)^2/elementarycharge(SI2019) # eV⋅𝘤⁻²
+$(dalton(SI2019)*lightspeed(SI2019)^2/elementarycharge(SI2019))
+
+julia> dalton(British) # lb
+$(dalton(British))
 ```
-""" atomicmass, mᵤ, mu
+""" dalton, Da, mu, mᵤ, atomicmass
 
 @doc """
-$(unitext(:protonmass,"protonunit(U)*atomicmass(U)"))
+$(unitext(:protonmass,"protonunit(U)*dalton(U)"))
 
 Proton mass `mₚ` of subatomic particle with `+𝘦` elementary charge  (kg or mass).
 ```Julia
@@ -364,11 +397,14 @@ $(protonmass(Metric))
 julia> protonmass(SI2019)*lightspeed(SI2019)^2/elementarycharge(SI2019) # eV⋅𝘤⁻²
 $(protonmass(SI2019)*lightspeed(SI2019)^2/elementarycharge(SI2019))
 
-julia> protonmass(Metric)/atomicmass(Metric) # mᵤ
-$(protonmass(Metric)/atomicmass(Metric))
+julia> protonmass(Metric)/dalton(Metric) # Da
+$(protonmass(Metric)/dalton(Metric))
 
-julia> protonmass(Metric)/electronmass(Metric) # mₑ
-$(protonmass(Metric)/electronmass(Metric))
+julia> protonmass(Hartree) # mₑ
+$(protonmass(Hartree))
+
+julia> protonmass(QCD) # mₚ
+$(protonmass(QCD))
 ```
 """ protonmass, mₚ, mp
 
@@ -383,14 +419,14 @@ $(planckmass(Metric)*lightspeed(Metric)^2/elementarycharge(Metric))
 juila> planckmass(Metric) # kg
 $(planckmass(Metric))
 
-juila> planckmass(Metric)/atomicmass(Metric) # mᵤ
-$(planckmass(Metric)/atomicmass(Metric))
+juila> planckmass(Metric)/dalton(Metric) # Da
+$(planckmass(Metric)/dalton(Metric))
 
 juila> planckmass(Metric)*lightspeed(Metric)^2/elementarycharge(Metric)/sqrt(𝟐^2*τ) # eV⋅𝘤⁻²
 $(planckmass(Metric)*lightspeed(Metric)^2/elementarycharge(Metric)/sqrt(𝟐^2*τ))
 
-juila> planckmass(Metric)/sqrt(𝟐^2*τ) # kg
-$(planckmass(Metric)/sqrt(𝟐^2*τ))
+julia> planckmass(PlanckGauss) # mP
+$(planckmass(PlanckGauss))
 ```
 """ planckmass, mP
 
@@ -739,8 +775,8 @@ $(elementarycharge(EMU))
 julia> elementarycharge(ESU) # statC
 $(elementarycharge(ESU))
 
-julia> elementarycharge(Planck) # sqrt(4π/αinv)
-$(elementarycharge(Planck))
+julia> elementarycharge(Hartree) # 𝘦
+$(elementarycharge(Hartree))
 ```
 """ elementarycharge, 𝘦, ee
 
@@ -1009,6 +1045,9 @@ $(electronradius(CODATA))
 
 julia> electronradius(Conventional) # m
 $(electronradius(Conventional))
+
+julia> electronradius(Hartree) # a₀
+$(electronradius(Hartree))
 ```
 """ electronradius, rₑ, re
 
@@ -1195,6 +1234,12 @@ $(solarmass(IAUE))
 
 julia> solarmass(IAUJ) # MJ
 $(solarmass(IAUJ))
+
+julia> solarmass(QCD) # mₚ
+$(solarmass(QCD))
+
+julia> solarmass(Metric)/dalton(Metric) # Da
+$(solarmass(Metric)/dalton(Metric))
 ```
 """ solarmass, mₛ
 
@@ -1217,6 +1262,12 @@ $(earthmass(IAU))
 
 julia> earthmass(IAUJ) # MJ
 $(earthmass(IAUJ))
+
+julia> earthmass(QCD) # mₚ
+$(earthmass(QCD))
+
+julia> earthmass(Metric)/dalton(Metric) # Da
+$(earthmass(Metric)/dalton(Metric))
 ```
 """ earthmass
 
@@ -1239,6 +1290,12 @@ $(jupitermass(IAU))
 
 julia> jupitermass(IAUE) # ME
 $(jupitermass(IAUE))
+
+julia> jupitermass(QCD) # mₚ
+$(jupitermass(QCD))
+
+julia> jupitermass(Metric)/dalton(Metric) # Da
+$(jupitermass(Metric)/dalton(Metric))
 ```
 """ jupitermass
 
@@ -1264,6 +1321,12 @@ $(lunarmass(IAUE))
 
 julia> lunarmass(IAUJ) # MJ
 $(lunarmass(IAUJ))
+
+julia> lunarmass(QCD) # mₚ
+$(lunarmass(QCD))
+
+julia> lunarmass(Metric)/dalton(Metric) # Da
+$(lunarmass(Metric)/dalton(Metric))
 ```
 """ lunarmass
 
@@ -1272,8 +1335,20 @@ $(unitext(:gaussgravitation,"sqrt(gravitation(U)*solarmass(U)/astronomicalunit(U
 
 Gaussian  gravitational constant `k` of Newton's laws (Hz or rad⋅D⁻¹).
 ```Julia
-julia> gaussgravitation(Metric)
-$(gaussgravitation(Metric))
+julia> gaussgravitation(MetricEngineering)
+$(gaussgravitation(MetricEngineering))
+
+julia> gaussgravitation(MetricGradian)
+$(gaussgravitation(MetricGradian))
+
+julia> gaussgravitation(MetricDegree)
+$(gaussgravitation(MetricDegree))
+
+julia> gaussgravitation(MetricArcminute)
+$(gaussgravitation(MetricArcminute))
+
+julia> gaussgravitation(MetricArcsecond)
+$(gaussgravitation(MetricArcsecond))
 
 juila> gaussgravitation(MPH)
 $(gaussgravitation(MPH))
@@ -1286,7 +1361,7 @@ $(gaussgravitation(IAU))
 @doc """
 $(unitext(:gaussianyear,"turn(U)/gaussgravitation(U)"))
 
-Orbit `time` defined by `gaussgravitation` constant `kG` for neglible `mass` satellite.
+Orbit `time` defined by `gaussgravitation` constant `kG` for neglible `mass` satellite (s).
 ```Julia
 julia> gaussianyear(Metric) # s
 $(gaussianyear(Metric))
@@ -1302,7 +1377,7 @@ $(gaussianyear(IAU))
 @doc """
 $(unitext(:siderealyear,"gaussianyear(U)/√(𝟏+earthmass(IAU)+lunarmass(IAU))"))
 
-Orbit `time` defined by `gaussgravitation` constant `kG` and the Earth-Moon system `mass`.
+Orbit `time` defined by `gaussgravitation` constant `kG` and Earth-Moon system `mass` (s).
 ```Julia
 julia> siderealyear(Metric) # s
 $(siderealyear(Metric))
@@ -1318,7 +1393,7 @@ $(siderealyear(IAU))
 @doc """
 $(unitext(:jovianyear,"τ*day(U)*√(jupiterdistance(U)^3/solarmass(U)/gravitation(U))/√(𝟏+jupitermass(IAU))"))
 
-Orbit `time` defined by `jupiterdistance` and the Sun-Jupiter system `mass`.
+Orbit `time` defined by `jupiterdistance` and the Sun-Jupiter system `mass` (s).
 ```Julia
 julia> jovianyear(Metric) # s
 $(jovianyear(Metric))
@@ -1334,7 +1409,7 @@ $(jovianyear(IAU))
 @doc """
 $(unitext(:gaussianmonth,"τ*sqrt(lunardistance(U)^3/earthmass(U)/gravitation(U))"))
 
-Orbit `time` defined by `lunardistance` and `earthmass` for neglible `mass` satellite.
+Orbit `time` defined by `lunardistance` and `earthmass` for neglible `mass` satellite (s).
 ```Julia
 julia> gaussianmonth(Metric) # s
 $(gaussianmonth(Metric))
@@ -1350,7 +1425,7 @@ $(gaussianmonth(IAU))
 @doc """
 $(unitext(:siderealmonth,"gaussianmonth(U)/√(𝟏+lunarmass(IAU))"))
 
-Orbit `time` defined by standard `lunardistance` and the Earth-Moon system `mass`.
+Orbit `time` defined by standard `lunardistance` and the Earth-Moon system `mass` (s).
 ```Julia
 julia> siderealmonth(Metric) # s
 $(siderealmonth(Metric))
@@ -1366,7 +1441,7 @@ $(siderealmonth(IAU))
 @doc """
 $(unitext(:synodicmonth,"𝟏/(𝟏/siderealmonth(U)-𝟏/siderealyear(U))"))
 
-Orbit `time` defined by `siderealmonth` and `siderealyear` of the Sun-Earth-Moon system.
+Orbit `time` defined by `siderealmonth` and `siderealyear` of Sun-Earth-Moon system (s).
 ```Julia
 julia> synodicmonth(Metric) # s
 $(synodicmonth(Metric))
@@ -1412,10 +1487,10 @@ $(greatcircle(IAU))
 """ greatcircle
 
 @doc """
-    sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=mᵤ) = log(kB*T/P*sqrt(m*kB*T/τ/ħ^2)^3)+5/2
+    sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=Da) = log(kB*T/P*sqrt(m*kB*T/τ/ħ^2)^3)+5/2
     dimensionless : [𝟙], [𝟙], [𝟙], [𝟙], [𝟙]
 
-Ideal gas entropy density for pressure `P`, temperature `T`, atomicmass `m` (dimensionless).
+Ideal gas entropy density for pressure `P`, temperature `T`, atomic mass `m` (dimensionless).
 ```Julia
 julia> sackurtetrode(Metric)
 $(sackurtetrode(Metric))
@@ -1450,5 +1525,27 @@ julia> mechanicalheat(British) # ft⋅lb
 $(mechanicalheat(British))
 ```
 """ mechanicalheat
+
+@doc """
+    eddington(U::UnitSystem) = mass(𝟏,U,Cosmological)
+
+Approximate number of protons in the `Universe` as estimated by Eddington (kg or lb).
+```Julia
+julia> 𝟐^2^2^3/α # mₚ
+$(𝟐^2^2^3/α)
+
+julia> eddington(QCD) # mₚ
+$(eddington(QCD))
+
+julia> eddington(Metric) # kg
+$(eddington(Metric))
+
+julia> eddington(IAU) # M☉
+$(eddington(IAU))
+
+julia> eddington(Cosmological)
+$(eddington(Cosmological))
+```
+""" eddington
 
 include("derivedocs.jl")

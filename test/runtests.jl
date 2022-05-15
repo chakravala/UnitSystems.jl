@@ -2,10 +2,10 @@ using UnitSystems, Test
 
 for S ∈ UnitSystems.Systems
     U = eval(S)
-    S ∉ () && @testset "UnitSystem: $S" begin
+    S ∉ (:MetricTurn,:MetricGradian,:MetricDegree,:MetricArcminute,:MetricArcsecond) && @testset "UnitSystem: $S" begin
         S≠:FFF && @testset "Dimensionless constants" begin
-            @test μₑᵤ ≈ electronmass(U)/atomicmass(U)
-            @test μₚᵤ ≈ protonmass(U)/atomicmass(U)
+            @test μₑᵤ ≈ electronmass(U)/dalton(U)
+            @test μₚᵤ ≈ protonmass(U)/dalton(U)
             @test μₚₑ ≈ protonmass(U)/electronmass(U)
             @test 1/αinv ≈ (elementarycharge(U)/charge(PlanckGauss,U))^2
             @test αG ≈ (electronmass(U)/mass(PlanckGauss,U))^2
@@ -25,7 +25,7 @@ for S ∈ UnitSystems.Systems
                 @test lightspeed(U) ≈ electronmass(U)^2*gravitation(U)/planckreduced(U)/αG
             end
             S≠:FFF && @testset "planck" begin
-                @test planck(U) == 2π*planckreduced(U)
+                @test planck(U) == turn(U)*planckreduced(U)
                 @test planck(U) ≈ 2elementarycharge(U)*lorentz(U)/josephson(U)
                 @test planck(U) ≈ 8/αinv/rationalization(U)/lightspeed(U)/vacuumpermeability(U)/josephson(U)^2
                 @test planck(U) ≈ 4lorentz(U)^2/josephson(U)^2/klitzing(U)
@@ -49,22 +49,22 @@ for S ∈ UnitSystems.Systems
             end
         end
         @testset "Atomic constants" begin
-            @testset "atomicmass" begin
-                @test atomicmass(U) ≈ molarmass(U)/avogadro(U)
-                @test atomicmass(U) ≈ electronmass(U)/μₑᵤ
-                @test atomicmass(U) ≈ protonmass(U)/μₚᵤ
-                @test atomicmass(U) ≈ 2rydberg(U)*planck(U)/μₑᵤ/lightspeed(U)*αinv^2*gravity(U)
-                @test atomicmass(U) ≈ planckmass(U)*sqrt(αG)/μₑᵤ
+            @testset "dalton" begin
+                @test dalton(U) ≈ molarmass(U)/avogadro(U)
+                @test dalton(U) ≈ electronmass(U)/μₑᵤ
+                @test dalton(U) ≈ protonmass(U)/μₚᵤ
+                @test dalton(U) ≈ 2rydberg(U)*planck(U)/μₑᵤ/lightspeed(U)*αinv^2*gravity(U)
+                @test dalton(U) ≈ planckmass(U)*sqrt(αG)/μₑᵤ
             end
             @testset "protonmass" begin
-                @test protonmass(U) ≈ μₚᵤ*atomicmass(U)
+                @test protonmass(U) ≈ μₚᵤ*dalton(U)
                 @test protonmass(U) ≈ μₚᵤ*molarmass(U)/avogadro(U)
                 @test protonmass(U) ≈ μₚₑ*electronmass(U)
                 @test protonmass(U) ≈ μₚₑ*2rydberg(U)*planck(U)/lightspeed(U)*αinv^2*gravity(U)
                 @test protonmass(U) ≈ planckmass(U)*μₚₑ*sqrt(αG)
             end
             @testset "electronmass" begin
-                @test electronmass(U) ≈ μₑᵤ*atomicmass(U)
+                @test electronmass(U) ≈ μₑᵤ*dalton(U)
                 @test electronmass(U) ≈ μₑᵤ*molarmass(U)/avogadro(U)
                 @test electronmass(U) ≈ protonmass(U)/μₚₑ
                 @test electronmass(U) ≈ 2rydberg(U)*planck(U)/lightspeed(U)*αinv^2*gravity(U)
@@ -101,26 +101,26 @@ for S ∈ UnitSystems.Systems
         end
         @testset "Thermodynamic constants" begin
             @testset "molarmass" begin
-                @test molarmass(U) ≈ atomicmass(U)*avogadro(U)
+                @test molarmass(U) ≈ dalton(U)*avogadro(U)
                 @test molarmass(U) ≈ avogadro(U)*electronmass(U)/μₑᵤ
                 @test molarmass(U) ≈ avogadro(U)*protonmass(U)/μₚᵤ
                 @test molarmass(U) ≈ avogadro(U)*2rydberg(U)*planck(U)/μₑᵤ/lightspeed(U)*αinv^2*gravity(U)
             end
             @testset "avogadro" begin
                 @test avogadro(U) ≈ molargas(U)/boltzmann(U)
-                @test avogadro(U) ≈ molarmass(U)/atomicmass(U)
+                @test avogadro(U) ≈ molarmass(U)/dalton(U)
                 @test avogadro(U) ≈ molarmass(U)*μₑᵤ/electronmass(U)
                 @test avogadro(U) ≈ molarmass(U)*μₑᵤ*lightspeed(U)/αinv^2/2rydberg(U)/planck(U)/gravity(U)
             end
             @testset "boltzmann" begin
                 @test boltzmann(U) == molargas(U)/avogadro(U)
-                @test boltzmann(U) ≈ atomicmass(U)*universal(U)/molarmass(U)
+                @test boltzmann(U) ≈ dalton(U)*universal(U)/molarmass(U)
                 @test boltzmann(U) ≈ electronmass(U)*universal(U)/μₑᵤ/molarmass(U)
                 @test boltzmann(U) ≈ 2molargas(U)*rydberg(U)*planck(U)/molarmass(U)/μₑᵤ/lightspeed(U)*αinv^2*gravity(U)
             end
             @testset "molargas" begin
                 @test molargas(U) == boltzmann(U)*avogadro(U)
-                @test molargas(U) ≈ boltzmann(U)*molarmass(U)/atomicmass(U)
+                @test molargas(U) ≈ boltzmann(U)*molarmass(U)/dalton(U)
                 @test molargas(U) ≈ boltzmann(U)*molarmass(U)*μₑᵤ/electronmass(U)
                 @test molargas(U) ≈ boltzmann(U)*molarmass(U)*μₑᵤ*lightspeed(U)/αinv^2/2planck(U)/rydberg(U)/gravity(U)
             end

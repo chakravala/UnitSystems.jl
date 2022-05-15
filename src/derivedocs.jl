@@ -116,69 +116,187 @@ $yobi
 @doc """
 $(unitext(:radian,"angle(𝟏,U,Metric)"))
 
-Unit of `angle` which is dimensionless.
+Unit of `angle` which is dimensionless (rad).
 ```Julia
-julia> radian(MetricEngineering)
+julia> radian(MetricEngineering) # rad
 $(radian(MetricEngineering))
+
+julia> radian(MetricDegree) # deg
+$(radian(MetricDegree))
+
+julia> radian(MetricArcminute) # amin
+$(radian(MetricArcminute))
+
+julia> radian(MetricArcsecond) # asec
+$(radian(MetricArcsecond))
+
+julia> radian(MetricGradian) # gon
+$(radian(MetricGradian))
 ```
 """ radian
 
 @doc """
-$(unitext(:steradian,"solidangle(𝟏,U,Metric)"))
+$(unitext(:degree,"angle(𝟏,U,MetricDegree)"))
 
-Unit of `solidangle` which is dimensionless.
+Unit of `angle` which divides a `turn` into `360` parts (rad).
 ```Julia
-julia> steradian(MetricEngineering)
-$(steradian(MetricEngineering))
-```
-""" steradian
-
-@doc """
-$(unitext(:degree,"angle(τ/𝟐^3/𝟑^2/𝟓,U,Metric)"))
-
-Unit of `angle` which divides a `turn` into `360` parts.
-```Julia
-julia> degree(MetricEngineering)
+julia> degree(MetricEngineering) # rad
 $(degree(MetricEngineering))
+
+julia> degree(MetricDegree) # deg
+$(degree(MetricDegree))
+
+julia> degree(MetricArcminute) # amin
+$(degree(MetricArcminute))
+
+julia> degree(MetricArcsecond) # asec
+$(degree(MetricArcsecond))
+
+julia> degree(MetricGradian) # gon
+$(degree(MetricGradian))
 ```
 """ degree
 
 @doc """
-$(unitext(:gradian,"angle(τ/𝟐^4/𝟓^2,U,Metric)"))
+$(unitext(:gradian,"angle(𝟏,U,MetricGradian)"))
 
-Unit of `angle` which divides a `turn` into `400` parts.
+Unit of `angle` which divides a `turn` into `400` parts (rad).
 ```Julia
-julia> gradian(MetricEngineering)
+julia> gradian(MetricEngineering) # rad
 $(gradian(MetricEngineering))
+
+julia> gradian(MetricDegree) # deg
+$(gradian(MetricDegree))
+
+julia> gradian(MetricArcminute) # amin
+$(gradian(MetricArcminute))
+
+julia> gradian(MetricArcsecond) # asec
+$(gradian(MetricArcsecond))
+
+julia> gradian(MetricGradian) # gon
+$(gradian(MetricGradian))
 ```
 """ gradian
 
 @doc """
-$(unitext(:arcminute,"degree(U)/𝟐^2/𝟑/𝟓"))
+$(unitext(:bradian,"angle(τ/𝟐^8,U,Metric)"))
 
-Unit of `angle` which divides a `degree` into `60` parts.
+Unit of `angle` which divides a `turn` into `𝟐^8` or `256` parts (rad).
 ```Julia
-julia> arcminute(MetricEngineering)
+julia> bradian(MetricEngineering) # rad
+$(bradian(MetricEngineering))
+
+julia> bradian(MetricDegree) # deg
+$(bradian(MetricDegree))
+
+julia> bradian(MetricArcminute) # amin
+$(bradian(MetricArcminute))
+
+julia> bradian(MetricArcsecond) # asec
+$(bradian(MetricArcsecond))
+
+julia> bradian(MetricGradian) # gon
+$(bradian(MetricGradian))
+```
+""" bradian
+
+@doc """
+$(unitext(:arcminute,"angle(𝟏,U,MetricArcminute)"))
+
+Unit of `angle` which divides a `degree` into `60` parts (rad).
+```Julia
+julia> arcminute(MetricEngineering) # rad
 $(arcminute(MetricEngineering))
+
+julia> arcminute(MetricDegree) # deg
+$(arcminute(MetricDegree))
+
+julia> arcminute(MetricArcminute) # amin
+$(arcminute(MetricArcminute))
+
+julia> arcminute(MetricArcsecond) # asec
+$(arcminute(MetricArcsecond))
+
+julia> arcminute(MetricGradian) # gon
+$(arcminute(MetricGradian))
 ```
 """ arcminute
 
 @doc """
-$(unitext(:arcsecond,"arcminute(U)/𝟐^2/𝟑/𝟓"))
+$(unitext(:arcsecond,"angle(𝟏,U,MetricArcsecond)"))
 
-Unit of `angle` which divides a `arcminute` into `60` parts.
+Unit of `angle` which divides a `arcminute` into `60` parts (rad).
 ```Julia
-julia> arcsecond(MetricEngineering)
+julia> arcsecond(MetricEngineering) # rad
 $(arcsecond(MetricEngineering))
+
+julia> arcsecond(MetricDegree) # deg
+$(arcsecond(MetricDegree))
+
+julia> arcsecond(MetricArcminute) # amin
+$(arcsecond(MetricArcminute))
+
+julia> arcsecond(MetricArcsecond) # asec
+$(arcsecond(MetricArcsecond))
+
+julia> arcsecond(MetricGradian) # gon
+$(arcsecond(MetricGradian))
 ```
 """ arcsecond
+
+# solidangle
+
+@doc """
+$(unitext(:steradian,"solidangle(𝟏,U,Metric)"))
+
+Unit of `solidangle` which is dimensionless (rad²).
+```Julia
+julia> steradian(MetricEngineering) # rad²
+$(steradian(MetricEngineering))
+
+julia> steradian(MetricDegree) # deg²
+$(steradian(MetricDegree))
+
+julia> steradian(MetricArcminute) # amin²
+$(steradian(MetricArcminute))
+
+julia> steradian(MetricArcsecond) # asec²
+$(steradian(MetricArcsecond))
+
+julia> steradian(MetricGradian) # gon²
+$(steradian(MetricGradian))
+```
+""" steradian
+
+@doc """
+$(unitext(:squaredegree,"solidangle(𝟏,U,MetricDegree)"))
+
+Unit of `solidangle` which is a `degree` squared (rad²).
+```Julia
+julia> squaredegree(MetricEngineering) # rad²
+$(squaredegree(MetricEngineering))
+
+julia> squaredegree(MetricDegree) # deg²
+$(squaredegree(MetricDegree))
+
+julia> squaredegree(MetricArcminute) # amin²
+$(squaredegree(MetricArcminute))
+
+julia> squaredegree(MetricArcsecond) # asec²
+$(squaredegree(MetricArcsecond))
+
+julia> squaredegree(MetricGradian) # gon²
+$(squaredegree(MetricGradian))
+```
+""" squaredegree
 
 # time
 
 @doc """
 $(unitext(:second,"time(𝟏,U,Metric)"))
 
-Unit of `time` defined by `hyperfine` transition frequency of Cs-133 atom.
+Unit of `time` defined by `hyperfine` transition frequency of Cs-133 atom (s).
 ```Julia
 julia> second(Metric) # s
 $(second(Metric))
@@ -194,7 +312,7 @@ $(second(IAU))
 @doc """
 $(unitext(:minute,"𝟐^2*𝟑*𝟓*second(U)"))
 
-Unit of `time` defined by 60 `second` intervals.
+Unit of `time` defined by 60 `second` intervals (s).
 ```Julia
 julia> minute(Metric) # s
 $(minute(Metric))
@@ -210,7 +328,7 @@ $(minute(IAU))
 @doc """
 $(unitext(:hour,"𝟐^2*𝟑*𝟓*minute(U)"))
 
-Unit of `time` defined by 60 `minute` intervals.
+Unit of `time` defined by 60 `minute` intervals (s).
 ```Julia
 julia> hour(Metric) # s
 $(hour(Metric))
@@ -226,7 +344,7 @@ $(hour(IAU))
 @doc """
 $(unitext(:day,"𝟐^3*𝟑*hour(U)"))
 
-Unit of `time` defined by 24 `hour` intervals.
+Unit of `time` defined by 24 `hour` intervals (s).
 ```Julia
 julia> day(Metric) # s
 $(day(Metric))
@@ -242,7 +360,7 @@ $(day(IAU))
 @doc """
 $(unitext(:year,"aⱼ*day(U)"))
 
-Unit of `time` defined by Julian calendar year interval.
+Unit of `time` defined by Julian calendar year interval (s).
 ```Julia
 julia> year(Metric) # s
 $(year(Metric))
@@ -258,7 +376,7 @@ $(year(IAU))
 @doc """
 $(unitext(:radarmile,"𝟐*nauticalmile(U)/lightspeed(U)"))
 
-Unit of `time` delay from a two-way `nauticalmile` radar return.
+Unit of `time` delay from a two-way `nauticalmile` radar return (s).
 ```Julia
 julia> radarmile(Metric)
 $(radarmile(Metric))
@@ -906,6 +1024,9 @@ $(grain(CGS))
 
 julia> grain(English) # lb
 $(grain(English))
+
+julia> grain(QCD) # mₚ
+$(grain(QCD))
 ```
 """ grain
 
@@ -2402,8 +2523,14 @@ $(unitext(:candela,"luminousintensity(𝟏,U,Metric)"))
 
 Common unit of `luminousintensity` (cd).
 ```Julia
-julia> candela(MetricEngineering) # cd
-$(candela(Metric))
+julia> candela(MetricEngineering) # lm⋅rad⁻²
+$(candela(MetricEngineering))
+
+julia> candela(MetricDegree) # lm⋅deg⁻²
+$(candela(MetricDegree))
+
+julia> candela(MetricGradian) # lm⋅gon⁻²
+$(candela(MetricGradian))
 
 julia> candela(CGS) # cd
 $(candela(CGS))
@@ -2466,8 +2593,14 @@ $(unitext(:nit,"luminance(𝟏,U,Metric)"))
 
 Metric unit of `luminance` (lx⋅rad⁻²).
 ```Julia
-julia> nit(Metric) # nt
-$(nit(Metric))
+julia> nit(MetricEngineering) # nt
+$(nit(MetricEngineering))
+
+julia> nit(MetricDegree) # lm⋅m⁻²deg⁻²
+$(nit(MetricDegree))
+
+julia> nit(MetricGradian) # lm⋅m⁻²gon⁻²
+$(nit(MetricGradian))
 
 julia> nit(CGS) # sb
 $(nit(CGS))
@@ -2482,8 +2615,14 @@ $(unitext(:apostilb,"luminance(𝟐/turn(U),U,Metric)"))
 
 Metric unit of `luminance` (lx⋅rad⁻²).
 ```Julia
-julia> apostilb(Metric) # nt
-$(apostilb(Metric))
+julia> apostilb(MetricEngineering) # nt
+$(apostilb(MetricEngineering))
+
+julia> apostilb(MetricDegree) # lm⋅m⁻²deg⁻²
+$(apostilb(MetricDegree))
+
+julia> apostilb(MetricGradian) # lm⋅m⁻²gon⁻²
+$(apostilb(MetricGradian))
 
 julia> apostilb(CGS) # sb
 $(apostilb(CGS))
@@ -2498,8 +2637,14 @@ $(unitext(:stilb,"luminance(𝟏,U,Gauss)"))
 
 Historic unit of `luminance` (lx⋅rad⁻²).
 ```Julia
-julia> stilb(Metric) # nt
-$(stilb(Metric))
+julia> stilb(MetricEngineering) # nt
+$(stilb(MetricEngineering))
+
+julia> stilb(MetricDegree) # lm⋅m⁻²deg⁻²
+$(stilb(MetricDegree))
+
+julia> stilb(MetricGradian) # lm⋅m⁻²gon⁻²
+$(stilb(MetricGradian))
 
 julia> stilb(CGS) # sb
 $(stilb(CGS))
@@ -2514,8 +2659,14 @@ $(unitext(:lambert,"luminance(𝟐/turn(U),U,Gauss)"))
 
 Historic unit of `luminance` (nt).
 ```Julia
-julia> lambert(Metric) # nt
-$(lambert(Metric))
+julia> lambert(MetricEngineering) # nt
+$(lambert(MetricEngineering))
+
+julia> lambert(MetricDegree) # lm⋅m⁻²deg⁻²
+$(lambert(MetricDegree))
+
+julia> lambert(MetricGradian) # lm⋅m⁻²gon⁻²
+$(lambert(MetricGradian))
 
 julia> lambert(CGS) # sb
 $(lambert(CGS))
@@ -2530,8 +2681,14 @@ $(unitext(:footlambert,"luminance(𝟐/turn(U),U,English)"))
 
 English unit of `luminance` (nt).
 ```Julia
-julia> footlambert(Metric) # nt
-$(footlambert(Metric))
+julia> footlambert(MetricEngineering) # nt
+$(footlambert(MetricEngineering))
+
+julia> footlambert(MetricDegree) # lm⋅m⁻²deg⁻²
+$(footlambert(MetricDegree))
+
+julia> footlambert(MetricGradian) # lm⋅m⁻²gon⁻²
+$(footlambert(MetricGradian))
 
 julia> footlambert(CGS) # sb
 $(footlambert(CGS))
@@ -2546,8 +2703,14 @@ $(unitext(:bril,"centi*nano*lambert(U)"))
 
 Reference unit of `luminance` (nt).
 ```Julia
-julia> bril(Metric) # nt
-$(bril(Metric))
+julia> bril(MetricEngineering) # nt
+$(bril(MetricEngineering))
+
+julia> bril(MetricDegree) # lm⋅m⁻²deg⁻²
+$(bril(MetricDegree))
+
+julia> bril(MetricGradian) # lm⋅m⁻²gon⁻²
+$(bril(MetricGradian))
 
 julia> bril(CGS) # sb
 $(bril(CGS))
@@ -2577,8 +2740,11 @@ $(unitext(:apm,"𝟏/minute(U)"))
 
 Actions per minute `apm` unit of `frequency` (s⁻¹).
 ```Julia
-julia> apm(MetricEngineering) # s⁻¹
-$(apm(MetricEngineering))
+julia> apm(Metric) # s⁻¹
+$(apm(Metric))
+
+julia> apm(MPH) # h⁻¹
+$(apm(MPH))
 
 julia> apm(IAU) # D⁻¹
 $(apm(IAU))
@@ -2588,12 +2754,27 @@ $(apm(IAU))
 @doc """
 $(unitext(:rpm,"turn(U)/minute(U)"))
 
-Revolutions per minute `rpm` unit of `angularfrequency` (s⁻¹).
+Revolutions per minute `rpm` unit of `angularfrequency` (rad⋅s⁻¹).
 ```Julia
 julia> rpm(MetricEngineering) # rad⋅s⁻¹
 $(rpm(MetricEngineering))
 
-julia> rpm(IAU) # D⁻¹
+julia> rpm(MetricGradian) # gon⋅s⁻¹
+$(rpm(MetricGradian))
+
+julia> rpm(MetricDegree) # deg⋅s⁻¹
+$(rpm(MetricDegree))
+
+julia> rpm(MetricArcminute) # amin⋅s⁻¹
+$(rpm(MetricArcminute))
+
+julia> rpm(MetricArcsecond) # asec⋅s⁻¹
+$(rpm(MetricArcsecond))
+
+julia> rpm(MPH) # rad⋅h⁻¹
+$(rpm(MPH))
+
+julia> rpm(IAU) # rad⋅D⁻¹
 $(rpm(IAU))
 ```
 """ rpm

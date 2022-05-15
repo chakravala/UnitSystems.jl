@@ -18,12 +18,12 @@ module UnitSystems
 
 import Base: @pure, length, time, angle, rem
 
-const Systems = (:Metric,:SI2019,:SI1976,:CODATA,:Conventional,:International,:InternationalMean,:MetricEngineering,:SI2019Engineering,:GravitationalMetric,:GravitationalSI2019,:MTS,:EMU,:ESU,:Gauss,:LorentzHeaviside,:Kennelly,:FPS,:IPS,:British,:English,:Survey,:FFF,:MPH,:KKH,:Nautical,:Meridian,:MeridianEngineering,:GravitationalMeridian,:IAU☉,:IAUE,:IAUJ,:Hubble,:Cosmological,:CosmologicalQuantum,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
+const Systems = (:Metric,:SI2019,:SI1976,:CODATA,:Conventional,:International,:InternationalMean,:MetricTurn,:MetricDegree,:MetricArcminute,:MetricArcsecond,:MetricGradian,:MetricEngineering,:GravitationalMetric,:MTS,:EMU,:ESU,:Gauss,:LorentzHeaviside,:Kennelly,:FPS,:IPS,:British,:English,:Survey,:FFF,:MPH,:KKH,:Nautical,:Meridian,:IAU☉,:IAUE,:IAUJ,:Hubble,:Cosmological,:CosmologicalQuantum,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
 const Dimensionless = (:coupling,:finestructure,:electronunit,:protonunit,:protonelectron,:darkenergydensity)
 const Constants = (:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:boltzmann,:permeability,:rationalization,:lorentz,:luminousefficacy,:gravity) #angle
-const Physics = (:turn,:spat,:atomicmass,:protonmass,:planckmass,:gravitation,:gaussgravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermeability,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton)
-const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanicalheat,:solarmass,:jupitermass,:earthmass,:lunarmass,:earthradius,:greatcircle,:radarmile,:hubble,:cosmological,
-    :radian,:steradian,:degree,:gradian,:arcminute,:arcsecond,
+const Physics = (:turn,:spat,:dalton,:protonmass,:planckmass,:gravitation,:gaussgravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermeability,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton)
+const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanicalheat,:eddington,:solarmass,:jupitermass,:earthmass,:lunarmass,:earthradius,:greatcircle,:radarmile,:hubble,:cosmological,
+    :radian,:steradian,:degree,:squaredegree,:gradian,:bradian,:arcminute,:arcsecond,
     :second,:minute,:hour,:day,:gaussianmonth,:siderealmonth,:synodicmonth,:year,:gaussianyear,:siderealyear,:jovianyear,
     :angstrom,:inch,:foot,:surveyfoot,:yard,:meter,:earthmeter,:mile,:statutemile,:meridianmile,:admiraltymile,:nauticalmile,:lunardistance,:astronomicalunit,:jupiterdistance,:lightyear,:parsec,
     :barn,:hectare,:acre,:surveyacre,
@@ -43,7 +43,7 @@ const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanica
     :kayser,:diopter,:gforce,:galileo,:eotvos,:darcy,:poise,:reyn,:stokes,:rayl,
     :mpge,:langley,:jansky,:solarflux,:curie,:sievert,:roentgen,:rem)
 const Kinematic = (:solidangle,:time,:length,:area,:volume,:wavenumber,:angularwavenumber,:fuelefficiency,:numberdensity,:frequency,:angularfrequency,:frequencydrift,:speed,:acceleration,:jerk,:snap,:crackle,:pop,:volumeflow) #angle
-const Mechanical = (:inertia,:mass,:massflow,:lineardensity,:areadensity,:density,:specificweight,:specificvolume,:force,:specificforce,:gravityforce,:pressure,:compressibility,:viscosity,:diffusivity,:rotationalinertia,:impulse,:momentum,:angularmomentum,:yank,:energy,:specificenergy,:action,:fluence,:power,:powerdensity,:intensity,:spectralflux,:soundexposure,:impedance,:specificimpedance,:admittance,:compliance,:inertance)
+const Mechanical = (:inertia,:mass,:massflow,:lineardensity,:areadensity,:density,:specificweight,:specificvolume,:force,:specificforce,:gravityforce,:pressure,:compressibility,:viscosity,:diffusivity,:rotationalinertia,:impulse,:momentum,:angularmomentum,:yank,:energy,:specificenergy,:action,:fluence,:power,:powerdensity,:irradiance,:radiance,:radiantintensity,:spectralflux,:spectralexposure,:soundexposure,:impedance,:specificimpedance,:admittance,:compliance,:inertance)
 const Electromagnetic = (:charge,:chargedensity,:linearchargedensity,:exposure,:mobility,:current,:currentdensity,:resistance,:conductance,:resistivity,:conductivity,:capacitance,:inductance,:reluctance,:permeance,:permittivity,:permeability,:susceptibility,:specificsusceptibility,:demagnetizingfactor,:vectorpotential,:electricpotential,:magneticpotential,:electricfield,:magneticfield,:electricflux,:magneticflux,:electricfluxdensity,:magneticfluxdensity,:electricdipolemoment,:magneticdipolemoment,:electricpolarizability,:magneticpolarizability,:magneticmoment,:specificmagnetization,:polestrength)
 const Thermodynamic = (:temperature,:entropy,:specificentropy,:volumeheatcapacity,:thermalconductivity,:thermalconductance,:thermalresistivity,:thermalresistance,:thermalexpansion,:lapserate)
 const Molar = (:molarmass,:molality,:molaramount,:molarity,:molarvolume,:molarentropy,:molarenergy,:molarconductivity,:molarsusceptibility,:catalysis,:specificity)
@@ -110,7 +110,7 @@ Base.display(U::Coupling) = println("Coupling{αG = $(coupling(U)), α = $(fines
 
 Fundamental constants of physics are: `kB` Boltzmann's constant, `ħ` reduced Planck's constant, `𝘤` speed of light, `μ₀` vacuum permeability, `mₑ` electron rest mass, `Mᵤ` molar mass, `Kcd` luminous efficacy, `θ` angle measure, `λ` Gauss rationalization, `αL` Lorentz's constant, and `g₀` gravitational force reference.
 Primarily the `Metric` SI unit system is used in addition to the historic `English` engineering unit system.
-These constants induce derived values for `avogadro`, `boltzmann`, `molargas`, `planck`, `planckreduced`, `lightspeed`, `planckmass`, `atomicmass`, `protonmass`, `electronmass`, `newton`, `einstein`, `vacuumpermeability`, `vacuumpermittivity`, `electrostatic`, and
+These constants induce derived values for `avogadro`, `boltzmann`, `molargas`, `planck`, `planckreduced`, `lightspeed`, `planckmass`, `dalton`, `protonmass`, `electronmass`, `newton`, `einstein`, `vacuumpermeability`, `vacuumpermittivity`, `electrostatic`, and
 additional constants `molarmass`, `luminousefficacy`, `gravity`, `angle`, `turn`, `spat`, `stefan`, `radiationdensity`, `magnetostatic`, `lorentz`, `biotsavart`, `rationalization`, `vacuumimpedance`, `elementarycharge`, `magneton`, `conductancequantum`, `faraday`, `magneticfluxquantum`, `josephson`, `klitzing`, `hartree`, `rydberg`, `bohr`.
 
 Standardized unit/derived quantities are `$(listext(Derived))`.
@@ -123,7 +123,7 @@ Mechanics: `angle`, `$(listext(Kinematic))`, `$(listext(Mechanical))`;
 Electromagnetics: `$(listext(Electromagnetic))`;
 Thermodynamics: `$(listext(Thermodynamic))`,
 `$(listext(Molar))`, `$(listext(Photometric))`.
-""" #`Rᵤ,mᵤ,σ,ħ,μ₀,ε₀,kₑ,𝘦,𝔉,RK,Z₀,G₀`
+""" #`Rᵤ,Da,σ,ħ,μ₀,ε₀,kₑ,𝘦,𝔉,RK,Z₀,G₀`
 struct UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra}
     @pure UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra}() where {kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra} = new{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra}()
 end # UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,(Kcd,θ,λ,αL,g,C,τ,𝟐,𝟑,𝟓,𝟕,𝟏𝟏,𝟏𝟗,𝟒𝟑)}
@@ -216,13 +216,6 @@ function DimensionSystem(U::UnitSystem,L,M,T,I,Θ,N,J,A,Λ,G,C)
 end
 
 """
-    AstronomicalSystem(U::UnitSystem) = EntropySystem(U,𝟏,𝟏,𝟏/gravitation(U))
-
-Constructs new `UnitSystem` from `U` with `mass` rescaled by `newton` gravitational constant. An example of this type is `AstronomicalSystem(Metric)`.
-"""
-AstronomicalSystem(u) = EntropySystem(u,one(u),one(u),inv(gravitation(u)))
-
-"""
     ElectricSystem(U::UnitSystem,Ω,V) = EntropySystem(U,𝟏,𝟏,V^2/Ω,𝟏,vacuumpermeability(U)/Ω)
 
 Constructs new `UnitSystem` from `U` with `mass` rescaled by `electricpotential` and `resistance`. In the `International` system, `Ωᵢₜ` and `Vᵢₜ` are used as definitions from the more recent United States results, while in `InternationalMean` an earlier estimate based on other nations was used.
@@ -253,16 +246,26 @@ This means `EntropySystem` also constructs the examples listed there.
 function EntropySystem(u,t,l,m,θ=one(u))
     EntropySystem(u,t,l,m,θ,permeability(u)/(m*l),molarmass(u)/m,gravity(u),m*l*l/(t*t))
 end
-function EntropySystem(u,t,l,m,θ,μ0,Mu=molarmass(u)/m,g0=gravity(u),e=m*l*l/(t*t),λ=one(u),αL=one(u))
-    UnitSystem(
+function EntropySystem(u,t,l,m,θ,μ0,Mu=molarmass(u)/m,g0=gravity(u),e=m*l*l/(t*t),λ=one(u),αL=one(u),Kcd=luminousefficacy(u)*e/t*g0)
+    normal(UnitSystem(
         boltzmann(u)*θ/e/g0,
         planckreduced(u)/t/e/g0,
         lightspeed(u)*t/l,
         μ0,
         electronmass(u)/m,
         Mu,
-        luminousefficacy(u)*e/t*g0,
-        angle(u),λ,αL,g0,universe(u),twopi(u),two(u),three(u),five(u),seven(u),eleven(u),nineteen(u),fourtythree(u))
+        Kcd,
+        angle(u),λ,αL,g0,universe(u),twopi(u),two(u),three(u),five(u),seven(u),eleven(u),nineteen(u),fourtythree(u)))
+end
+
+"""
+    AstronomicalSystem(U::UnitSystem,t,l,m)
+
+Constructs new `UnitSystem` from `U` rescaled along `time`, `length`, `mass`, and dimensionless `boltzmann` and `molarmass` constants.
+Examples are `Hubble`, `Cosmological`, `CosmologicalQuantum`.
+"""
+function AstronomicalSystem(u,t,l,m,e=m*lightspeed(u)^2)
+    EntropySystem(u,t,l,m,e/boltzmann(u),spat(u),one(u),one(u),e,one(u),one(u),one(u))
 end
 
 @pure unit(x,y=1) = isapprox(y,x,rtol=eps()^0.9) ? y : x
@@ -291,7 +294,7 @@ for unit ∈ (Convert...,:angle)
     @eval begin
         @pure @inline $unit(v::Real,U::UnitSystem) = isquantity(U) ? evaldim($unit)(v,U) : $unit(v,U,Metric)
         @pure @inline $unit(v::Real,U::UnitSystem,S::UnitSystem) = isquantity(U,S) ? evaldim($unit)(v,U,S) : (u=$unit(U,S);isone(u) ? v : v/u)
-        @pure @inline $unit(v::Real,U::UnitSystem{kB,ħ,𝘤,μ₀,mₑ},S::UnitSystem{kB,ħ,𝘤,μ₀,mₑ}) where {kB,ħ,𝘤,μ₀,mₑ} = v
+        @pure @inline $unit(v::Real,U::UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra},S::UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra}) where {kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra} = v
     end
     if unit ∉ (Constants...,:angle,:permeability)
         @eval @pure @inline $unit(U::UnitSystem) = isquantity(U) ? evaldim($unit)(U) : $unit(Natural,U)

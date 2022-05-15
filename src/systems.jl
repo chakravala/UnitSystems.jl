@@ -19,10 +19,10 @@ export byte,kibi,mebi,gibi,tebi,pebi,exbi,zebi,yobi
 export slug, ft, KJ1990, KJ2014, RK1990, RK2014, mₑ1990, mₑ2014, temp, units, °R, T₀, eV
 export slugs, kilograms, lbm, meters, feet, rankine, kelvin, moles, molecules, universal
 export Universe, UnitSystem, US, universe, HOUR, DAY, th, lc, mc, tcq, lcq, mcq
-export similitude, 𝟙, F, M, L, T, Q, Θ, N, J, A, Λ, C, sackurtetrode
+export similitude, 𝟙, F, M, L, T, Q, Θ, N, J, A, Λ, C, sackurtetrode,atomicmass,intensity
 export °R, τ, 𝟏𝟎, 𝟐, 𝟑, 𝟓, nm, 𝟏, mₑ, μ₀, Mᵤ, Rᵤ, αG, GG, slug, ħ, μₚₑ, αL, 𝟕, 𝟏𝟏, 𝟏𝟗, 𝟒𝟑
 
-const EMU2019,ESU2019,stiffness = EMU,ESU,fluence
+const EMU2019,ESU2019,stiffness,intensity,atomicmass = EMU,ESU,fluence,irradiance,dalton
 
 # == Metric is different
 const eV = electronvolt(SI2019)
@@ -32,7 +32,7 @@ const μB = magneton(SI2019) #
 const ε₀ = vacuumpermittivity(SI2019) #
 const kₑ = electrostatic(SI2019) #
 const mₚ = protonmass(SI2019)
-const mᵤ = atomicmass(SI2019)
+const Da = dalton(SI2019)
 const 𝔉 = faraday(SI2019) #
 const Φ₀ = magneticfluxquantum(SI2019) #
 const Z₀ = vacuumimpedance(SI2019) #
@@ -73,12 +73,13 @@ const universal = molargas
 
 # constant aliases
 
-const US,mpe, meu, mpu, ainv, aG = UnitSystem,μₚₑ, μₑᵤ, μₚᵤ, αinv, αG
-const Mu,Ru,SB,hh,cc,m0,e0,ke,me,mp,mu,ee,FF,Z0,G0,Eh,a0,re,g0,lP,aL,ϵ₀ = Mᵤ,Rᵤ,σ,𝘩,𝘤,μ₀,ε₀,kₑ,mₑ,mₚ,mᵤ,𝘦,𝔉,Z₀,G₀,Eₕ,a₀,rₑ,g₀,ℓP,αL,ε₀
-export κ, G, GG, NA, kB, Rᵤ, σ, 𝘩, ħ, 𝘤, μ₀, ε₀, kₑ, mₑ, mₚ, mᵤ, 𝘦, 𝔉, Φ₀, Z₀, G₀, Eₕ, R∞, a₀, rₑ, KJ, RK, Ru, SB, hh, cc, m0, e0, ke, me, mp, mu, ee, FF, Z0, G0, Eh, a0, re, μB
+const US,mpe, mep, meu, mpu, ainv, aG = UnitSystem,μₚₑ, μₑₚ, μₑᵤ, μₚᵤ, αinv, αG
+const Mu,Ru,SB,hh,cc,m0,e0,ke,me,mp,mu,mᵤ,ee,FF,Z0,G0,Eh,a0,re,g0,lP,aL,ϵ₀ = Mᵤ,Rᵤ,σ,𝘩,𝘤,μ₀,ε₀,kₑ,mₑ,mₚ,Da,Da,𝘦,𝔉,Z₀,G₀,Eₕ,a₀,rₑ,g₀,ℓP,αL,ε₀
+export κ, G, GG, NA, kB, Rᵤ, σ, 𝘩, ħ, 𝘤, μ₀, ε₀, kₑ, mₑ, mₚ, Da, 𝘦, 𝔉, Φ₀, Z₀, G₀, Eₕ, R∞, a₀, rₑ, KJ, RK, Ru, SB, hh, cc, m0, e0, ke, me, mp, mu, mᵤ, ee, FF, Z0, G0, Eh, a0, re, μB
 export αG, αinv, μₚₑ, μₑᵤ, μₚᵤ, mpe, meu, mpu, mP, δμ₀, Mᵤ, Mu, RH, Ry, ΔνCs, Kcd, ainv
 export cal, kcal, calₜₕ, kcalₜₕ, calᵢₜ, kcalᵢₜ, ℓP, g₀, g0, atm, lbm, BTUJ, BTUftlb, aG
-export lP, tP, TP, lS, tS, mS, qS, lA, tA, mA, qA, lQCD, tQCD, mQCD, ϵ₀, αL, aL
+export lP, tP, TP, lS, tS, mS, qS, lA, tA, mA, qA, lQCD, tQCD, mQCD, ϵ₀, αL, aL, μₑₚ, 𝘦ₙ
+export GM☉, GME, GMJ, LD, JD, lb, fur, ftUS, Rᵤ2014, Ωᵢₜ, Vᵢₜ, em, mi, 𝘦ᵣ
 
 @doc """
     Constant{D} <: Real
@@ -152,6 +153,151 @@ $(luminousefficacy(SI2019))
 """ SI2019, SI
 
 @doc """
+    MetricTurn = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,𝟏,𝟏/τ)
+
+Standard `MetricTurn` system based on exact `molarmass` and `vacuumpermeability`.
+
+```Julia
+julia> boltzmann(MetricTurn) # J⋅K⁻¹
+$(boltzmann(MetricTurn))
+
+julia> planckreduced(MetricTurn) # J⋅s⋅τ⁻¹
+$(planckreduced(MetricTurn))
+
+julia> lightspeed(MetricTurn) # m⋅s⁻¹
+$(lightspeed(MetricTurn))
+
+julia> vacuumpermeability(MetricTurn) # H⋅m⁻¹
+$(vacuumpermeability(MetricTurn))
+
+julia> electronmass(MetricTurn) # kg
+$(electronmass(MetricTurn))
+
+julia> molarmass(MetricTurn) # kg⋅mol⁻¹
+$(molarmass(MetricTurn))
+
+julia> luminousefficacy(MetricTurn) # lm⋅W⁻¹
+$(luminousefficacy(MetricTurn))
+```
+""" MetricTurn
+
+@doc """
+    MetricDegree = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,𝟏,𝟐^3*𝟑^2*𝟓/τ)
+
+Standard `MetricDegree` system based on exact `molarmass` and `vacuumpermeability`.
+
+```Julia
+julia> boltzmann(MetricDegree) # J⋅K⁻¹
+$(boltzmann(MetricDegree))
+
+julia> planckreduced(MetricDegree) # J⋅s⋅deg⁻¹
+$(planckreduced(MetricDegree))
+
+julia> lightspeed(MetricDegree) # m⋅s⁻¹
+$(lightspeed(MetricDegree))
+
+julia> vacuumpermeability(MetricDegree) # H⋅m⁻¹
+$(vacuumpermeability(MetricDegree))
+
+julia> electronmass(MetricDegree) # kg
+$(electronmass(MetricDegree))
+
+julia> molarmass(MetricDegree) # kg⋅mol⁻¹
+$(molarmass(MetricDegree))
+
+julia> luminousefficacy(MetricDegree) # lm⋅W⁻¹
+$(luminousefficacy(MetricDegree))
+```
+""" MetricDegree
+
+@doc """
+    MetricArcminute = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,𝟏,𝟐^5*𝟑^3*𝟓^2/τ)
+
+Standard `MetricArcminute` system based on exact `molarmass` and `vacuumpermeability`.
+
+```Julia
+julia> boltzmann(MetricArcminute) # J⋅K⁻¹
+$(boltzmann(MetricArcminute))
+
+julia> planckreduced(MetricArcminute) # J⋅s⋅amin⁻¹
+$(planckreduced(MetricArcminute))
+
+julia> lightspeed(MetricArcminute) # m⋅s⁻¹
+$(lightspeed(MetricArcminute))
+
+julia> vacuumpermeability(MetricArcminute) # H⋅m⁻¹
+$(vacuumpermeability(MetricArcminute))
+
+julia> electronmass(MetricArcminute) # kg
+$(electronmass(MetricArcminute))
+
+julia> molarmass(MetricArcminute) # kg⋅mol⁻¹
+$(molarmass(MetricArcminute))
+
+julia> luminousefficacy(MetricArcminute) # lm⋅W⁻¹
+$(luminousefficacy(MetricArcminute))
+```
+""" MetricArcminute
+
+@doc """
+    MetricArcsecond = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,𝟏,𝟐^7*𝟑^4*3/τ)
+
+Standard `MetricArcsecond` system based on exact `molarmass` and `vacuumpermeability`.
+
+```Julia
+julia> boltzmann(MetricArcsecond) # J⋅K⁻¹
+$(boltzmann(MetricArcsecond))
+
+julia> planckreduced(MetricArcsecond) # J⋅s⋅asec⁻¹
+$(planckreduced(MetricArcsecond))
+
+julia> lightspeed(MetricArcsecond) # m⋅s⁻¹
+$(lightspeed(MetricArcsecond))
+
+julia> vacuumpermeability(MetricArcsecond) # H⋅m⁻¹
+$(vacuumpermeability(MetricArcsecond))
+
+julia> electronmass(MetricArcsecond) # kg
+$(electronmass(MetricArcsecond))
+
+julia> molarmass(MetricArcsecond) # kg⋅mol⁻¹
+$(molarmass(MetricArcsecond))
+
+julia> luminousefficacy(MetricArcsecond) # lm⋅W⁻¹
+$(luminousefficacy(MetricArcsecond))
+```
+""" MetricArcsecond
+
+@doc """
+    MetricGradian = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,𝟏,𝟐^4*𝟓^2/τ)
+
+Standard `MetricGradian` system based on exact `molarmass` and `vacuumpermeability`.
+
+```Julia
+julia> boltzmann(MetricGradian) # J⋅K⁻¹
+$(boltzmann(MetricGradian))
+
+julia> planckreduced(MetricGradian) # J⋅s⋅gon⁻¹
+$(planckreduced(MetricGradian))
+
+julia> lightspeed(MetricGradian) # m⋅s⁻¹
+$(lightspeed(MetricGradian))
+
+julia> vacuumpermeability(MetricGradian) # H⋅m⁻¹
+$(vacuumpermeability(MetricGradian))
+
+julia> electronmass(MetricGradian) # kg
+$(electronmass(MetricGradian))
+
+julia> molarmass(MetricGradian) # kg⋅mol⁻¹
+$(molarmass(MetricGradian))
+
+julia> luminousefficacy(MetricGradian) # lm⋅W⁻¹
+$(luminousefficacy(MetricGradian))
+```
+""" MetricGradian
+
+@doc """
     MetricEngineering = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,g₀)
 
 Standard `MetricEngineering` system based on kilogram and kilopond (kilogram-force) units.
@@ -183,7 +329,7 @@ $(gravity(MetricEngineering))
 ```
 """ MetricEngineering, ME
 
-@doc """
+#=@doc """
     SI2019Engineering = MetricSystem(Mᵤ,μ₀,Rᵤ,g₀)
 
 Systeme International d'Unites based on kilogram and kilopond (kilogram-force) units.
@@ -213,7 +359,7 @@ $(luminousefficacy(SI2019Engineering))
 julia> gravity(SI2019Engineering) # kg⋅m⋅kgf⁻¹⋅s⁻²
 $(gravity(SI2019Engineering))
 ```
-""" SI2019Engineering, SIE
+""" SI2019Engineering, SIE=#
 
 @doc """
     SI1976 = MetricSystem(milli,𝟐*τ/𝟏𝟎^7,8.31432)
@@ -416,7 +562,7 @@ $(luminousefficacy(Meridian))
 ```
 """ Meridian
 
-@doc """
+#=@doc """
     MeridianEngineering = EntropySystem(MetricEngineering,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7/g₀^2,milli)
 
 Modern ideal engineering `UnitSystem` variant of the original French `Meridian` system.
@@ -449,7 +595,7 @@ $(luminousefficacy(MeridianEngineering))
 julia> gravity(MeridianEngineering) # keg⋅em⋅kegf⁻¹⋅s⁻²
 $(gravity(MeridianEngineering))
 ```
-""" MeridianEngineering
+""" MeridianEngineering=#
 
 
 cgstext(US,AMP,cgs=eval(US)) = """
@@ -665,7 +811,7 @@ $(luminousefficacy(GravitationalMetric))
 ```
 """ GravitationalMetric, GM
 
-@doc """
+#=@doc """
     GraviationalSI2019 = EntropySystem(SI2019,𝟏,𝟏,g₀)
 
 Gravitational Systeme International d'Unites based on `hyl` and `kilopond` units.
@@ -692,9 +838,9 @@ $(molarmass(GravitationalSI2019))
 julia> luminousefficacy(GravitationalMetric) # lm⋅s⋅m⁻¹⋅kgf⁻¹
 $(luminousefficacy(GravitationalMetric))
 ```
-""" GravitationalSI2019, GSI, GSI2019
+""" GravitationalSI2019, GSI, GSI2019=#
 
-@doc """
+#=@doc """
     GravitationalMeridian = EntropySystem(Metric,𝟏,em,g₀*em^3,𝟏,τ/𝟐^6/𝟓^7/g₀,milli)
 
 Gravitational `UnitSystem` variant of the original French `Meridian` unit defintion.
@@ -724,7 +870,7 @@ $(molarmass(GravitationalMeridian))
 julia> luminousefficacy(GravitationalMeridian) # lm⋅s⋅em⁻¹⋅kegf⁻¹
 $(luminousefficacy(GravitationalMeridian))
 ```
-""" GravitationalMeridian
+""" GravitationalMeridian=#
 
 @doc """
     MTS = EntropySystem(SI2019,𝟏,𝟏,kilo)
@@ -881,7 +1027,7 @@ $(sqrt(gravitation(IAUJ)*solarmass(IAUJ)/jupiterdistance(IAUJ)^3))
 """ IAUJ
 
 #=@doc """
-    Astronomical = AstronomicalSystem(Metric)
+    Astronomical = EntropySystem(Metric,𝟏,𝟏,𝟏/gravitation(Metric))
 
 Astronomical `UnitSystem` defined by making the `newton` gravitational constant 1.
 
@@ -913,7 +1059,7 @@ $(gravitation(Astronomical))
 """ Astronomical=#
 
 @doc """
-    Hubble = EntropySystem(Metric,th,𝘤*th,𝟏)
+    Hubble = AstronomicalSystem(Metric,th,𝘤*th,mₑ)
 
 Hubble `UnitSystem` defined by `hubble` parameter.
 
@@ -948,7 +1094,7 @@ $(cosmological(Hubble))
 """ Hubble
 
 @doc """
-    Cosmological = EntropySystem(Metric,lc/𝘤,lc,mc)
+    Cosmological = AstronomicalSystem(Metric,lc/𝘤,lc,mc)
 
 Cosmological scale `UnitSystem` defined by `darkenergydensity`.
 
@@ -983,7 +1129,7 @@ $(cosmological(Cosmological))
 """ Cosmological
 
 @doc """
-    CosmologicalQuantum = EntropySystem(Metric,tcq,lcq,mcq)
+    CosmologicalQuantum = AstronomicalSystem(Metric,tcq,lcq,mcq)
 
 Cosmological quantum scale `UnitSystem` defined by `darkenergydensity`.
 
@@ -1290,17 +1436,17 @@ $(textunits(PlanckGauss,:PlanckGauss))
 
 The well known `PlanckGauss` values for `length`, `time`, `mass`, and `temperature` are:
 ```Julia
-julia> length(PlanckGauss,Metric) # ℓP
-$(length(PlanckGauss,Metric))
+julia> length(PlanckGauss,SI2019) # ℓP
+$(length(PlanckGauss,SI2019))
 
-julia> time(PlanckGauss,Metric) # tP
-$(time(PlanckGauss,Metric))
+julia> time(PlanckGauss,SI2019) # tP
+$(time(PlanckGauss,SI2019))
 
-julia> mass(PlanckGauss,Metric) # mP
-$(mass(PlanckGauss,Metric))
+julia> mass(PlanckGauss,SI2019) # mP
+$(mass(PlanckGauss,SI2019))
 
-julia> temperature(PlanckGauss,Metric) # TP
-$(temperature(PlanckGauss,Metric))
+julia> temperature(PlanckGauss,SI2019) # TP
+$(temperature(PlanckGauss,SI2019))
 ```
 """ PlanckGauss
 
@@ -1313,40 +1459,40 @@ $(textunits(Stoney,:Stoney))
 
 The well known `Stoney` values for `length`, `time`, `mass`, and `charge` are:
 ```Julia
-julia> length(Stoney,Metric) # lS
-$(length(Stoney,Metric))
+julia> length(Stoney,SI2019) # lS
+$(length(Stoney,SI2019))
 
-julia> time(Stoney,Metric) # tS
-$(time(Stoney,Metric))
+julia> time(Stoney,SI2019) # tS
+$(time(Stoney,SI2019))
 
-julia> mass(Stoney,Metric) # mS
-$(mass(Stoney,Metric))
+julia> mass(Stoney,SI2019) # mS
+$(mass(Stoney,SI2019))
 
-julia> charge(Stoney,Metric) # qS
-$(charge(Stoney,Metric))
+julia> charge(Stoney,SI2019) # qS
+$(charge(Stoney,SI2019))
 ```
 """ Stoney
 
 @doc """
     Hartree = UnitSystem(𝟏,𝟏,𝟏/α,𝟐*τ*α^2,𝟏)
 
-Hartree atomic `UnitSystem` with `lightspeed` of `αinv` and `permeability` of `𝟐*τ*α^2`.
+Hartree atomic `UnitSystem` based on `bohr` radius and `elementarycharge` scale.
 
 $(textunits(Hartree,:Hartree))
 
 The well known `Hartree` atomic unit values for `length`, `time`, `mass`, and `charge` are:
 ```Julia
-julia> length(Hartree,Metric) # lA
-$(length(Hartree,Metric))
+julia> length(Hartree,SI2019) # lA
+$(length(Hartree,SI2019))
 
-julia> time(Hartree,Metric) # tA
-$(time(Hartree,Metric))
+julia> time(Hartree,SI2019) # tA
+$(time(Hartree,SI2019))
 
-julia> mass(Hartree,Metric) # mA
-$(mass(Hartree,Metric))
+julia> mass(Hartree,SI2019) # mA
+$(mass(Hartree,SI2019))
 
-julia> charge(Hartree,Metric) # qA
-$(charge(Hartree,Metric))
+julia> charge(Hartree,SI2019) # qA
+$(charge(Hartree,SI2019))
 ```
 """ Hartree
 
@@ -1356,6 +1502,21 @@ $(charge(Hartree,Metric))
 Rydberg `UnitSystem` with `lightspeed` of `𝟐/α` and `permeability` of `π*α^2`.
 
 $(textunits(Rydberg,:Rydberg))
+
+The well known `Rydberg` atomic unit values for `length`, `time`, `mass`, and `charge` are:
+```Julia
+julia> length(Rydberg,SI2019) # lR
+$(length(Rydberg,SI2019))
+
+julia> time(Rydberg,SI2019) # tR
+$(time(Rydberg,SI2019))
+
+julia> mass(Rydberg,SI2019) # mR
+$(mass(Rydberg,SI2019))
+
+julia> charge(Rydberg,SI2019) # qR
+$(charge(Rydberg,SI2019))
+```
 """ Rydberg
 
 @doc """
@@ -1383,17 +1544,17 @@ $(textunits(Natural,:Natural))
 
 The well known `Natural` values for `length`, `time`, `mass`, and `charge` are:
 ```Julia
-julia> length(Natural,Metric)
-$(length(Natural,Metric))
+julia> length(Natural,SI2019)
+$(length(Natural,SI2019))
 
-julia> time(Natural,Metric)
-$(time(Natural,Metric))
+julia> time(Natural,SI2019)
+$(time(Natural,SI2019))
 
-julia> mass(Natural,Metric)
-$(mass(Natural,Metric))
+julia> mass(Natural,SI2019)
+$(mass(Natural,SI2019))
 
-julia> charge(Natural,Metric)
-$(charge(Natural,Metric))
+julia> charge(Natural,SI2019)
+$(charge(Natural,SI2019))
 ```
 """ Natural
 
@@ -1408,68 +1569,68 @@ $(textunits(NaturalGauss,:NaturalGauss))
 @doc """
     QCD = UnitSystem(𝟏,𝟏,𝟏,𝟏,𝟏/μₚₑ)
 
-Qunatum chromodynamics `UnitSystem` with `electronmass` of `𝟏/μₚₑ` or `𝟏/$μₚₑ`.
+Qunatum chromodynamics `UnitSystem` based on the `protonmass` scale.
 
 $(textunits(QCD,:QCD))
 
 The well known `QCD` values for `length`, `time`, `mass`, and `charge` are:
 ```Julia
-julia> length(QCD,Metric) # lQCD
-$(length(QCD,Metric))
+julia> length(QCD,SI2019) # lQCD
+$(length(QCD,SI2019))
 
-julia> time(QCD,Metric) # tQCD
-$(time(QCD,Metric))
+julia> time(QCD,SI2019) # tQCD
+$(time(QCD,SI2019))
 
-julia> mass(QCD,Metric) # mQCD
-$(mass(QCD,Metric))
+julia> mass(QCD,SI2019) # mQCD
+$(mass(QCD,SI2019))
 
-julia> charge(QCD,Metric)
-$(charge(QCD,Metric))
+julia> charge(QCD,SI2019) # qQCD
+$(charge(QCD,SI2019))
 ```
 """ QCD
 
 @doc """
     QCDGauss = UnitSystem(𝟏,𝟏,𝟏,𝟐*τ,𝟏/μₚₑ)
 
-Qunatum chromodynamics (Gauss) `UnitSystem` with `electronmass` of `𝟏/μₚₑ`.
+Qunatum chromodynamics (Gauss) `UnitSystem` based on the `protonmass` scale.
 
 $(textunits(QCDGauss,:QCDGauss))
 
 The well known `QCDGauss` values for `length`, `time`, `mass`, and `charge` are:
 ```Julia
-julia> length(QCDGauss,Metric) # lQCD
-$(length(QCDGauss,Metric))
+julia> length(QCDGauss,SI2019) # lQCD
+$(length(QCDGauss,SI2019))
 
-julia> time(QCDGauss,Metric) # tQCD
-$(time(QCDGauss,Metric))
+julia> time(QCDGauss,SI2019) # tQCD
+$(time(QCDGauss,SI2019))
 
-julia> mass(QCDGauss,Metric) # mQCD
-$(mass(QCDGauss,Metric))
+julia> mass(QCDGauss,SI2019) # mQCD
+$(mass(QCDGauss,SI2019))
 
-julia> charge(QCDGauss,Metric)
-$(charge(QCDGauss,Metric))
+julia> charge(QCDGauss,SI2019) # qQCD
+$(charge(QCDGauss,SI2019))
 ```
 """ QCDGauss
 
 @doc """
     QCDoriginal = UnitSystem(𝟏,𝟏,𝟏,𝟐*τ*α,𝟏/μₚₑ)
 
-Qunatum chromodynamics (original) `UnitSystem` with `permeability` of `4π*α`.
+Qunatum chromodynamics (original) `UnitSystem` scaled by `protonmass` and `elementarycharge`.
 
 $(textunits(QCDoriginal,:QCDoriginal))
 
 The well known `QCDoriginal` values for `length`, `time`, `mass`, and `charge` are:
 ```Julia
-julia> length(QCDoriginal,Metric) # lQCD
-$(length(QCDoriginal,Metric))
+julia> length(QCDoriginal,SI2019) # lQCD
+$(length(QCDoriginal,SI2019))
 
-julia> time(QCDoriginal,Metric) # tQCD
-$(time(QCDoriginal,Metric))
+julia> time(QCDoriginal,SI2019) # tQCD
+$(time(QCDoriginal,SI2019))
 
-julia> mass(QCDoriginal,Metric) # mQCD
-$(mass(QCDoriginal,Metric))
+julia> mass(QCDoriginal,SI2019) # mQCD
+$(mass(QCDoriginal,SI2019))
 
-julia> charge(QCDoriginal,Metric)
-$(charge(QCDoriginal,Metric))
+julia> charge(QCDoriginal,SI2019) # qQCD
+$(charge(QCDoriginal,SI2019))
 ```
 """ QCDoriginal

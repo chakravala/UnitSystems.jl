@@ -16,10 +16,12 @@
 
 @pure radian(U::UnitSystem) = angle(one(U),U,Metric)
 @pure steradian(U::UnitSystem) = solidangle(one(U),U,Metric)
-@pure degree(U::UnitSystem) = angle(turn(U)/two(U)^3/three(U)^2/five(U),U,Metric)
-@pure gradian(U::UnitSystem) = angle(turn(U)/two(U)^4/five(U)^2,U,Metric)
-@pure arcminute(U::UnitSystem) = degree(U)/two(U)^2/three(U)/five(U)
-@pure arcsecond(U::UnitSystem) = arcminute(U)/two(U)^2/three(U)/five(U)
+@pure degree(U::UnitSystem) = angle(one(U),U,MetricDegree)
+@pure squaredegree(U::UnitSystem) = solidangle(one(U),U,MetricDegree)
+@pure gradian(U::UnitSystem) = angle(one(U),U,MetricGradian)
+@pure arcminute(U::UnitSystem) = angle(one(U),U,MetricArcminute)
+@pure arcsecond(U::UnitSystem) = angle(one(U),U,MetricArcsecond)
+@pure bradian(U::UnitSystem) = angle(turn(U)/two(U)^8,U,Metric)
 
 @pure apm(U::UnitSystem) = one(U)/minute(U)
 @pure rpm(U::UnitSystem) = turn(U)/minute(U)

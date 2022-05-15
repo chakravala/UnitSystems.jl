@@ -13,7 +13,7 @@
 #   https://crucialflow.com
 
 @pure avogadro(U::UnitSystem,C::Coupling=universe(U)) = molarmass(U,C)*electronunit(C)/electronmass(U,C)
-@pure atomicmass(U::UnitSystem,C::Coupling=universe(U)) = electronmass(U,C)/electronunit(C)
+@pure dalton(U::UnitSystem,C::Coupling=universe(U)) = electronmass(U,C)/electronunit(C)
 @pure protonmass(U::UnitSystem,C::Coupling=universe(U)) = protonelectron(C)*electronmass(U,C)
 @pure gaussgravitation(U::UnitSystem,C::Coupling=universe(U)) = sqrt(normal(gravitation(IAU)))*radian(U)/day(U)
 @pure einstein(U::UnitSystem,C::Coupling=universe(U)) = two(U)*spat(U)*gravitation(U,C)/lightspeed(U,C)^4
@@ -45,6 +45,7 @@
 @pure amagat(U::UnitSystem) = loschmidt(U)/avogadro(U)
 @pure wienwavelength(U::UnitSystem) = planck(U)*lightspeed(U)/boltzmann(U)/Constant(4.965114231744276303)
 @pure wienfrequency(U::UnitSystem) = Constant(2.821439372122078893)*boltzmann(U)/planck(U)
+@pure eddington(U::UnitSystem) = mass(𝟏,U,Cosmological)
 @pure solarmass(U::UnitSystem) = mass(GM☉/G,U,Metric)
 @pure earthmass(U::UnitSystem) = mass(GME/G,U,Metric)
 @pure jupitermass(U::UnitSystem) = mass(GMJ/G,U,Metric)
