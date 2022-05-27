@@ -37,6 +37,31 @@ $(solidangle(CGS,Metric))
 # spacetime
 
 @doc """
+$(convertext(:angulartime,"time(U,S)/angle(U,S)"))
+
+Circular `time` per `angle` (s⋅rad⁻¹), unit conversion factor.
+
+```Julia
+julia> angulartime(IAU,Metric) s⋅day⁻¹
+$(angulartime(IAU,Metric))
+```
+""" angulartime
+
+@doc """
+$(convertext(:angularlength,"length(U,S)/angle(U,S)"))
+
+Unit of `length` per `angle` (m⋅rad⁻¹), unit conversion factor.
+
+```Julia
+julia> angularlength(CGS,Metric) # cm⋅m⁻¹
+$(angularlength(CGS,Metric))
+
+julia> angularlength(English,Metric) # ft⋅m⁻¹
+$(angularlength(English,Metric))
+```
+""" angularlength
+
+@doc """
 $(convertext(:area,"length(U,S)^2"))
 
 Extent of two-dimensional shape or `area` (m²), unit conversion factor.
@@ -52,6 +77,20 @@ julia> area(Survey,English) # ft²⋅ftUS⁻²
 $(area(Survey,English))
 ```
 """ area
+
+@doc """
+$(convertext(:angulararea,"area(U,S)/solidangle(U,S)"))
+
+Extent of two-dimensional shape or `area` (m²), unit conversion factor.
+
+```Julia
+julia> angulararea(CGS,Metric) # m²⋅cm⁻²
+$(angulararea(CGS,Metric))
+
+julia> angulararea(English,Metric) # m²⋅ft⁻²
+$(angulararea(English,Metric))
+```
+""" angulararea
 
 @doc """
 $(convertext(:volume,"length(U,S)^3"))
@@ -101,7 +140,7 @@ $(angularwavenumber(English,Metric))
 @doc """
 $(convertext(:fuelefficiency,"1/area(U,S)"))
 
-Distance per volume or `fuelefficiency` (m⋅m⁻³, m⁻²), unit conversion factor.
+Distance per volume or fuel efficiency (m⋅m⁻³, m⁻²), unit conversion factor.
 
 ```Julia
 julia> fuelefficiency(CGS,Metric) # cm²⋅m⁻²
@@ -144,7 +183,7 @@ Circular radian frequency (rad⋅Hz or rad⋅s⁻¹), unit conversion factor.
 
 ```Julia
 julia> angularfrequency(IAU,Metric) day⋅s⁻¹
-$(frequency(IAU,Metric))
+$(angularfrequency(IAU,Metric))
 ```
 """ angularfrequency
 
@@ -177,6 +216,26 @@ julia> speed(Survey,English) # ft⋅ftUS⁻¹
 $(speed(Survey,English))
 ```
 """ speed
+
+@doc """
+$(convertext(:stagnance,"lightspeed(U)/lightspeed(S)"))
+
+Stagnance or `time` per `length` (s⋅m⁻¹), unit conversion factor.
+
+```Julia
+julia> stagnance(CGS,Metric) # cm⋅m⁻¹
+$(stagnance(CGS,Metric))
+
+julia> stagnance(IAU,Metric) # au⋅s⋅day⁻¹⋅m⁻¹
+$(stagnance(IAU,Metric))
+
+julia> stagnance(English,Metric) # ft⋅m⁻¹
+$(stagnance(English,Metric))
+
+julia> stagnance(Survey,English) # ftUS⋅ft⁻¹
+$(stagnance(Survey,English))
+```
+""" stagnance
 
 @doc """
 $(convertext(:acceleration,"speed(U,S)/time(U,S)"))
@@ -296,24 +355,57 @@ $(volume(Survey,English))
 """ volumeflow
 
 @doc """
-$(convertext(:specificenergy,"speed(U,S)^2"))
+$(convertext(:etendue,"area(U,S)*solidangle(U,S)"))
 
-Massic energy or `energy` per `mass` or `specificenergy` (J⋅kg⁻¹), unit conversion factor.
+Etendue or `area` times `solidangle` (m², ft²), unit conversion factor.
 
 ```Julia
-julia> specificenergy(CGS,Metric) # m²⋅cm⁻²
-$(specificenergy(CGS,Metric))
+julia> etendue(CGS,Metric) # m²⋅cm⁻²
+$(etendue(CGS,Metric))
 
-julia> specificenergy(IAU,Metric) # m²⋅day²⋅s⁻²⋅au⁻²
-$(specificenergy(IAU,Metric))
-
-julia> specificenergy(English,Metric) # m²⋅ft⁻²
-$(specificenergy(English,Metric))
-
-julia> specificenergy(Survey,English) # ft²⋅ftUS⁻²
-$(specificenergy(Survey,English))
+julia> etendue(English,Metric) # m²⋅ft⁻²
+$(etendue(English,Metric))
 ```
-""" specificenergy
+""" etendue
+
+@doc """
+$(convertext(:photonintensity,"frequency(U,S)/solidangle(U,S)"))
+
+Photon intensity or `frequency` per `area` (Hz⋅m⁻², m⁻²⋅s⁻¹), unit conversion factor.
+
+```Julia
+julia> photonintensity(IAU,Metric) day⋅s⁻¹
+$(photonintensity(IAU,Metric))
+```
+""" photonintensity
+
+@doc """
+$(convertext(:photonirradiance,"1/area(U,S)/time(U,S)"))
+
+Photon flux or `frequency` per `area` (Hz⋅m⁻², m⁻²⋅s⁻¹), unit conversion factor.
+
+```Julia
+julia> photonirradiance(CGS,Metric) # cm²⋅m⁻²
+$(photonirradiance(CGS,Metric))
+
+julia> photonirradiance(English,Metric) # ft²⋅m⁻²
+$(photonirradiance(English,Metric))
+```
+""" photonirradiance
+
+@doc """
+$(convertext(:photonradiance,"photonirradiance(U,S)/solidangle(U,S)"))
+
+Photon radiance or `photonirradiance` per `solidangle` (Hz⋅m⁻², m⁻²⋅s⁻¹), unit conversion factor.
+
+```Julia
+julia> photonradiance(CGS,Metric) # cm²⋅m⁻²
+$(photonradiance(CGS,Metric))
+
+julia> photonradiance(English,Metric) # ft²⋅m⁻²
+$(photonradiance(English,Metric))
+```
+""" photonradiance
 
 # kinematic
 
@@ -368,6 +460,26 @@ julia> inertia(PlanckGauss,Metric) # kg⋅mP⁻¹
 $(inertia(PlanckGauss,Metric))
 ```
 """ inertia
+
+@doc """
+$(convertext(:specificenergy,"speed(U,S)^2/gravity(U,S)"))
+
+Massic energy or `energy` per `mass` or `specificenergy` (J⋅kg⁻¹), unit conversion factor.
+
+```Julia
+julia> specificenergy(CGS,Metric) # m²⋅cm⁻²
+$(specificenergy(CGS,Metric))
+
+julia> specificenergy(IAU,Metric) # m²⋅day²⋅s⁻²⋅au⁻²
+$(specificenergy(IAU,Metric))
+
+julia> specificenergy(English,Metric) # m²⋅ft⁻²
+$(specificenergy(English,Metric))
+
+julia> specificenergy(Survey,English) # ft²⋅ftUS⁻²
+$(specificenergy(Survey,English))
+```
+""" specificenergy
 
 @doc """
 $(convertext(:energy,"mass(U,S)*specificenergy(U,S)"))
@@ -522,7 +634,7 @@ $(momentum(British,Metric))
 """ momentum
 
 @doc """
-$(convertext(:angularmomentum,"momentum(U,S)*lengt(U,S)*angle(U,S)"))
+$(convertext(:angularmomentum,"impulse(U,S)*length(U,S)/angle(U,S)"))
 
 Rotational momentum or `angularmomentum` (N⋅m⋅s, kg⋅m²⋅s⁻¹), unit conversion factor.
 

@@ -70,7 +70,7 @@ Converts distance `d` from feet to meters (m).
 
 @pure length(U::UnitSystem,S::UnitSystem,l=1) = isquantity(U,S) ? evaldim(length)(U,S) : unit((turn(S)/turn(U))*(planckreduced(S)*electronmass(U)*lightspeed(U)*gravity(S))/(planckreduced(U)*electronmass(S)*lightspeed(S)*gravity(U)),l)
 @doc """
-$(convertext(:length,"planck(U,S)/mass(U,S)/speed(U,S)"))
+$(convertext(:length,"action(U,S)*gravityforce(U,S)/mass(U,S)/speed(U,S)"))
 
 Extent of one-dimensional shape or `length` (m), unit conversion factor.
 
@@ -109,27 +109,35 @@ $(time(PlanckGauss,Metric))
 
 # spacetime
 
+@pure angularlength(U::UnitSystem,S::UnitSystem) = unit(length(U,S)*angle(S,U))
 @pure area(U::UnitSystem,S::UnitSystem) = unit(length(U,S)^2)
+@pure angulararea(U::UnitSystem,S::UnitSystem) = unit(area(U,S)*solidangle(S,U))
 @pure volume(U::UnitSystem,S::UnitSystem) = unit(length(U,S)^3)
 @pure wavenumber(U::UnitSystem,S::UnitSystem) = unit(length(S,U))
 @pure angularwavenumber(U::UnitSystem,S::UnitSystem) = unit(angle(U,S)*length(S,U))
+@pure etendue(U::UnitSystem,S::UnitSystem) = unit(area(U,S)*solidangle(U,S))
+@pure photonintensity(U::UnitSystem,S::UnitSystem) = unit(frequency(U,S)/solidangle(U,S))
+@pure photonirradiance(U::UnitSystem,S::UnitSystem) = unit(length(S,U)*speed(S,U))
+@pure photonradiance(U::UnitSystem,S::UnitSystem) = unit(photonirradiance(U,S)/solidangle(U,S))
 @pure fuelefficiency(U::UnitSystem,S::UnitSystem) = area(S,U)
 @pure numberdensity(U::UnitSystem,S::UnitSystem) = volume(S,U)
+@pure angulartime(U::UnitSystem,S::UnitSystem) = unit(time(U,S)*angle(S,U))
 @pure frequency(U::UnitSystem,S::UnitSystem) = time(S,U)
 @pure angularfrequency(U::UnitSystem,S::UnitSystem) = unit(angle(U,S)*time(S,U))
 @pure frequencydrift(U::UnitSystem,S::UnitSystem) = unit(time(S,U)^2)
 @pure speed(U::UnitSystem,S::UnitSystem) = lightspeed(U,S)
+@pure stagnance(U::UnitSystem,S::UnitSystem) = lightspeed(S,U)
 @pure acceleration(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)/time(U,S))
 @pure jerk(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)/time(U,S)^2)
 @pure snap(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)/time(U,S)^3)
 @pure crackle(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)/time(U,S)^4)
 @pure pop(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)/time(U,S)^5)
 @pure volumeflow(U::UnitSystem,S::UnitSystem) = unit(area(U,S)*speed(U,S))
-@pure specificenergy(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)^2/gravity(U,S))
 
 # kinematic
 
 @pure inertia(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)/gravity(U,S))
+@pure specificenergy(U::UnitSystem,S::UnitSystem) = unit(speed(U,S)^2/gravity(U,S))
 @pure energy(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)*specificenergy(U,S))
 @pure power(U::UnitSystem,S::UnitSystem) = unit(energy(U,S)/time(U,S))
 @pure force(U::UnitSystem,S::UnitSystem) = unit(inertia(U,S)*acceleration(U,S))
@@ -141,7 +149,7 @@ $(time(PlanckGauss,Metric))
 
 @pure impulse(U::UnitSystem,S::UnitSystem) = unit(force(U,S)*time(U,S))
 @pure momentum(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)*speed(U,S))
-@pure angularmomentum(U::UnitSystem,S::UnitSystem) = unit(momentum(U,S)*length(U,S)*angle(U,S))
+@pure angularmomentum(U::UnitSystem,S::UnitSystem) = unit(impulse(U,S)*length(U,S)/angle(U,S))
 @pure yank(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)*jerk(U,S))
 @pure areadensity(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)/area(U,S))
 @pure density(U::UnitSystem,S::UnitSystem) = unit(mass(U,S)/volume(U,S))

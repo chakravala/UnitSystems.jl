@@ -14,11 +14,11 @@
 
 # angle
 
-@pure radian(U::UnitSystem) = angle(one(U),U,Metric)
 @pure steradian(U::UnitSystem) = solidangle(one(U),U,Metric)
+@pure spatian(U::UnitSystem) = angle(one(U),U,MetricSpatian)
+@pure gradian(U::UnitSystem) = angle(one(U),U,MetricGradian)
 @pure degree(U::UnitSystem) = angle(one(U),U,MetricDegree)
 @pure squaredegree(U::UnitSystem) = solidangle(one(U),U,MetricDegree)
-@pure gradian(U::UnitSystem) = angle(one(U),U,MetricGradian)
 @pure arcminute(U::UnitSystem) = angle(one(U),U,MetricArcminute)
 @pure arcsecond(U::UnitSystem) = angle(one(U),U,MetricArcsecond)
 @pure bradian(U::UnitSystem) = angle(turn(U)/two(U)^8,U,Metric)
@@ -150,7 +150,7 @@
 # thermalconductivity_water(British) ≈ 0.5778
 @pure thermalconductivity_water(U::UnitSystem) = thermalconductivity((two(U)^2*three(U)*five(U))^2/thermalunit(U),U,Metric)
 @pure horsepower(U::UnitSystem) = power(two(U)*five(U)^2*eleven(U),U,British)
-@pure horsepowerwatt(U::UnitSystem) = power(two(U)^4*three(U)^3/five(U)*normal(twopi(U)),U,British)
+@pure horsepowerwatt(U::UnitSystem) = power(two(U)^4*three(U)^3/five(U)*normal(tau(U)),U,British)
 @pure horsepowermetric(U::UnitSystem) = power(three(U)*five(U)^2,U,GravitationalMetric)
 @pure electricalhorsepower(U::UnitSystem) = power(Constant(746),U,Metric)
 
@@ -220,13 +220,17 @@
 @pure lambert(U::UnitSystem) = luminance(two(U)/turn(U),U,Gauss)
 @pure footlambert(U::UnitSystem) = luminance(two(U)/turn(U),U,English)
 @pure bril(U::UnitSystem) = centi(U)*nano(U)*lambert(U)
+@pure talbot(U::UnitSystem) = luminousenergy(one(U),U,Metric)
+@pure lumerg(U::UnitSystem) = luminousenergy(centi(U)^2*milli(U),U,CGS)
+@pure rayleigh(U::UnitSystem) = deka(U)*giga(U)*photonirradiance(one(U),U,Metric)
+@pure flick(U::UnitSystem) = giga(U)*radiance(deka(U),U,Metric)*length(one(U),Metric,U)
 
 #const neper = Metric(one(U),log(𝟙))
 #const bel = Metric(one(U),log10(𝟙))
 #const decibel = Metric(one(U),dB(𝟙))
 @pure hertz(U::UnitSystem) = one(U)/second(U)
 @pure kayser(U::UnitSystem) = wavenumber(one(U),U,Gauss)
-@pure diopter(U::UnitSystem) = wavenumber(one(U),U,Metric)
+@pure diopter(U::UnitSystem) = angularwavenumber(one(U),U,Metric)
 @pure gforce(U::UnitSystem) = specificforce(one(U),U,English)
 @pure galileo(U::UnitSystem) = specificforce(one(U),U,Gauss)
 @pure eotvos(U::UnitSystem) = specificforce(nano(U),U,Gauss)/length(one(U),U,Gauss)
@@ -241,7 +245,7 @@
 @pure jansky(U::UnitSystem) = fluence((Constant(1.0)*deci(U))^26,U,Metric)
 @pure solarflux(U::UnitSystem) = hecto(U)^2*jansky(U)
 @pure curie(U::UnitSystem) = Constant(37)*giga(U)*hertz(U)
-@pure sievert(U::UnitSystem) = energy(one(U),U,Metric)/mass(U,Metric)
+@pure sievert(U::UnitSystem) = energy(one(U),U,Metric)/mass(one(U),U,Metric)
 @pure rem(U::UnitSystem) = centi(U)*sievert(U)
 @pure roentgen(U::UnitSystem) = chargedensity(one(U),U,ESU)/density(Constant(1.293),U,Metric)
 

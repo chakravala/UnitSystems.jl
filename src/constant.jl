@@ -16,18 +16,25 @@ export Constant, constant
 
 # constant
 
-struct Constant{D} <: Real
-    @pure Constant{D}() where D = new{D}()
+struct Constant{N} <: Real
+    @pure Constant{N}() where N = new{N}()
 end
 
-@pure param(::Constant{D}) where D = D
-Base.float(x::Constant) = float(constant(x))
+@pure isconstant(::Constant) = true
+@pure Constant(N::Constant) = N
+@pure Constant(N::Irrational) = Constant(float(N))
+
+@pure param(::Constant{N}) where N = N
+Base.abs(::Constant{N}) where N = Constant{abs(N)}()
+Base.float(c::Constant) = float(constant(c))
 Base.convert(::Type{Float64},c::Constant) = float(c)
-logdb(x::Constant{D}) where D = Constant{logdb(D)}()
+logdb(::Constant{N}) where N = Constant{logdb(N)}()
+Base.:<(a::Real,b::Constant) = a<constant(b)
+Base.:<(a::Constant,b::Real) = constant(a)<b
 Base.:+(a::Constant,b::Constant) = Constant(constant(a)+constant(b))
 Base.:-(a::Constant,b::Constant) = Constant(constant(a)-constant(b))
-Base.:+(a::Constant{D},::Constant{D}) where D = 𝟐*a
-Base.:-(a::Constant{D},::Constant{D}) where D = Constant(0)
+Base.:+(a::Constant{N},::Constant{N}) where N = 𝟐*a
+Base.:-(a::Constant{N},::Constant{N}) where N = Constant(0)
 Base.:+(a::Number,b::Constant) = a+constant(b)
 Base.:+(a::Constant,b::Number) = constant(a)+b
 Base.:-(a::Number,b::Constant) = a-constant(b)
@@ -38,23 +45,34 @@ Base.:*(a::Constant{A},b::Constant{B}) where {A,B} = Constant{A*B}()
 Base.:/(a::Constant{A},b::Constant{B}) where {A,B} = Constant{A/B}()
 Base.:/(a::Number,b::Constant) = a*inv(b)
 Base.:/(a::Constant,b::Number) = a*inv(b)
-Base.inv(a::Constant{D}) where D = Constant{inv(D)}()
-Base.sqrt(a::Constant{D}) where D = Constant{sqrt(D)}()
-Base.cbrt(a::Constant{D}) where D = Constant{cbrt(D)}()
-Base.log(x::Constant{D}) where D = Constant{log(D)}()
-Base.log2(x::Constant{D}) where D = Constant{log2(D)}()
-Base.log10(x::Constant{D}) where D = Constant{log10(D)}()
-Base.log(b::Number,x::Constant{D}) where D = Constant{log(b,D)}()
-Base.exp(x::Constant{D}) where D = Constant{exp(D)}()
-Base.exp2(x::Constant{D}) where D = Constant{exp2(D)}()
-Base.exp10(x::Constant{D}) where D = Constant{exp10(D)}()
-Base.:^(a::Number,b::Constant{D}) where D = Constant{a^D}()
-Base.:^(a::Constant{D},b::Number) where D = Constant{D^b}()
-Base.:^(a::Constant{D},b::Integer) where D = Constant{D^b}()
-Base.:^(a::Constant{D},b::Rational{Int}) where D = Constant{D^b}()
+Base.inv(a::Constant{N}) where N = Constant{inv(N)}()
+Base.sqrt(a::Constant{N}) where N = Constant{sqrt(N)}()
+Base.cbrt(a::Constant{N}) where N = Constant{cbrt(N)}()
+Base.log(x::Constant{N}) where N = Constant{log(N)}()
+Base.log2(x::Constant{N}) where N = Constant{log2(N)}()
+Base.log10(x::Constant{N}) where N = Constant{log10(N)}()
+Base.log(b::Number,x::Constant{N}) where N = Constant{log(b,N)}()
+Base.exp(x::Constant{N}) where N = Constant{exp(N)}()
+Base.exp2(x::Constant{N}) where N = Constant{exp2(N)}()
+Base.exp10(x::Constant{N}) where N = Constant{exp10(N)}()
+Base.:^(a::Number,b::Constant{N}) where N = Constant{a^N}()
+Base.:^(a::Constant{N},b::Number) where N = Constant{N^b}()
+Base.:^(a::Constant{N},b::Integer) where N = Constant{N^b}()
+Base.:^(a::Constant{N},b::Rational{Int}) where N = Constant{N^b}()
 
-Base.isone(x::Constant{D}) where D = isone(D)
-Base.iszero(x::Constant{D}) where D = iszero(D)
+Base.:^(a::Constant,b::Irrational) = a^Constant(b)
+Base.:^(a::Irrational,b::Constant) = Constant(a)^b
+Base.:*(a::Irrational,b::Constant) = Constant(a)*b
+Base.:*(a::Constant,b::Irrational) = a*Constant(b)
+Base.:/(a::Irrational,b::Constant) = Constant(a)/b
+Base.:/(a::Constant,b::Irrational) = a/Constant(b)
+Base.:+(a::Irrational,b::Constant) = Constant(a)+b
+Base.:+(a::Constant,b::Irrational) = a+Constant(b)
+Base.:-(a::Irrational,b::Constant) = Constant(a)-b
+Base.:-(a::Constant,b::Irrational) = a-Constant(b)
+
+Base.isone(x::Constant{N}) where N = isone(N)
+Base.iszero(x::Constant{N}) where N = iszero(N)
 
 Base.:(==)(a::Real,b::Constant) = a == constant(b)
 Base.:(==)(a::Constant,b::Real) = constant(a) == b

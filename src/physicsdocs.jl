@@ -43,19 +43,19 @@ $(unitext(:turn,"2π/angle(U)"))
 
 Complete rotation `angle` of revolution from a full circle.
 ```Julia
-julia> turn(MetricEngineering)
+julia> turn(MetricEngineering) # rad
 $(turn(MetricEngineering))
 
-julia> turn(MetricDegree)
+julia> turn(MetricDegree) # deg
 $(turn(MetricDegree))
 
-julia> turn(MetricArcminute)
+julia> turn(MetricArcminute) # amin
 $(turn(MetricArcminute))
 
-julia> turn(MetricArcsecond)
+julia> turn(MetricArcsecond) # asec
 $(turn(MetricArcsecond))
 
-julia> turn(MetricGradian)
+julia> turn(MetricGradian) # gon
 $(turn(MetricGradian))
 ```
 """ turn
@@ -65,19 +65,19 @@ $(unitext(:spat,"4π/solidangle(U)"))
 
 Complete spherical `solidangle` around point from a full sphere.
 ```Julia
-julia> spat(MetricEngineering)
+julia> spat(MetricEngineering) # rad²
 $(spat(MetricEngineering))
 
-julia> spat(MetricDegree)
+julia> spat(MetricDegree) # deg²
 $(spat(MetricDegree))
 
-julia> spat(MetricArcminute)
+julia> spat(MetricArcminute) # amin²
 $(spat(MetricArcminute))
 
-julia> spat(MetricArcsecond)
+julia> spat(MetricArcsecond) # asec²
 $(spat(MetricArcsecond))
 
-julia> spat(MetricGradian)
+julia> spat(MetricGradian) # gon²
 $(spat(MetricGradian))
 ```
 """ spat
@@ -447,7 +447,7 @@ $(gravitation(PlanckGauss))
 """ gravitation, G, GG
 
 @doc """
-$(unitext(:einstein,"𝟐*spat(U)*gravitation(U)/lightspeed(U)^4"))
+$(unitext(:einstein,"𝟐^2*τ*gravitation(U)/lightspeed(U)^4"))
 
 Einstein's gravitational constant from the Einstein field equations (s⋅²⋅m⁻¹⋅kg⁻¹).
 ```Julia
@@ -530,7 +530,7 @@ $(molargas(SI1976))
 """ molargas, Rᵤ, Ru
 
 @doc """
-$(unitext(:stefan,"π^4/𝟐*spat(U)*boltzmann(U)^4/(15planck(U)^3*lightspeed(U)^2)"))
+$(unitext(:stefan,"τ^5/𝟐^4*boltzmann(U)^4/(𝟑*𝟓*planck(U)^3*lightspeed(U)^2)"))
 
 Stefan-Boltzmann proportionality `σ` of black body radiation (W⋅m⁻²⋅K⁻⁴ or ?⋅ft⁻²⋅°R⁻⁴).
 
@@ -611,7 +611,7 @@ $(vacuumpermittivity(SI2019)/elementarycharge(SI2019))
 """ vacuumpermittivity, ε₀, ϵ₀, e0
 
 @doc """
-$(unitext(:electrostatic,"rationalization(U)/spat(U)/vacuumpermittivity(U)"))
+$(unitext(:electrostatic,"rationalization(U)/𝟐/τ/vacuumpermittivity(U)"))
 
 Electrostatic proportionality constant `kₑ` for the Coulomb's law force (N⋅m²⋅C⁻²).
 
@@ -643,7 +643,7 @@ $(electrostatic(HLU))
 """ electrostatic, kₑ, ke
 
 @doc """
-$(unitext(:biotsavart,"vacuumpermeability(U)*lorentz(U)*rationalization(U)/spat(U)"))
+$(unitext(:biotsavart,"vacuumpermeability(U)*lorentz(U)*rationalization(U)/𝟐/τ"))
 
 Magnetostatic proportionality constant `αB` for the Biot-Savart's law (H/m).
 
@@ -746,6 +746,9 @@ $(vacuumimpedance(ESU))
 
 julia> vacuumimpedance(HLU) # hlΩ
 $(vacuumimpedance(HLU))
+
+julia> vacuumimpedance(IPS) # in⋅lb⋅s⋅C⁻²
+$(vacuumimpedance(IPS))
 ```
 """ vacuumimpedance, Z₀, Z0
 
@@ -818,7 +821,7 @@ $(faraday(Metric)/HOUR)
 """ faraday, 𝔉, FF
 
 @doc """
-$(unitext(:josephson,"𝟐*elementarycharge(U)*lorentz(U)/planck(U) # 𝟏/magneticfluxquantum(U)"))
+$(unitext(:josephson,"𝟐*elementarycharge(U)*lorentz(U)/planck(U)"))
 
 Josephson constant `KJ` relating potential difference to irradiation frequency (Hz⋅V⁻¹).
 ```Julia
@@ -952,8 +955,8 @@ $(hartree(Metric)*avogadro(Metric)/kilo)
 julia> hartree(Metric)*avogadro(Metric)/kilocalorie(Metric) # kcal⋅mol⁻¹
 $(hartree(Metric)*avogadro(Metric)/kilocalorie(Metric))
 
-julia> 𝟐*centi*rydberg(Metric) # Eₕ/𝘩/𝘤/100 cm⁻¹
-$(hartree(Metric)/planck(Metric)/lightspeed(Metric)/(𝟐*𝟓)^2)
+julia> 𝟐*rydberg(CGS) # Eₕ/𝘩/𝘤/100 cm⁻¹
+$(𝟐*rydberg(CGS))
 
 julia> hartree(Metric)/planck(Metric) # Hz
 $(hartree(Metric)/planck(Metric))
@@ -1489,6 +1492,7 @@ $(greatcircle(IAU))
 @doc """
     sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=Da) = log(kB*T/P*sqrt(m*kB*T/τ/ħ^2)^3)+5/2
     dimensionless : [𝟙], [𝟙], [𝟙], [𝟙], [𝟙]
+    log(FL⁻²Θ⁻⁵ᐟ²A³ᐟ²⋅(μₑᵤ⁻³ᐟ²atm⁻¹τ⁻³ᐟ²exp(2⁻¹5) = 0.594141574194 ± 2.6e-11))
 
 Ideal gas entropy density for pressure `P`, temperature `T`, atomic mass `m` (dimensionless).
 ```Julia
@@ -1527,7 +1531,7 @@ $(mechanicalheat(British))
 """ mechanicalheat
 
 @doc """
-    eddington(U::UnitSystem) = mass(𝟏,U,Cosmological)
+$(unitext(:eddington,"mass(𝟏,U,Cosmological)"))
 
 Approximate number of protons in the `Universe` as estimated by Eddington (kg or lb).
 ```Julia

@@ -63,6 +63,7 @@ Converts the number of moles `n` to number of molecules (dimensionless).
 @pure molarsusceptibility(U::UnitSystem,S::UnitSystem) = unit(specificsusceptibility(U,S)*molarmass(U,S))
 @pure catalysis(U::UnitSystem,S::UnitSystem) = unit(molaramount(U,S)/time(U,S))
 @pure specificity(U::UnitSystem,S::UnitSystem) = unit(volume(U,S)/molaramount(U,S)/time(U,S))
+@pure diffusionflux(U::UnitSystem,S::UnitSystem) = unit(molaramount(U,S)*photonirradiance(U,S))
 
 # photometrics
 

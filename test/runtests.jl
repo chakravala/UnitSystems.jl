@@ -2,7 +2,7 @@ using UnitSystems, Test
 
 for S ∈ UnitSystems.Systems
     U = eval(S)
-    S ∉ (:MetricTurn,:MetricGradian,:MetricDegree,:MetricArcminute,:MetricArcsecond) && @testset "UnitSystem: $S" begin
+    S ∉ (:MetricTurn,:MetricSpatian,:MetricGradian,:MetricDegree,:MetricArcminute,:MetricArcsecond) && @testset "UnitSystem: $S" begin
         S≠:FFF && @testset "Dimensionless constants" begin
             @test μₑᵤ ≈ electronmass(U)/dalton(U)
             @test μₚᵤ ≈ protonmass(U)/dalton(U)
@@ -262,9 +262,9 @@ end
     @test electricfield(Metric,EMU) ≈ 1e6
     @test electricfield(Metric,Gauss) ≈ 1e6/C
 
-    @test electricfluxdensity(Metric,ESU) ≈ 4π*C/1e5
-    @test electricfluxdensity(Metric,EMU) ≈ 4π/1e5
-    @test electricfluxdensity(Metric,Gauss) ≈ 4π*C/1e5
+    @test electricdisplacement(Metric,ESU) ≈ 4π*C/1e5
+    @test electricdisplacement(Metric,EMU) ≈ 4π/1e5
+    @test electricdisplacement(Metric,Gauss) ≈ 4π*C/1e5
 
     @test electricdipolemoment(Metric,ESU) ≈ 10C
     @test electricdipolemoment(Metric,EMU) ≈ 10

@@ -13,100 +13,153 @@
 #   https://crucialflow.com
 
 @doc """
+    Constant{N} where N
+
+Truncated `Irrational` constant `N` with known value at compile time.
 ```Julia
-julia> deka
-$deka
+julia> golden # φ
+$golden
 
-julia> hecto
-$hecto
+julia> eulergamma # γ
+$eulergamma
 
-julia> kilo
-$kilo
+julia> exp # ℯ
+$(Constant(ℯ))
 
-julia> mega
-$mega
+julia> pi # π
+$(Constant(π))
 
-julia> giga
-$giga
-
-julia> tera
-$tera
-
-julia> peta
-$peta
-
-julia> exa
-$exa
-
-julia> zetta
-$zetta
-
-julia> yotta
-$yotta
+julia> tau # τ
+$tau
 ```
-""" deka,hecto,kilo,mega,giga,tera,peta,exa,zetta,yotta
+""" eulergamma, golden, tau, φ, τ
 
 @doc """
 ```Julia
-julia> deci
+julia> one # 𝟏
+$𝟏
+
+julia> two # 𝟐
+$two
+
+julia> three # 𝟑
+$three
+
+julia> five # 𝟓
+$five
+
+julia> seven # 𝟕
+$seven
+
+julia> eleven # 𝟏𝟏
+$eleven
+
+julia> nineteen # 𝟏𝟗
+$nineteen
+
+julia> fourtythree # 𝟒𝟑
+$fourtythree
+
+julia> sixty # 𝟔𝟎
+$sixty
+```
+""" two,three,five,seven,eleven,ninteteen,fourtythree,sixty,𝟏,𝟐,𝟑,𝟓,𝟕,𝟏𝟏,𝟏𝟗,𝟒𝟑,𝟔𝟎
+
+@doc """
+```Julia
+julia> deka # 𝟏𝟎
+$deka
+
+julia> hecto # 𝟏𝟎^2
+$hecto
+
+julia> kilo # 𝟏𝟎^3
+$kilo
+
+julia> mega # 𝟏𝟎^6
+$mega
+
+julia> giga # 𝟏𝟎^9
+$giga
+
+julia> tera # 𝟏𝟎^12
+$tera
+
+julia> peta # 𝟏𝟎^15
+$peta
+
+julia> exa # 𝟏𝟎^18
+$exa
+
+julia> zetta # 𝟏𝟎^21
+$zetta
+
+julia> yotta # 𝟏𝟎^24
+$yotta
+```
+""" deka,hecto,kilo,mega,giga,tera,peta,exa,zetta,yotta,𝟏𝟎
+
+@doc """
+```Julia
+julia> deci # 𝟏𝟎^-1
 $deci
 
-julia> centi
+julia> centi # 𝟏𝟎^-2
 $centi
 
-julia> milli
+julia> milli # 𝟏𝟎^-3
 $milli
 
-julia> micro
+julia> micro # 𝟏𝟎^-6
 $micro
 
-julia> nano
+julia> nano # 𝟏𝟎^-9
 $nano
 
-julia> pico
+julia> pico # 𝟏𝟎^-12
 $pico
 
-julia> femto
+julia> femto # 𝟏𝟎^-15
 $femto
 
-julia> atto
+julia> atto # 𝟏𝟎^-18
 $atto
 
-julia> zepto
+julia> zepto # 𝟏𝟎^-21
 $zepto
 
-julia> yocto
+julia> yocto # 𝟏𝟎^-24
 $yocto
 ```
 """ deci,centi,milli,micro,nano,pico,femto,atto,zepto,yocto
 
 @doc """
 ```Julia
-julia> byte
+julia> byte # 𝟐^3
 $byte
 
-julia> kibi
+julia> kibi # 𝟐^10
 $kibi
 
-julia> mebi
+julia> mebi # 𝟐^20
 $mebi
 
-julia> gibi
+julia> gibi # 𝟐^30
 $gibi
 
-julia> tebi
+julia> tebi # 𝟐^40
 $tebi
 
-julia> pebi
+julia> pebi # 𝟐^50
 $pebi
 
-julia> exbi
+julia> exbi # 𝟐^60
 $exbi
 
-julia> zebi
+julia> zebi # 𝟐^70
 $zebi
 
-julia> yobi
+julia> yobi # 𝟐^80
 $yobi
 ```
 """ byte,kibi,mebi,gibi,tebi,pebi,exbi,zebi,yobi
@@ -134,6 +187,28 @@ julia> radian(MetricGradian) # gon
 $(radian(MetricGradian))
 ```
 """ radian
+
+@doc """
+$(unitext(:spatian,"angle(𝟏,U,MetricSpatian)"))
+
+Unit of `angle` which is dimensionless (rad).
+```Julia
+julia> spatian(MetricEngineering) # rad
+$(spatian(MetricEngineering))
+
+julia> spatian(MetricDegree) # deg
+$(spatian(MetricDegree))
+
+julia> spatian(MetricArcminute) # amin
+$(spatian(MetricArcminute))
+
+julia> spatian(MetricArcsecond) # asec
+$(spatian(MetricArcsecond))
+
+julia> spatian(MetricGradian) # gon
+$(spatian(MetricGradian))
+```
+""" spatian
 
 @doc """
 $(unitext(:degree,"angle(𝟏,U,MetricDegree)"))
@@ -1643,13 +1718,13 @@ $(unitext(:thermalunit,"kilocalorie(U)*𝟑^2/𝟓/lb"))
 
 Heat energy required to raise 1 lb of water by 1 Rankine (`BTU`) in `International` units.
 ```Julia
-julia> thermalunit(British) # J
+julia> thermalunit(British) # ft⋅lb
 $(thermalunit(British))
 
 julia> thermalunit(International) # J
 $(thermalunit(International))
 
-julia> thermalunit(Metric) # ft⋅lb
+julia> thermalunit(Metric) # J
 $(thermalunit(Metric))
 ```
 """ thermalunit, BTU, BTUJ, BTUftlb
@@ -2720,6 +2795,26 @@ $(bril(English))
 ```
 """ bril
 
+@doc """
+$(unitext(:talbot,"luminousenergy(𝟏,U,Metric)"))
+
+Common unit of `luminousenergy` (lm⋅s).
+```Julia
+julia> talbot(Metric) # lm⋅s
+$(talbot(Metric))
+```
+""" talbot
+
+@doc """
+$(unitext(:lumerg,"luminousenergy(𝟏𝟎^-7,U,Metric)"))
+
+Reference unit of `luminousenergy` (lm⋅s).
+```Julia
+julia> lumerg(CGS) # lm⋅s
+$(lumerg(CGS))
+```
+""" lumerg
+
 # special
 
 @doc """
@@ -2796,9 +2891,9 @@ $(kayser(English))
 """ kayser
 
 @doc """
-$(unitext(:diopter,"wavenumber(𝟏,U,Metric)"))
+$(unitext(:diopter,"angularwavenumber(𝟏,U,Metric)"))
 
-Metric unit of `wavenumber` or curvature (m⁻¹ or ft⁻¹).
+Metric unit of `angularwavenumber` or curvature (m⁻¹ or ft⁻¹).
 ```Julia
 julia> diopter(Metric) # m⁻¹
 $(diopter(Metric))
@@ -2810,6 +2905,38 @@ julia> diopter(English) # ft⁻¹
 $(diopter(English))
 ```
 """ diopter
+
+@doc """
+$(unitext(:rayleigh,"photonirradiance(𝟏𝟎^10,U,Metric)"))
+
+Common unit of `photonirradiance` (Hz⋅m⁻²).
+```Julia
+julia> rayleigh(Metric) # Hz⋅m⁻²
+$(rayleigh(Metric))
+
+julia> rayleigh(CGS) # Hz⋅cm⁻²
+$(rayleigh(CGS))
+
+julia> rayleigh(English) # Hz⋅ft⁻²
+$(rayleigh(English))
+```
+""" rayleigh
+
+@doc """
+$(unitext(:flick,"radiance(𝟏𝟎^10,U,Metric)/length(𝟏,U,Metric)"))
+
+Lockheed Martin unit of `radiance` per `length` (W⋅m⁻³⋅rad⁻²).
+```Julia
+julia> flick(Metric) # W⋅m⁻³
+$(flick(Metric))
+
+julia> flick(CGS) # erg⋅s⁻¹⋅mL⁻¹
+$(flick(CGS))
+
+julia> flick(MetricSpatian) # W⋅m⁻³⋅ς⁻²
+$(flick(MetricSpatian))
+```
+""" flick
 
 @doc """
 $(unitext(:gforce,"specificforce(𝟏,U,English)"))
@@ -2988,7 +3115,7 @@ $(langley(English))
 """ langley
 
 @doc """
-$(unitext(:jansky,"fluence(deci^-26,U,Metric)"))
+$(unitext(:jansky,"fluence(𝟏𝟎^-26,U,Metric)"))
 
 Reference unit of spectral irradiance (kg⋅s⁻² or lb⋅ft⁻¹).
 ```Julia
@@ -3033,7 +3160,7 @@ $(curie(IAU))
 """ curie
 
 @doc """
-$(unitext(:sievert,"energy(𝟏,U,Metric)/mass(U,Metric)"))
+$(unitext(:sievert,"energy(𝟏,U,Metric)/mass(𝟏,U,Metric)"))
 
 Metric unit of radioactivity (Sv or m²⋅s⁻²).
 ```Julia
@@ -3043,21 +3170,14 @@ $(sievert(Metric))
 """ sievert
 
 @doc """
-    rem(U::UnitSystem) = centi*sievert(U)
-
-Obsolete unit of radioactivity (Sv or m²⋅s⁻²).
-```Julia
-julia> rem(Metric) # Sv
-$(rem(Metric))
-```
-""" rem
-
-@doc """
 $(unitext(:roentgen,"chargedensity(𝟏,U,ESU)/density(Constant(1.293),U,Metric)"))
 
-Legacy unit of ionisation `exposure` (R or C⋅kg⁻¹).
+Legacy unit of ionisation `exposure` (C⋅kg⁻¹ or C⋅lb⁻¹).
 ```Julia
-julia> roentgen(Metric) # R
+julia> roentgen(Metric) # C⋅kg⁻¹
 $(roentgen(Metric))
+
+julia> roentgen(English) # C⋅lb⁻¹
+$(roentgen(English))
 ```
 """ roentgen

@@ -180,21 +180,21 @@ $(inductance(Metric,SI2019))
 # electromagnetics
 
 @doc """
-$(convertext(:electricfluxdensity,"charge(U,S)*rationalization(U,S)/area(U,S)"))
+$(convertext(:electricdisplacement,"charge(U,S)*rationalization(U,S)/area(U,S)"))
 
-Electric field displacement or surface `electricfluxdensity` (C⋅m⁻²), unit conversion factor.
+Electric field displacement or surface `electricdisplacement` (C⋅m⁻²), unit conversion factor.
 
 ```Julia
-julia> electricfluxdensity(EMU,Metric) # C⋅cm²⋅abC⁻¹⋅m⁻²
-$(electricfluxdensity(EMU,Metric))
+julia> electricdisplacement(EMU,Metric) # C⋅cm²⋅abC⁻¹⋅m⁻²
+$(electricdisplacement(EMU,Metric))
 
-julia> electricfluxdensity(ESU,Metric) # C⋅cm²⋅statC⁻¹⋅m⁼²
-$(electricfluxdensity(ESU,Metric))
+julia> electricdisplacement(ESU,Metric) # C⋅cm²⋅statC⁻¹⋅m⁼²
+$(electricdisplacement(ESU,Metric))
 
-julia> electricfluxdensity(Metric,SI2019) # C⋅C⁻¹
-$(electricfluxdensity(Metric,SI2019))
+julia> electricdisplacement(Metric,SI2019) # C⋅C⁻¹
+$(electricdisplacement(Metric,SI2019))
 ```
-""" electricfluxdensity
+""" electricdisplacement
 
 @doc """
 $(convertext(:chargedensity,"charge(U,S)/volume(U,S)"))

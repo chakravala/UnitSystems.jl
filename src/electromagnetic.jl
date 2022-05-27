@@ -27,7 +27,8 @@ const voltage = electricpotential
 
 # electromagnetics
 
-@pure electricfluxdensity(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*rationalization(U,S)/area(U,S))
+@pure linearchargedensity(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/length(U,S))
+@pure electricdisplacement(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)*rationalization(U,S)/area(U,S))
 @pure chargedensity(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/volume(U,S))
 @pure currentdensity(U::UnitSystem,S::UnitSystem) = unit(current(U,S)/area(U,S))
 @pure conductivity(U::UnitSystem,S::UnitSystem) = unit(conductance(U,S)/length(U,S))
@@ -36,7 +37,6 @@ const voltage = electricpotential
 @pure magneticfield(U::UnitSystem,S::UnitSystem) = unit(current(U,S)*rationalization(U,S)*lorentz(U,S)/length(U,S))
 @pure exposure(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/mass(U,S))
 @pure resistivity(U::UnitSystem,S::UnitSystem) = unit(resistance(U,S)*length(U,S))
-@pure linearchargedensity(U::UnitSystem,S::UnitSystem) = unit(charge(U,S)/length(U,S))
 @pure magneticdipolemoment(U::UnitSystem,S::UnitSystem) = unit(current(U,S)*lorentz(U,S)*area(U,S)/gravity(U,S)/angle(U,S))
 @pure mobility(U::UnitSystem,S::UnitSystem) = unit(length(U,S)*speed(U,S)*electricpotential(U,S))
 @pure reluctance(U::UnitSystem,S::UnitSystem) = unit(rationalization(U,S)*lorentz(U,S)^2/inductance(U,S))

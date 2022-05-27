@@ -15,7 +15,7 @@
 # thermodynamics
 
 @doc """
-$(convertext(:temperature,"mass(U,S)*speed(U,S)^2/boltzmann(U,S)"))
+$(convertext(:temperature,"mass(U,S)*speed(U,S)^2/entropy(U,S)"))
 
 Measurement scale for thermodynamic energy or `temperature` (K), unit conversion factor.
 
@@ -357,6 +357,20 @@ julia> specificity(English,Metric) # m³⋅lb-mol⋅mol⁻¹⋅ft⁻³
 $(specificity(English,Metric))
 ```
 """ specificity
+
+@doc """
+$(convertext(:diffusionflux,"molaramount(U,S)*photonirradiance(U,S)"))
+
+Molar diffusion flux or `molarmount` times `flux` (mol⋅s⁻¹⋅m⁻²), unit conversion factor.
+
+```Julia
+julia> diffusionflux(CGS,Metric) # cm²⋅m⁻²
+$(diffusionflux(CGS,Metric))
+
+julia> diffusionflux(English,Metric) # ft²⋅mol⋅lb-mol⁻¹⋅m⁻²
+$(diffusionflux(English,Metric))
+```
+""" diffusionflux
 
 # photometrics
 
