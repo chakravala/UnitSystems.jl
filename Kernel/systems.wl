@@ -90,12 +90,12 @@ MeasureSystem[n_,kB_,h_,c_,mu_,me_,Mu_:1,Kcd_:1,a_:1,r_:1,l_:1,g_:1,t_:(2 Pi),u_
 	Measure[MeasureMagnitude[kB], dF*dL/d0, n],
 	Measure[MeasureMagnitude[h], dF*dL*dT/dA, n],
 	Measure[MeasureMagnitude[c], dL/dT, n],
-	Measure[MeasureMagnitude[mu], dF*dT^2/dQ^2/dA^2/dR*dC^2, n],
+	Measure[MeasureMagnitude[mu], dF*dT^2/dQ^2/dR*dC^2, n],
 	Measure[MeasureMagnitude[me], dM, n],
 	Measure[MeasureMagnitude[Mu], dM/dN, n],
 	Measure[MeasureMagnitude[Kcd], dT*dJ/dF/dL, n],
 	Measure[MeasureMagnitude[a], d1, n],
-	Measure[MeasureMagnitude[r], dR*dA^2, n],
+	Measure[MeasureMagnitude[r], dR, n],
 	Measure[MeasureMagnitude[l], d1/dC, n],
 	Measure[MeasureMagnitude[g], dM*dL/dF/dT^2, n],
 	Measure[MeasureMagnitude[t], dA, n],u]
@@ -254,7 +254,8 @@ DimensionSystemQ[DimensionSystem["Natural"]] = True
 AbstractUnitSystem = <|
 "AbstractUnits" -> UnitSystem["kB","\[HBar]","c","\[Mu]0","me","\[Lambda]","\[Alpha]L"],
 "AbstractUnits1" -> UnitSystem["kB1", "\[HBar]1", "c1", "\[Mu]01", "me1", "\[Lambda]1", "\[Alpha]L1"],
-"AbstractUnits2" -> UnitSystem["kB2", "\[HBar]2", "c2", "\[Mu]02", "me2", "\[Lambda]2", "\[Alpha]L2"]|>
+"AbstractUnits2" -> UnitSystem["kB2", "\[HBar]2", "c2", "\[Mu]02", "me2", "\[Lambda]2", "\[Alpha]L2"],
+"Unified" -> MeasureSystem["AbstractUnified",dF*dL/d0,dF*dL*dT/dA,dL/dT,dF*dT^2/dQ^2/dR*dC^2,dM,dM/dN,dT*dJ/dF/dL,dA,dR,d1/dC,dM*dL/dT^2/dF]|>
 
 AppendTo[AbstractUnitSystem, Map[(StringJoin["Dimension",#] -> DimensionSystem[#]) &,
 {"ISQEM", "ISQES", "EMU", "ESU", "Gauss", "Stoney", "Electronic", "PlanckGauss", "Planck", "Natural", "NaturalGauss", "Rydberg", "Hartree", "Hubble", "CosmologicalQuantum"}]]
@@ -301,6 +302,6 @@ AppendTo[AbstractUnitSystem, {
 "DimensionISQ" :> AbstractUnitSystem["DimensionISQEM"]}]
 
 Map[(UnitSystem[#] := AbstractUnitSystem[#]) &,
-{"AbstractUnits","AbstractUnits1","AbstractUnits2","ISQ","SI","MKS","SIE","ME","GSI2019","GSI","GM","CGS","CGSm","CGSe","HLU","EnglishEngineering","BritishGravitational","BG","EnglishUS","AbsoluteEnglish","AE","EE"}]
+{"AbstractUnits","AbstractUnits1","AbstractUnits2","Unified","ISQ","SI","MKS","SIE","ME","GSI2019","GSI","GM","CGS","CGSm","CGSe","HLU","EnglishEngineering","BritishGravitational","BG","EnglishUS","AbsoluteEnglish","AE","EE"}]
 Map[(UnitSystem[#] = SWAP[AbstractUnitSystem[#] /. Normal[UnitData],#]) &,
-{"Gauss","LorentzHeaviside","Kennelly","ESU","EMU","Nautical","Meridian","MeridianEngineering","MPH","KKH","MTS","Metric","SI2019","MetricEngineering","SI2019Engineering","GravitationalMetric","GravitationalSI2019","GravitationalMeridian","SI1976","CODATA","Conventional","British","Survey","English","FPS","IPS","IAU","IAUE","IAUJ","FFF","Planck","PlanckGauss","Stoney","Hartree","Rydberg","Schrodinger","Electronic","QCD","QCDGauss","QCDoriginal","International","InternationalMean","Hubble","Cosmological","CosmologicalQuantum","Natural","NaturalGauss"}]
+{"Unified","Gauss","LorentzHeaviside","Kennelly","ESU","EMU","Nautical","Meridian","MeridianEngineering","MPH","KKH","MTS","Metric","SI2019","MetricEngineering","SI2019Engineering","GravitationalMetric","GravitationalSI2019","GravitationalMeridian","SI1976","CODATA","Conventional","British","Survey","English","FPS","IPS","IAU","IAUE","IAUJ","FFF","Planck","PlanckGauss","Stoney","Hartree","Rydberg","Schrodinger","Electronic","QCD","QCDGauss","QCDoriginal","International","InternationalMean","Hubble","Cosmological","CosmologicalQuantum","Natural","NaturalGauss"}]

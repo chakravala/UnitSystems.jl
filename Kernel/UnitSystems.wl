@@ -153,7 +153,7 @@ Map[(
 	#[u_String, s_String] := #[UnitSystem[u], CouplingSystem[s]];
 ) &, Join[ConstantsList,PhysicsList]]
 Map[Unprotect, ProtectedList]
-Map[(If[!MemberQ[ProtectedList, #],
+(*Map[(If[!MemberQ[ProtectedList, #],
 	#[v_, u_String] := #[v, UnitSystem[u]];
 	#[v_, u_String, s_String] := #[v, UnitSystem[u], UnitSystem[s]];
 	#[u_String] := #[UnitSystem[u]];
@@ -167,8 +167,8 @@ Map[(If[!MemberQ[ProtectedList, #],
 	#[
 		u : UnitSystem[kB_, \[HBar]_, c_, \[Mu]0_, me_, ___],
 		s : UnitSystem[kB_, \[HBar]_, c_, \[Mu]0_, me_, ___]] := 1;
-	#[u_UnitSystem] := #[u, DefaultSystem[u]];,
-	#[v_, u_String] := #[v, UnitSystem[u]];
+	#[u_UnitSystem] := #[u, DefaultSystem[u]]]) &, ConvertList];*)
+Map[(#[v_, u_String] := #[v, UnitSystem[u]];
 	#[v_, u_String, s_String] := #[v, UnitSystem[u], UnitSystem[s]];
 	#[u_String] := #[UnitSystem[u]];
 	#[u_String, s_String] := #[UnitSystem[u], UnitSystem[s]];
@@ -181,8 +181,8 @@ Map[(If[!MemberQ[ProtectedList, #],
 	UnitSystem /: #[
 		u : UnitSystem[kB_, \[HBar]_, c_, \[Mu]0_, me_, ___],
 		s : UnitSystem[kB_, \[HBar]_, c_, \[Mu]0_, me_, ___]] := 1;
-	UnitSystem /: #[u_UnitSystem] := #[u, DefaultSystem[u]];]
-) &, ConvertList];
+	UnitSystem /: #[u_UnitSystem] := #[u, DefaultSystem[u]];
+) &, ProtectedList];
 Map[Protect, ProtectedList]
 
 Get["UnitSystems`physics`"]

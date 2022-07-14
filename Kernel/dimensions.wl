@@ -45,9 +45,47 @@ USQ /: Inverse[USQ[a_List,c_]] := USQ[-a,1/c]
 
 USQ /: Times[USQ[a_List,c_],b_] := USQ[a,c*b]
 
+ToUSQ[Length] = dL
+ToUSQ[Area] = dL^2
+ToUSQ[Volume] = dL^3
+ToUSQ[Power] = dF*dL/dT
+ToUSQ[MomentOfInertia] = dM*dL^2
+ToUSQ[SolidAngle] = dA^2
+
+(*USQ /: Times[Length, a_USQ] := Times[ToUSQ[Length], a];
+USQ /: Times[a_USQ, Length] := Times[a, ToUSQ[Length]];
+USQ /: Divide[a_USQ, Length] := Divide[a, ToUSQ[Length]];
+USQ /: Divide[Length, a_USQ] := Divide[ToUSQ[Length], a];
+
+USQ /: Times[Area, a_USQ] := Times[ToUSQ[Area], a];
+USQ /: Times[a_USQ, Area] := Times[a, ToUSQ[Area]];
+USQ /: Divide[a_USQ, Area] := Divide[a, ToUSQ[Area]];
+USQ /: Divide[Area, a_USQ] := Divide[ToUSQ[Area], a];
+
+USQ /: Times[Volume, a_USQ] := Times[ToUSQ[Volume], a];
+USQ /: Times[a_USQ, Volume] := Times[a, ToUSQ[Volume]];
+USQ /: Divide[a_USQ, Volume] := Divide[a, ToUSQ[Volume]];
+USQ /: Divide[Volume, a_USQ] := Divide[ToUSQ[Volume], a];
+
+USQ /: Times[Power, a_USQ] := Times[ToUSQ[Power], a];
+USQ /: Times[a_USQ, Power] := Times[a, ToUSQ[Power]];
+USQ /: Divide[a_USQ, Power] := Divide[a, ToUSQ[Power]];
+USQ /: Divide[Power, a_USQ] := Divide[ToUSQ[Power], a];
+
+USQ /: Times[MomentOfInertia, a_USQ] := Times[ToUSQ[MomentOfInertia], a];
+USQ /: Times[a_USQ, MomentOfInertia] := Times[a, ToUSQ[MomentOfInertia]];
+USQ /: Divide[a_USQ, MomentOfInertia] := Divide[a, ToUSQ[MomentOfInertia]];
+USQ /: Divide[MomentOfInertia, a_USQ] := Divide[ToUSQ[MomentOfInertia], a];
+
+USQ /: Times[SolidAngle, a_USQ] := Times[ToUSQ[SolidAngle], a];
+USQ /: Times[a_USQ, SolidAngle] := Times[a, ToUSQ[SolidAngle]];
+USQ /: Divide[a_USQ, SolidAngle] := Divide[a, ToUSQ[SolidAngle]];
+USQ /: Divide[SolidAngle, a_USQ] := Divide[ToUSQ[SolidAngle], a];*)
+
 (* Measure *)
 
 showGroup[u_] := If[AbstractUnitSystemQ[u],usq,showGroup[StringJoin["Abstract",u]]]
+showGroup["AbstractUnified"] := {"kB","\[HBar]","c","\[Mu]0","me","Mu","Kcd","\[Phi]","\[Lambda]","\[Alpha]L","g0"}
 showGroup["AbstractMetric"] := {"kgf", "kg", "m","s","C","K","mol","lm","rad","",""}
 showGroup["AbstractMeridian"] := {"kegf", "keg", "em","s","eC","K","eg-mol","lm","rad","",""}
 showGroup["AbstractBritish"] := {"lb", "slug", "ft","s","C","\[Degree]R","slug-mol","lm","rad","",""}
@@ -84,7 +122,7 @@ showGroup["AbstractKennelly"] := showGroup["Metric"]
 
 unitBoxes[USQ[{0,0,0,0,0,0,0,0,0,0,0}, 1],_:usq] := "\[DoubleStruckL]"
 unitBoxes[USQ[l_List, 1],s_:usq] := RowBox[Map[usqbox, Transpose[{s, l}]]]
-unitBoxes[USQ[l_List, c_],s_:usq] :=  RowBox[Prepend[Map[usqbox, Transpose[{s, l}]], c]]
+unitBoxes[USQ[l_List, c_],s_:usq] :=  RowBox[Prepend[Map[usqbox, Transpose[{s, l}]], ToBoxes[c]]]
 
 transformBoxes[d_,u_] := unitBoxes[transform[u,d],showGroup[u]]
 
@@ -106,20 +144,31 @@ Measure /: Equal[Measure[v_,USQ[l_,c_],u_],a_] := And[Total[l]==0,a==v*c]
 
 (*quantity /: Log[b_,Power[B_,_USQ]] := "test"*)
 
+expo[b_,e_] := If[e==0,1,b^e]
 ratio[d_, u_, s_] := ratio[d,MatchSystem[s,u],UnitSystem[s]]
 ratio[d_, u_UnitSystem, s_UnitSystem] := ratiocalc[TRANSFORM[d], u, s]
-ratiocalc[USQ[d_,c_], u_, s_] :=
-	BoltzmannConstant[u, s]^d[[1]]*
-	ReducedPlanckConstant[u, s]^d[[2]]*
-	SpeedOfLight[u, s]^d[[3]]*
-	MagneticConstant[u, s]^d[[4]]*
-	ElectronMass[u, s]^d[[5]]*
-	MonochromaticRadiation540THzLuminousEfficacy[u, s]^d[[6]]*
-	MolarMassConstant[u, s]^d[[7]]*
-	AngleConstant[u, s]^d[[8]]*
-	RationalizationConstant[u, s]^d[[9]]*
-	LorentzConstant[u, s]^d[[10]]*
-	GravityConstant[u, s]^d[[11]]
+ratiocalc[USQ[d_,c_], u_, s_] := Unit[
+	expo[BoltzmannConstant[u, s],d[[1]]]*
+	expo[ReducedPlanckConstant[u, s],d[[2]]]*
+	expo[SpeedOfLight[u, s],d[[3]]]*
+	expo[MagneticConstant[u, s],d[[4]]]*
+	expo[ElectronMass[u, s],d[[5]]]*
+	expo[MonochromaticRadiation540THzLuminousEfficacy[u, s],d[[6]]]*
+	expo[MolarMassConstant[u, s],d[[7]]]*
+	expo[AngleConstant[u, s],d[[8]]]*
+	expo[RationalizationConstant[u, s],d[[9]]]*
+	expo[LorentzConstant[u, s],d[[10]]]*
+	expo[GravityConstant[u, s],d[[11]]]]
+
+(d_USQ)[u_String, s_String] := ratio[d,u,s]
+(d_USQ)[u_UnitSystem,s_UnitSystem] := ratio[d,u,s]
+(d_USQ)[v_,u_String] := d[v,UnitSystem[u]]
+(d_USQ)[v_, u_String, s_String] := d[v, UnitSystem[u], UnitSystem[s]]
+(d_USQ)[u_String] := d[UnitSystem[u]]
+(*(d_USQ)[u_String, s_String] := d[UnitSystem[u], UnitSystem[s]]*)
+(d_USQ)[v_, u_UnitSystem] := d[v, u, DefaultSystem[u]]
+(d_USQ)[v_, u_UnitSystem, s_UnitSystem] := Module[{n = d[u, s]}, If[OneQ[n], v, v/n]]
+(d_USQ)[u_UnitSystem] := d[u, DefaultSystem[u]]
 
 Measure /: Entity["UnitSystem", s_][Measure[v_, d_, u_]] := Measure[v*ratio[d, u, s], d, s]
 Measure[v_, d_, u_][Entity["UnitSystem",s_]] := Measure[v*ratio[d, u, s], d, s]
@@ -134,10 +183,11 @@ USQ[d_Symbol] := dimension[d[MM /@ UnitSystem["Natural"], UnitSystem["Natural"]]
 (*kB,ħ,𝘤,μ₀,mₑ,Mᵤ,Kcd,A,λ,αL,g₀ *)
 (* F,M,L,T, Q, Θ, N,  J,A,Λ, C  *)
 
-TRANSFORM[USQ[{f_,m_,l_,t_,q_,h_,n_,j_,a_,r_,c_},x_]] := USQ[{-h,l+t+q/2-f-j,3*f+2*h-l-2*t-q/2,q/-2,m+h+n+2*(f+j)-l-t,-n,j,a-2*r,r-q/2,-q-c,l+t-h-2*(f+j)},x]
+TRANSFORM[USQ[{f_,m_,l_,t_,q_,h_,n_,j_,a_,r_,c_},x_]] := USQ[{-h,l+t+q/2-f-j,3*f+2*h+4*j-l-2*t-q/2,q/-2,m+h+n+2*(f+j)-l-t,-n,j,l+t+a+q/2-f-j,r-q/2,-q-c,l+t-h-2*(f+j)},x]
 
-transform[_String,x_] := transform["Metric",x]
+transform[u_String,x_] := If[AbstractUnitSystemQ[u],transform[StringTrim[u,"Abstract"],x],transform["Metric",x]]
 
+transform["Unified",u_USQ] := TRANSFORM[u]
 transform["MetricEngineering",USQ[{f_,m_,l_,t_,q_,h_,n_,j_,a_,r_,c_},x_]] :=
 	USQ[{f,m,l,t,q,h,n,j,a,0,0},x]
 transform["GravitationalMetric",USQ[{f_,m_,l_,t_,q_,h_,n_,j_,a_,r_,c_},x_]] :=
