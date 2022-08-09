@@ -94,7 +94,7 @@ RationalizedQ[u_String] := RationalizedQ[UnitSystem[u]]
 MonochromaticRadiation540THzLuminousEfficacy[UnitSystem[_, _, _, _, _, _, Kcd_, ___]] := Kcd
 MolarMassConstant[UnitSystem[_, _, _, _, _, Mu_, ___]] := Mu;
 GravityConstant[UnitSystem[_, _, _, _, _, _, _, _, _, _, g0_, ___]] := g0
-Turn[UnitSystem[_, _, _, _, _, _, _, _, _, _, _, tau_, ___]] := tau
+Turn[UnitSystem[_, _, _, _, _, _, _, A_, ___]] := (2*Pi)*A
 
 MonochromaticRadiation540THzLuminousEfficacy[_UnitSystem] := 1
 MolarMassConstant[_UnitSystem] := 1
@@ -104,7 +104,7 @@ RationalizationConstant[_UnitSystem] := 1
 GravityConstant[_UnitSystem] := 1
 Turn[_UnitSystem] = 2 Pi
 
-Universe[UnitSystem[_, _, _, _, _, _, _, _, _, _, _, _, C_Coupling, ___]] := C
+Universe[UnitSystem[_, _, _, _, _, _, _, _, _, _, _, C_Coupling, ___]] := C
 Unit[x_, y_ : 1] := PowerExpand[x];
 
 UnitSystem[u_String] := If[AbstractUnitSystemQ[u], AbstractUnitSystem[StringDelete[u, "Abstract"]], DimensionSystem[StringDelete[u, "Dimension"]]] /; AbstractUnitSystemQ[u] || StringStartsQ[u, "Dimension"]

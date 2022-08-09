@@ -1394,7 +1394,7 @@ $(poundal(MetricEngineering))
 """ poundal
 
 @doc """
-    kilopond(U::UnitSystem) = force(𝟏,U,MetricEngineering)
+$(unitext(:kilopond,"force(𝟏,U,MetricEngineering)"))
 
 Gravitational `kilopond` unit of `force` used in engineering systems (N or lb).
 ```Julia
@@ -3160,14 +3160,14 @@ $(curie(IAU))
 """ curie
 
 @doc """
-$(unitext(:sievert,"energy(𝟏,U,Metric)/mass(𝟏,U,Metric)"))
+$(unitext(:gray,"energy(𝟏,U,Metric)/mass(𝟏,U,Metric)"))
 
-Metric unit of radioactivity (Sv or m²⋅s⁻²).
+Metric unit of radioactivity (Gy or m²⋅s⁻²).
 ```Julia
-julia> sievert(Metric) # Sv
-$(sievert(Metric))
+julia> gray(Metric) # Gy
+$(gray(Metric))
 ```
-""" sievert
+""" gray
 
 @doc """
 $(unitext(:roentgen,"chargedensity(𝟏,U,ESU)/density(Constant(1.293),U,Metric)"))

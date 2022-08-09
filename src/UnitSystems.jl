@@ -42,7 +42,7 @@ const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanica
     :lumen,:candela,:lux,:phot,:footcandle,:nit,:apostilb,:stilb,:lambert,:footlambert,:bril,:talbot,:lumerg,
     :neper,:bel,:decibel,:hertz,:apm,:rpm,
     :kayser,:diopter,:rayleigh,:flick,:gforce,:galileo,:eotvos,:darcy,:poise,:reyn,:stokes,:rayl,
-    :mpge,:langley,:jansky,:solarflux,:curie,:sievert,:roentgen,:rem)
+    :mpge,:langley,:jansky,:solarflux,:curie,:gray,:roentgen,:rem)
 const Kinematic = (:solidangle,:time,:angulartime,:length,:angularlength,:area,:angulararea,:volume,:wavenumber,:angularwavenumber,:fuelefficiency,:numberdensity,:frequency,:angularfrequency,:frequencydrift,:stagnance,:speed,:acceleration,:jerk,:snap,:crackle,:pop,:volumeflow,:etendue,:photonintensity,:photonirradiance,:photonradiance) #:angle
 const Mechanical = (:inertia,:mass,:massflow,:lineardensity,:areadensity,:density,:specificweight,:specificvolume,:force,:specificforce,:gravityforce,:pressure,:compressibility,:viscosity,:diffusivity,:rotationalinertia,:impulse,:momentum,:angularmomentum,:yank,:energy,:specificenergy,:action,:fluence,:power,:powerdensity,:irradiance,:radiance,:radiantintensity,:spectralflux,:spectralexposure,:soundexposure,:impedance,:specificimpedance,:admittance,:compliance,:inertance)
 const Electromagnetic = (:charge,:chargedensity,:linearchargedensity,:exposure,:mobility,:current,:currentdensity,:resistance,:conductance,:resistivity,:conductivity,:capacitance,:inductance,:reluctance,:permeance,:permittivity,:permeability,:susceptibility,:specificsusceptibility,:demagnetizingfactor,:vectorpotential,:electricpotential,:magneticpotential,:electricfield,:magneticfield,:electricflux,:magneticflux,:electricdisplacement,:magneticfluxdensity,:electricdipolemoment,:magneticdipolemoment,:electricpolarizability,:magneticpolarizability,:magneticmoment,:specificmagnetization,:polestrength)
@@ -430,9 +430,9 @@ const RK = klitzing(SI2019) #
 const KJ = josephson(SI2019) #
 
 @doc """
-$(unitext(:rem,"centi*sievert(U)"))
+$(unitext(:rem,"centi*gray(U)"))
 
-Obsolete unit of radioactivity (Sv or m²⋅s⁻²).
+Obsolete unit of radioactivity (Gy or m²⋅s⁻²).
 ```Julia
 julia> rem(Metric) # Sv
 $(rem(Metric))

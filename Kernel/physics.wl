@@ -10,7 +10,7 @@
 (*  \___|_| |_|\__,_|_|\_\_|  \__,_| \_/ \__,_|_|\__,_| *)
 
 UnitSystem /: SolidAngle[u_UnitSystem,s_UnitSystem] := Unit[Angle[u,s]^2]
-Spat[u_UnitSystem] := Unit[2 Turn[u]/Angle[u] (Turn[u]/MM[Turn[u]])]
+Spat[u_UnitSystem] := Unit[2 Turn[u] AngleConstant[u]]
 
 ElectronMass[h_?NumberQ] := UnitData["R\[Infinity]"] 2 h/UnitData["\[Alpha]"]^2/UnitData["c"];
 ElectronMass[h_?NumberQ, u_Coupling] := (UnitData["R\[Infinity]"] 2 h)/(FineStructureConstant[u]^2 UnitData["c"]);

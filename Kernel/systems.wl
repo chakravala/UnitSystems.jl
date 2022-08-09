@@ -84,9 +84,9 @@ MM[Measure[v_,_,_]] := v
 MM[v_] := v
 swap[u_,s_String] := SWAP[u,StringJoin["Abstract",s]]
 SWAP[Measure[v_, d_, _],s_String] := Measure[v,d,s]
-SWAP[UnitSystem[kB_,h_,c_,mu_,me_,Mu_,Kcd_,a_,r_,l_,g_,t_,u_],s_] := UnitSystem[
-	SWAP[kB,s],SWAP[h,s],SWAP[c,s],SWAP[mu,s],SWAP[me,s],SWAP[Mu,s],SWAP[Kcd,s],SWAP[a,s],SWAP[r,s],SWAP[l,s],SWAP[g,s],SWAP[t,s],u]
-MeasureSystem[n_,kB_,h_,c_,mu_,me_,Mu_:1,Kcd_:1,a_:1,r_:1,l_:1,g_:1,t_:(2 Pi),u_:Coupling["AbstractUniverse"]] = UnitSystem[
+SWAP[UnitSystem[kB_,h_,c_,mu_,me_,Mu_,Kcd_,a_,r_,l_,g_,u_],s_] := UnitSystem[
+	SWAP[kB,s],SWAP[h,s],SWAP[c,s],SWAP[mu,s],SWAP[me,s],SWAP[Mu,s],SWAP[Kcd,s],SWAP[a,s],SWAP[r,s],SWAP[l,s],SWAP[g,s],u]
+MeasureSystem[n_,kB_,h_,c_,mu_,me_,Mu_:1,Kcd_:1,a_:1,r_:1,l_:1,g_:1,u_:Coupling["AbstractUniverse"]] = UnitSystem[
 	Measure[MeasureMagnitude[kB], dF*dL/d0, n],
 	Measure[MeasureMagnitude[h], dF*dL*dT/dA, n],
 	Measure[MeasureMagnitude[c], dL/dT, n],
@@ -94,14 +94,13 @@ MeasureSystem[n_,kB_,h_,c_,mu_,me_,Mu_:1,Kcd_:1,a_:1,r_:1,l_:1,g_:1,t_:(2 Pi),u_
 	Measure[MeasureMagnitude[me], dM, n],
 	Measure[MeasureMagnitude[Mu], dM/dN, n],
 	Measure[MeasureMagnitude[Kcd], dT*dJ/dF/dL, n],
-	Measure[MeasureMagnitude[a], d1, n],
+	Measure[MeasureMagnitude[a], dA, n],
 	Measure[MeasureMagnitude[r], dR, n],
 	Measure[MeasureMagnitude[l], d1/dC, n],
-	Measure[MeasureMagnitude[g], dM*dL/dF/dT^2, n],
-	Measure[MeasureMagnitude[t], dA, n],u]
+	Measure[MeasureMagnitude[g], dM*dL/dF/dT^2, n],u]
 
 MetricSystem[name_, mu_, perm_, ru_:AbstractUnitData["Ru"], g0_:1] := MetricSystem[name, mu, perm, ru, g0, "h", AbstractUnitData["me"]];
-MetricSystem[name_, mu_, perm_, ru_, g0_, h_, mass_] := MeasureSystem[name, ru mass/mu/"\[Mu]eu"/g0, h/2/Pi/g0, "c", perm, mass, mu, "Kcd"*(AbstractUnitData["me"]/mass)^2*(h/"h"), 1, 1, 1, g0, 2 Pi, Coupling["AbstractUniverse"]];
+MetricSystem[name_, mu_, perm_, ru_, g0_, h_, mass_] := MeasureSystem[name, ru mass/mu/"\[Mu]eu"/g0, h/2/Pi/g0, "c", perm, mass, mu, "Kcd"*(AbstractUnitData["me"]/mass)^2*(h/"h"), 1, 1, 1, g0, Coupling["AbstractUniverse"]];
 ConventionalSystem[name_, klitz_, joseph_, Ru_:AbstractUnitData["Ru"], g0_:1] := Module[{h = 4/klitz/joseph^2},
 	MetricSystem[name, 1/1000, 2 "\[Alpha]" klitz/"c", Ru, g0, h, 2 "R\[Infinity]" h/"\[Alpha]"^2/"c"]]
 RankineSystem[u_, s_, l_, m_, g0_:1] := EntropySystem[u,s,1,l,m,"\[Degree]R",MM@MagneticConstant[u]/m/l/g0, 1000 MM@MolarMassConstant[u],g0]
@@ -150,7 +149,7 @@ EntropySystem[u_, s_, time_, length_, mass_, temp_, perm_, mol_] :=
 EntropySystem[u_, s_, time_, length_, mass_, temp_, perm_, mol_, g0_] :=
 	EntropySystem[u, s, time, length, mass, temp, perm, mol, g0, PowerExpand[mass length^2/time^2]]
 EntropySystem[u_, s_, time_, length_, mass_, temp_, perm_, mol_, g0_, energy_, rat_:1, lor_:1] :=
-	MeasureSystem[StringJoin["Abstract",s], MM@BoltzmannConstant[u] temp/energy/g0, MM@ReducedPlanckConstant[u]/time/energy/g0, time MM@SpeedOfLight[u]/length, perm, MM@ElectronMass[u]/mass, mol, MM@MonochromaticRadiation540THzLuminousEfficacy[u]*energy/time g0, MM@AngleConstant[u], rat, lor, g0, MM@Turn[u], Universe[u]]
+	MeasureSystem[StringJoin["Abstract",s], MM@BoltzmannConstant[u] temp/energy/g0, MM@ReducedPlanckConstant[u]/time/energy/g0, time MM@SpeedOfLight[u]/length, perm, MM@ElectronMass[u]/mass, mol, MM@MonochromaticRadiation540THzLuminousEfficacy[u]*energy/time g0, MM@AngleConstant[u], rat, lor, g0, Universe[u]]
 
 (*EntropySystem["Astronomical"] := AstronomicalSystem["AbstractMetric","Astronomical"]*)
 EntropySystem["International"] := ElectricSystem["AbstractMetric","International","\[CapitalOmega]it","Vit"]
@@ -177,7 +176,7 @@ EntropySystem["GravitationalMeridian"] := EntropySystem["AbstractMetric", "Gravi
 EntropySystem["FFF"] := EntropySystem["AbstractMetric", "FFF", 14 "day", "fur", 90 "lb", "\[Degree]R", 0, 1]
 
 (*DimensionSystem[] := UnitSystem[dF dL/d0, dF dL/dT/dA, dL/dT, dF dT^2/dQ^2/dA^2/dR dC^2, dM, dM/dN, dJ dT/dL/dF, d1, dR*dA^2, d1/dC, dM dL/dT^2/dF, dA, Coupling["AbstractUniverse"]]*)
-DimensionSystem[] := UnitSystem["F" "L"/"\[CapitalTheta]", "F" "L" "T"/"A", "L"/"T", "F" "T"^2/"Q"^2/"A"^2/"\[CapitalLambda]" "C"^2, "M", "M"/"N", "J" "T"/"L"/"F", 1, "\[CapitalLambda]"*"A"^2, 1/"C", "M" "L"/"T"^2/"F", 2 Pi "A", Coupling["AbstractUniverse"]]
+DimensionSystem[] := UnitSystem["F" "L"/"\[CapitalTheta]", "F" "L" "T"/"A", "L"/"T", "F" "T"^2/"Q"^2/"A"^2/"\[CapitalLambda]" "C"^2, "M", "M"/"N", "J" "T"/"L"/"F", 1 "A", "\[CapitalLambda]"*"A"^2, 1/"C", "M" "L"/"T"^2/"F", Coupling["AbstractUniverse"]]
 
 DimensionSystemQ[_] = False
 DimensionSystemQ[UnitSystem[_, _, _, _, "M", ___]] := True
@@ -252,9 +251,9 @@ DimensionSystemQ[DimensionSystem["NaturalGauss"]] = True
 DimensionSystemQ[DimensionSystem["Natural"]] = True
 
 AbstractUnitSystem = <|
-"AbstractUnits" -> UnitSystem["kB","\[HBar]","c","\[Mu]0","me","\[Lambda]","\[Alpha]L"],
-"AbstractUnits1" -> UnitSystem["kB1", "\[HBar]1", "c1", "\[Mu]01", "me1", "\[Lambda]1", "\[Alpha]L1"],
-"AbstractUnits2" -> UnitSystem["kB2", "\[HBar]2", "c2", "\[Mu]02", "me2", "\[Lambda]2", "\[Alpha]L2"],
+"AbstractUnits" -> UnitSystem["kB","\[HBar]","c","\[Mu]0","me","Mu","Kcd","\[Phi]","\[Lambda]","\[Alpha]L","g0"],
+"AbstractUnits1" -> UnitSystem["kB1", "\[HBar]1", "c1", "\[Mu]01", "me1", "Mu1", "Kcd1", "\[Phi]1", "\[Lambda]1", "\[Alpha]L1", "g01"],
+"AbstractUnits2" -> UnitSystem["kB2", "\[HBar]2", "c2", "\[Mu]02", "me2", "Mu2", "Kcd2", "\[Phi]2", "\[Lambda]2", "\[Alpha]L2", "g02"],
 "Unified" -> MeasureSystem["AbstractUnified",dF*dL/d0,dF*dL*dT/dA,dL/dT,dF*dT^2/dQ^2/dR*dC^2,dM,dM/dN,dT*dJ/dF/dL,dA,dR,d1/dC,dM*dL/dT^2/dF]|>
 
 AppendTo[AbstractUnitSystem, Map[(StringJoin["Dimension",#] -> DimensionSystem[#]) &,

@@ -245,7 +245,7 @@
 @pure jansky(U::UnitSystem) = fluence((Constant(1.0)*deci(U))^26,U,Metric)
 @pure solarflux(U::UnitSystem) = hecto(U)^2*jansky(U)
 @pure curie(U::UnitSystem) = Constant(37)*giga(U)*hertz(U)
-@pure sievert(U::UnitSystem) = energy(one(U),U,Metric)/mass(one(U),U,Metric)
-@pure rem(U::UnitSystem) = centi(U)*sievert(U)
+@pure gray(U::UnitSystem) = energy(one(U),U,Metric)/mass(one(U),U,Metric)
+@pure rem(U::UnitSystem) = centi(U)*gray(U)
 @pure roentgen(U::UnitSystem) = chargedensity(one(U),U,ESU)/density(Constant(1.293),U,Metric)
 
