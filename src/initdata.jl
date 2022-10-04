@@ -31,7 +31,7 @@ const tcq,em,mi = lcq*sqrt(mcq/sqrt(sqrt(ρΛ*(𝘤*ħ)^3))),sqrt(GME/g₀)*τ/�
 
 const Universe = Coupling(αG,α,μₑᵤ,μₚᵤ,ΩΛ)
 
-Constant(::UnitSystem{a,b,c,d,e,f,g}) where {a,b,c,d,e,f,g} = UnitSystem(Constant(a),Constant(b),Constant(c),Constant(d),Constant(e),Constant(f),Constant(g[1]),Constant(g[2]),Constant(g[3]),Constant(g[4]),Constant(g[5]),Universe,Constant(g[7]),𝟐,𝟑,𝟓,𝟕,𝟏𝟏,𝟏𝟗,𝟒𝟑)
+constant(::UnitSystem{a,b,c,d,e,f,g}) where {a,b,c,d,e,f,g} = UnitSystem(Constant(a),Constant(b),Constant(c),Constant(d),Constant(e),Constant(f),Constant(g[1]),Constant(g[2]),Constant(g[3]),Constant(g[4]),Constant(g[5]),Universe,Constant(g[7]),𝟐,𝟑,𝟓,𝟕,𝟏𝟏,𝟏𝟗,𝟒𝟑)
 
 export MetricSystem, ConventionalSystem, RankineSystem
 export AstronomicalSystem, ElectricSystem, GaussSystem, EntropySystem

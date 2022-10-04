@@ -4,10 +4,12 @@ authors = ["Michael Reed"]
 version = "0.3.8"
 
 [deps]
+FieldConstants = "73d362c4-b7ec-495f-a538-f22f12d4d8ae"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [compat]
 julia = "1"
+FieldConstants = "0.1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
