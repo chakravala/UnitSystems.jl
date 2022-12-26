@@ -599,7 +599,7 @@ $(planckreduced(cgs))
 julia> lightspeed($US) # cm⋅s⁻¹
 $(lightspeed(cgs))
 
-julia> vacuumpermeability($US) # statH⋅cm⁻¹
+julia> vacuumpermeability($US) # $(US ∈ (:CGSe,:ESU) ? "stat" : "ab")H⋅cm⁻¹
 $(vacuumpermeability(cgs))
 
 julia> electronmass($US) # g

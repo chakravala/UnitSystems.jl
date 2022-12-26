@@ -1,7 +1,7 @@
 name = "UnitSystems"
 uuid = "3a241a3c-2137-41aa-af5e-1388e404ca09"
 authors = ["Michael Reed"]
-version = "0.3.8"
+version = "0.3.9"
 
 [deps]
 FieldConstants = "73d362c4-b7ec-495f-a538-f22f12d4d8ae"

@@ -1492,7 +1492,7 @@ $(greatcircle(IAU))
 @doc """
     sackurtetrode(U::UnitSystem,P=atm,T=𝟏,m=Da) = log(kB*T/P*sqrt(m*kB*T/τ/ħ^2)^3)+5/2
     dimensionless : [𝟙], [𝟙], [𝟙], [𝟙], [𝟙]
-    log(FL⁻²Θ⁻⁵ᐟ²A³ᐟ²⋅(μₑᵤ⁻³ᐟ²atm⁻¹τ⁻³ᐟ²exp(2⁻¹5) = 0.594141574194 ± 2.6e-11))
+    log(FL⁻²Θ⁻⁵ᐟ²A³ᐟ²⋅(μₑᵤ⁻³ᐟ²atm⁻¹τ⁻³ᐟ²exp(2⁻¹5) = 0.594141574194(26)))
 
 Ideal gas entropy density for pressure `P`, temperature `T`, atomic mass `m` (dimensionless).
 ```Julia

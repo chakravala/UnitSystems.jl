@@ -21,8 +21,8 @@ import Base.MathConstants: eulergamma, golden, φ
 
 const Systems = (:Metric,:SI2019,:SI1976,:CODATA,:Conventional,:International,:InternationalMean,:MetricTurn,:MetricSpatian,:MetricGradian,:MetricDegree,:MetricArcminute,:MetricArcsecond,:MetricEngineering,:GravitationalMetric,:MTS,:EMU,:ESU,:Gauss,:LorentzHeaviside,:FPS,:IPS,:British,:English,:Survey,:FFF,:MPH,:KKH,:Nautical,:Meridian,:IAU☉,:IAUE,:IAUJ,:Hubble,:Cosmological,:CosmologicalQuantum,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
 const Dimensionless = (:coupling,:finestructure,:electronunit,:protonunit,:protonelectron,:darkenergydensity)
-const Constants = (:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:boltzmann,:permeability,:rationalization,:lorentz,:luminousefficacy,:gravity,:radian)
-const Physics = (:turn,:spat,:dalton,:protonmass,:planckmass,:gravitation,:gaussgravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermeability,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton)
+const Constants = (:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:boltzmann,:vacuumpermeability,:rationalization,:lorentz,:luminousefficacy,:gravity,:radian)
+const Physics = (:turn,:spat,:dalton,:protonmass,:planckmass,:gravitation,:gaussgravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton)
 const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanicalheat,:eddington,:solarmass,:jupitermass,:earthmass,:lunarmass,:earthradius,:greatcircle,:radarmile,:hubble,:cosmological,
     :steradian,:spatian,:degree,:squaredegree,:gradian,:bradian,:arcminute,:arcsecond,
     :second,:minute,:hour,:day,:gaussianmonth,:siderealmonth,:synodicmonth,:year,:gaussianyear,:siderealyear,:jovianyear,
@@ -43,14 +43,14 @@ const Derived = (:hyperfine,:loschmidt,:wienwavelength,:wienfrequency,:mechanica
     :neper,:bel,:decibel,:hertz,:apm,:rpm,
     :kayser,:diopter,:rayleigh,:flick,:gforce,:galileo,:eotvos,:darcy,:poise,:reyn,:stokes,:rayl,
     :mpge,:langley,:jansky,:solarflux,:curie,:gray,:roentgen,:rem)
-const Kinematic = (:solidangle,:time,:angulartime,:length,:angularlength,:area,:angulararea,:volume,:wavenumber,:angularwavenumber,:fuelefficiency,:numberdensity,:frequency,:angularfrequency,:frequencydrift,:stagnance,:speed,:acceleration,:jerk,:snap,:crackle,:pop,:volumeflow,:etendue,:photonintensity,:photonirradiance,:photonradiance) #:angle
+const Kinematic = (:angle,:solidangle,:time,:angulartime,:length,:angularlength,:area,:angulararea,:volume,:wavenumber,:angularwavenumber,:fuelefficiency,:numberdensity,:frequency,:angularfrequency,:frequencydrift,:stagnance,:speed,:acceleration,:jerk,:snap,:crackle,:pop,:volumeflow,:etendue,:photonintensity,:photonirradiance,:photonradiance)
 const Mechanical = (:inertia,:mass,:massflow,:lineardensity,:areadensity,:density,:specificweight,:specificvolume,:force,:specificforce,:gravityforce,:pressure,:compressibility,:viscosity,:diffusivity,:rotationalinertia,:impulse,:momentum,:angularmomentum,:yank,:energy,:specificenergy,:action,:fluence,:power,:powerdensity,:irradiance,:radiance,:radiantintensity,:spectralflux,:spectralexposure,:soundexposure,:impedance,:specificimpedance,:admittance,:compliance,:inertance)
 const Electromagnetic = (:charge,:chargedensity,:linearchargedensity,:exposure,:mobility,:current,:currentdensity,:resistance,:conductance,:resistivity,:conductivity,:capacitance,:inductance,:reluctance,:permeance,:permittivity,:permeability,:susceptibility,:specificsusceptibility,:demagnetizingfactor,:vectorpotential,:electricpotential,:magneticpotential,:electricfield,:magneticfield,:electricflux,:magneticflux,:electricdisplacement,:magneticfluxdensity,:electricdipolemoment,:magneticdipolemoment,:electricpolarizability,:magneticpolarizability,:magneticmoment,:specificmagnetization,:polestrength)
 const Thermodynamic = (:temperature,:entropy,:specificentropy,:volumeheatcapacity,:thermalconductivity,:thermalconductance,:thermalresistivity,:thermalresistance,:thermalexpansion,:lapserate)
 const Molar = (:molarmass,:molality,:molaramount,:molarity,:molarvolume,:molarentropy,:molarenergy,:molarconductivity,:molarsusceptibility,:catalysis,:specificity,:diffusionflux)
 const Photometric = (:luminousflux,:luminousintensity,:luminance,:illuminance,:luminousenergy,:luminousexposure,:luminousefficacy)
 const Mechanics = [Kinematic...,Mechanical...]
-const Convert = [Mechanics...,Electromagnetic...,Thermodynamic...,Molar...,Photometric...]
+const Convert = [:dimensionless,Mechanics...,Electromagnetic...,Thermodynamic...,Molar...,Photometric...]
 
 listext(x) = join(x,"`, `")
 
@@ -146,13 +146,13 @@ struct UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra}
     @pure UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra}() where {kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra} = new{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,extra}()
 end # UnitSystem{kB,ħ,𝘤,μ₀,mₑ,Mᵤ,(Kcd,θ,λ,αL,g,C,τ,𝟐,𝟑,𝟓,𝟕,𝟏𝟏,𝟏𝟗,𝟒𝟑)}
 function UnitSystem(kB,ħ,𝘤,μ₀,mₑ,Mᵤ=𝟏,Kcd=𝟏,θ=𝟏,λ=𝟏,αL=𝟏,g=𝟏,C=Universe,τ=τ,x=𝟐,y=𝟑,z=𝟓,w=𝟕,u=𝟏𝟏,v=𝟏𝟗,q=𝟒𝟑)
-    UnitSystem{cache(kB),cache(ħ),cache(𝘤),cache(μ₀),cache(mₑ),cache(Mᵤ),(cache(Kcd),cache(θ),cache(λ),cache(αL),cache(g),C,cache(τ),cache(x),cache(y),cache(z),cache(w),cache(u),cache(v),cache(q))}()
+    unitsystem(kB,ħ,𝘤,μ₀,mₑ,Mᵤ,Kcd,θ,λ,αL,g,C,τ,x,y,z,w,u,v,q)
 end
 @pure boltzmann(::UnitSystem{k}) where k = measure(k)
 @pure planckreduced(::UnitSystem{k,ħ}) where {k,ħ} = measure(ħ)
 @pure lightspeed(::UnitSystem{k,ħ,𝘤}) where {k,ħ,𝘤} = measure(𝘤)
-@pure permeability(::UnitSystem{k,ħ,𝘤,μ}) where {k,ħ,𝘤,μ} = measure(μ)
-@pure vacuumpermeability(U::UnitSystem) = permeability(U)
+@pure vacuumpermeability(::UnitSystem{k,ħ,𝘤,μ}) where {k,ħ,𝘤,μ} = measure(μ)
+@pure permeability(U::UnitSystem) = vacuumpermeability(U)
 @pure electronmass(::UnitSystem{k,ħ,𝘤,μ,m}) where {k,ħ,𝘤,μ,m} = measure(m)
 @pure molarmass(::UnitSystem{k,ħ,𝘤,μ,m,M}) where {k,ħ,𝘤,μ,m,M} = measure(M)
 @pure luminousefficacy(::UnitSystem{k,ħ,𝘤,μ,m,M,e}) where {k,ħ,𝘤,μ,m,M,e} = measure(e[1])
@@ -181,7 +181,7 @@ function evaldim end
 normal(x) = x
 @pure normal(x::Float64) = x
 @pure normal(x::Int) = x
-@pure normal(::UnitSystem{kB,ħ,𝘤,μ0,me,Mu,e}) where {kB,ħ,𝘤,μ0,me,Mu,e} = UnitSystem(normal(kB),normal(ħ),normal(𝘤),normal(μ0),normal(me),normal(Mu),normal(e[1]),normal(e[2]),normal(e[3]),normal(e[4]),normal(e[5]),e[6],normal(e[7]),normal(e[8]),normal(e[9]),normal(e[10]),normal(e[11]),normal(e[12]),normal(e[13]),normal(e[14]))
+@pure normal(::UnitSystem{kB,ħ,𝘤,μ0,me,Mu,e}) where {kB,ħ,𝘤,μ0,me,Mu,e} = unitsystem(normal(kB),normal(ħ),normal(𝘤),normal(μ0),normal(me),normal(Mu),normal(e[1]),normal(e[2]),normal(e[3]),normal(e[4]),normal(e[5]),e[6],normal(e[7]),normal(e[8]),normal(e[9]),normal(e[10]),normal(e[11]),normal(e[12]),normal(e[13]),normal(e[14]))
 
 @pure unitname(::UnitSystem) = "Unknown"
 Base.show(io::IO,U::UnitSystem) = print(io,unitname(normal(U)))
@@ -217,7 +217,7 @@ function (U::UnitSystem)(JK,Js,ms,Hm,kg)
     C = universe(U)
     τ = tau(U)
     (x,y,z,u,v,w,p) = (two(U),three(U),five(U),seven(U),eleven(U),nineteen(U),fourtythree(U))
-    UnitSystem(kB,ħ,𝘤,μ₀,mₑ,Mᵤ,Kcd,θ,λ,isone(αL) ? αL : αL/ms,g₀,C,τ,x,y,z,u,v,w,p)
+    unitsystem(kB,ħ,𝘤,μ₀,mₑ,Mᵤ,Kcd,θ,λ,isone(αL) ? αL : αL/ms,g₀,C,τ,x,y,z,u,v,w,p)
 end
 
 """
@@ -252,7 +252,7 @@ function EntropySystem(u,t,l,m,θ=one(u))
     EntropySystem(u,t,l,m,θ,permeability(u)/(m*l),molarmass(u)/m,gravity(u),m*l*l/(t*t))
 end
 function EntropySystem(u,t,l,m,θ,μ0,Mu=molarmass(u)/m,g0=gravity(u),e=m*l*l/(t*t),λ=one(u),αL=one(u),Kcd=luminousefficacy(u)*e/t*g0)
-    normal(UnitSystem(
+    normal(unitsystem(
         boltzmann(u)*θ/e/g0,
         planckreduced(u)/t/e/g0,
         lightspeed(u)*t/l,
@@ -276,6 +276,7 @@ end
 @pure unit(x,y=1) = isapprox(y,x,rtol=eps()^0.9) ? y : x
 @pure Base.one(U::UnitSystem) = unit(two(U)/two(U))
 @pure Base.zero(U::UnitSystem) = one(U)-one(U)
+@pure dimensionless(a::UnitSystem,b::UnitSystem) = one(a)*one(b)
 @pure turn(U::UnitSystem) = tau(U)*radian(U)
 @pure angle(U::UnitSystem,S::UnitSystem) = unit(radian(S)/radian(U))
 @pure solidangle(U::UnitSystem,S::UnitSystem) = unit(angle(U,S)^2)
@@ -293,10 +294,10 @@ end
 for unit ∈ (:boltzmann,:planckreduced,:lightspeed,:vacuumpermeability,:permeability,:electronmass,:molarmass,:radian)
     @eval @pure $unit(U::UnitSystem,C::Coupling) = $unit(U)
 end
-for unit ∈ (Constants...,:vacuumpermeability)
+for unit ∈ (Constants...,:permeability)
     @eval @pure $unit(U::UnitSystem,S::UnitSystem) = isquantity(U,S) ? evaldim($unit)(U,S) : unit($unit(S)/$unit(U))
 end
-for unit ∈ (Convert...,:angle)
+for unit ∈ Convert
     @eval begin
         @pure @inline $unit(v::Real,U::UnitSystem) = isquantity(U) ? evaldim($unit)(v,U) : $unit(v,U,Metric)
         @pure @inline $unit(v::Real,U::UnitSystem,S::UnitSystem) = isquantity(U,S) ? evaldim($unit)(v,U,S) : (u=$unit(U,S);isone(u) ? v : v/u)
@@ -419,6 +420,7 @@ include("electromagnetic.jl")
 include("thermodynamic.jl")
 include("physics.jl")
 include("systems.jl")
+include("text.jl")
 
 const RK = klitzing(SI2019) #
 const KJ = josephson(SI2019) #
