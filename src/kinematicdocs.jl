@@ -540,8 +540,8 @@ $(force(English,Metric))
 julia> force(FPS,Metric) # pdl⋅N⁻¹
 $(force(FPS,Metric))
 
-julia> force(MetricEngineering,Metric) # kp⋅N⁻¹
-$(force(MetricEngineering,Metric))
+julia> force(Engineering,Metric) # kp⋅N⁻¹
+$(force(Engineering,Metric))
 ```
 """ force, F
 
@@ -553,8 +553,8 @@ Weight or `force` per `mass` or `gforce` (N/kg, m⋅s⁻²), unit conversion fac
 julia> specificforce(CGS,Metric)
 $(specificforce(CGS,Metric))
 
-julia> specificforce(MetricEngineering,Metric)
-$(specificforce(MetricEngineering,Metric))
+julia> specificforce(Engineering,Metric)
+$(specificforce(Engineering,Metric))
 
 julia> specificforce(English,Metric)
 $(specificforce(English,Metric))
@@ -569,8 +569,8 @@ Reference `acceleration` per `specificforce` (𝟏, F⁻¹MLT⁻²), unit conver
 julia> gravityforce(Metric,CGS)
 $(gravityforce(Metric,CGS))
 
-julia> gravityforce(Metric,MetricEngineering)
-$(gravityforce(Metric,MetricEngineering))
+julia> gravityforce(Metric,Engineering)
+$(gravityforce(Metric,Engineering))
 
 julia> gravityforce(Metric,English)
 $(gravityforce(Metric,English))

@@ -19,7 +19,7 @@ module UnitSystems
 import Base: @pure, length, time, angle, rem
 import Base.MathConstants: eulergamma, golden, φ
 
-const Systems = (:Metric,:SI2019,:SI1976,:CODATA,:Conventional,:International,:InternationalMean,:MetricTurn,:MetricSpatian,:MetricGradian,:MetricDegree,:MetricArcminute,:MetricArcsecond,:MetricEngineering,:GravitationalMetric,:MTS,:EMU,:ESU,:Gauss,:LorentzHeaviside,:FPS,:IPS,:British,:English,:Survey,:FFF,:MPH,:KKH,:Nautical,:Meridian,:IAU☉,:IAUE,:IAUJ,:Hubble,:Cosmological,:CosmologicalQuantum,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
+const Systems = (:Metric,:SI2019,:SI1976,:CODATA,:Conventional,:International,:InternationalMean,:MetricTurn,:MetricSpatian,:MetricGradian,:MetricDegree,:MetricArcminute,:MetricArcsecond,:Engineering,:Gravitational,:MTS,:EMU,:ESU,:Gauss,:LorentzHeaviside,:FPS,:IPS,:British,:English,:Survey,:FFF,:MPH,:KKH,:Nautical,:Meridian,:IAU☉,:IAUE,:IAUJ,:Hubble,:Cosmological,:CosmologicalQuantum,:Planck,:PlanckGauss,:Stoney,:Hartree,:Rydberg,:Schrodinger,:Electronic,:Natural,:NaturalGauss,:QCD,:QCDGauss,:QCDoriginal)
 const Dimensionless = (:coupling,:finestructure,:electronunit,:protonunit,:protonelectron,:darkenergydensity)
 const Constants = (:lightspeed,:planck,:planckreduced,:electronmass,:molarmass,:boltzmann,:vacuumpermeability,:rationalization,:lorentz,:luminousefficacy,:gravity,:radian)
 const Physics = (:turn,:spat,:dalton,:protonmass,:planckmass,:gravitation,:gaussgravitation,:einstein,:hartree,:rydberg,:bohr,:electronradius,:avogadro,:molargas,:stefan,:radiationdensity,:vacuumpermittivity,:electrostatic,:magnetostatic,:biotsavart,:elementarycharge,:faraday,:vacuumimpedance,:conductancequantum,:klitzing,:josephson,:magneticfluxquantum,:magneton)
@@ -132,7 +132,7 @@ additional constants `molarmass`, `luminousefficacy`, `gravity`, `radian`, `turn
 
 Standardized unit/derived quantities are `$(listext(Derived))`.
 
-Additional reference `UnitSystem` variants: `EMU`, `ESU`, `Gauss`, `LorentzHeaviside`, `SI2019`, `SI1976`, `CODATA`, `Conventional`, `International`, `InternationalMean`, `MetricEngineering`, `GravitationalMetric`, `IAU`, `IAUE`, `IAUJ`, `FPS`, `IPS`, `British`, `Survey`, `Hubble`, `Cosmological`, `CosmologicalQuantum`, `Meridian`, `Nautical`, `MPH`, `KKH`, `MTS`, `FFF`; and natural atomic units based on gravitational `coupling` and `finestructure` constant (`Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal`).
+Additional reference `UnitSystem` variants: `EMU`, `ESU`, `Gauss`, `LorentzHeaviside`, `SI2019`, `SI1976`, `CODATA`, `Conventional`, `International`, `InternationalMean`, `Engineering`, `Gravitational`, `IAU`, `IAUE`, `IAUJ`, `FPS`, `IPS`, `British`, `Survey`, `Hubble`, `Cosmological`, `CosmologicalQuantum`, `Meridian`, `Nautical`, `MPH`, `KKH`, `MTS`, `FFF`; and natural atomic units based on gravitational `coupling` and `finestructure` constant (`Planck`, `PlanckGauss`, `Stoney`, `Hartree`, `Rydberg`, `Schrodinger`, `Electronic`, `Natural`, `NaturalGauss`, `QCD`, `QCDGauss`, and `QCDoriginal`).
 
 Derived dimensions can be obtained from multiplicative base of 11 fundamental dimension symbols `F`, `M`, `L`, `T`, `Q`, `Θ`, `N`, `J`, `A`, `R`, `C` corresponding to `force`, `mass`, `length`, `time`, `charge`, `temperature`, `molaramount`, `luminousflux`, `angle`, `demagnetizingfactor`, and a `nonstandard` dimension.
 Specification of a `UnitSystem` is in dimensions of `entropy`, `angularmomentum`, `speed`, `permeability`, `mass`, `molarmass`, `luminousefficacy`, `angle`, `rationalization`, `lorentz`, `gravityforce`; whose `Constant` values are interpreted by units.
@@ -244,7 +244,7 @@ end
 
 Constructs new `UnitSystem` from `U` rescaled along `time`, `length`, `mass`, and `temperature` by the first four parameters. Additional optional parameters allow for customization of the `vacuumpermeability`, `molarmass`, and `gravity` constants.
 
-Examples of this type include `Nautical`, `Meridian`, `GravitationalMetric`, `MTS`, `KKH`, `MPH`, `IAU☉`, `IAUE`, `IAUJ`, `Hubble`, `Cosmological`, `CosmologicalQuantum`.
+Examples of this type include `Nautical`, `Meridian`, `Gravitational`, `MTS`, `KKH`, `MPH`, `IAU☉`, `IAUE`, `IAUJ`, `Hubble`, `Cosmological`, `CosmologicalQuantum`.
 However, most other constructors for `UnitSystem` derivations are based on internally calling `EntropySystem`, such as `AstronomicalSystem`, `ElectricSystem`, `GaussSystem`, and `RankineSystem`.
 This means `EntropySystem` also constructs the examples listed there.
 """

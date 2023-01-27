@@ -107,7 +107,7 @@
 @pure ounce(U::UnitSystem) = mass(two(U)^-4,U,English)
 @pure slug(U::UnitSystem) = mass(one(U),U,British)
 @pure slinch(U::UnitSystem) = mass(one(U),U,IPS)
-@pure hyl(U::UnitSystem) = mass(one(U),U,GravitationalMetric)
+@pure hyl(U::UnitSystem) = mass(one(U),U,Gravitational)
 
 # force
 
@@ -115,7 +115,7 @@
 @pure newton(U::UnitSystem) = force(one(U),U,Metric)
 @pure poundal(U::UnitSystem) = force(one(U),U,FPS)
 @pure poundforce(U::UnitSystem) = force(one(U),U,English)
-@pure kilopond(U::UnitSystem) = force(one(U),U,MetricEngineering)
+@pure kilopond(U::UnitSystem) = force(one(U),U,Engineering)
 
 # pressure
 
@@ -151,7 +151,7 @@
 @pure thermalconductivity_water(U::UnitSystem) = thermalconductivity((two(U)^2*three(U)*five(U))^2/thermalunit(U),U,Metric)
 @pure horsepower(U::UnitSystem) = power(two(U)*five(U)^2*eleven(U),U,British)
 @pure horsepowerwatt(U::UnitSystem) = power(two(U)^4*three(U)^3/five(U)*normal(tau(U)),U,British)
-@pure horsepowermetric(U::UnitSystem) = power(three(U)*five(U)^2,U,GravitationalMetric)
+@pure horsepowermetric(U::UnitSystem) = power(three(U)*five(U)^2,U,Gravitational)
 @pure electricalhorsepower(U::UnitSystem) = power(Constant(746),U,Metric)
 
 # electromagnetic

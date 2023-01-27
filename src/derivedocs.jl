@@ -171,8 +171,8 @@ $(unitext(:radian,"angle(𝟏,U,Metric)"))
 
 Unit of `angle` which is dimensionless (rad).
 ```Julia
-julia> radian(MetricEngineering) # rad
-$(radian(MetricEngineering))
+julia> radian(Engineering) # rad
+$(radian(Engineering))
 
 julia> radian(MetricDegree) # deg
 $(radian(MetricDegree))
@@ -193,8 +193,8 @@ $(unitext(:spatian,"angle(𝟏,U,MetricSpatian)"))
 
 Unit of `angle` which is dimensionless (rad).
 ```Julia
-julia> spatian(MetricEngineering) # rad
-$(spatian(MetricEngineering))
+julia> spatian(Engineering) # rad
+$(spatian(Engineering))
 
 julia> spatian(MetricDegree) # deg
 $(spatian(MetricDegree))
@@ -215,8 +215,8 @@ $(unitext(:degree,"angle(𝟏,U,MetricDegree)"))
 
 Unit of `angle` which divides a `turn` into `360` parts (rad).
 ```Julia
-julia> degree(MetricEngineering) # rad
-$(degree(MetricEngineering))
+julia> degree(Engineering) # rad
+$(degree(Engineering))
 
 julia> degree(MetricDegree) # deg
 $(degree(MetricDegree))
@@ -237,8 +237,8 @@ $(unitext(:gradian,"angle(𝟏,U,MetricGradian)"))
 
 Unit of `angle` which divides a `turn` into `400` parts (rad).
 ```Julia
-julia> gradian(MetricEngineering) # rad
-$(gradian(MetricEngineering))
+julia> gradian(Engineering) # rad
+$(gradian(Engineering))
 
 julia> gradian(MetricDegree) # deg
 $(gradian(MetricDegree))
@@ -259,8 +259,8 @@ $(unitext(:bradian,"angle(τ/𝟐^8,U,Metric)"))
 
 Unit of `angle` which divides a `turn` into `𝟐^8` or `256` parts (rad).
 ```Julia
-julia> bradian(MetricEngineering) # rad
-$(bradian(MetricEngineering))
+julia> bradian(Engineering) # rad
+$(bradian(Engineering))
 
 julia> bradian(MetricDegree) # deg
 $(bradian(MetricDegree))
@@ -281,8 +281,8 @@ $(unitext(:arcminute,"angle(𝟏,U,MetricArcminute)"))
 
 Unit of `angle` which divides a `degree` into `60` parts (rad).
 ```Julia
-julia> arcminute(MetricEngineering) # rad
-$(arcminute(MetricEngineering))
+julia> arcminute(Engineering) # rad
+$(arcminute(Engineering))
 
 julia> arcminute(MetricDegree) # deg
 $(arcminute(MetricDegree))
@@ -303,8 +303,8 @@ $(unitext(:arcsecond,"angle(𝟏,U,MetricArcsecond)"))
 
 Unit of `angle` which divides a `arcminute` into `60` parts (rad).
 ```Julia
-julia> arcsecond(MetricEngineering) # rad
-$(arcsecond(MetricEngineering))
+julia> arcsecond(Engineering) # rad
+$(arcsecond(Engineering))
 
 julia> arcsecond(MetricDegree) # deg
 $(arcsecond(MetricDegree))
@@ -327,8 +327,8 @@ $(unitext(:steradian,"solidangle(𝟏,U,Metric)"))
 
 Unit of `solidangle` which is dimensionless (rad²).
 ```Julia
-julia> steradian(MetricEngineering) # rad²
-$(steradian(MetricEngineering))
+julia> steradian(Engineering) # rad²
+$(steradian(Engineering))
 
 julia> steradian(MetricDegree) # deg²
 $(steradian(MetricDegree))
@@ -349,8 +349,8 @@ $(unitext(:squaredegree,"solidangle(𝟏,U,MetricDegree)"))
 
 Unit of `solidangle` which is a `degree` squared (rad²).
 ```Julia
-julia> squaredegree(MetricEngineering) # rad²
-$(squaredegree(MetricEngineering))
+julia> squaredegree(Engineering) # rad²
+$(squaredegree(Engineering))
 
 julia> squaredegree(MetricDegree) # deg²
 $(squaredegree(MetricDegree))
@@ -1122,8 +1122,8 @@ $(gram(English))
 julia> gram(British) # slug
 $(gram(British))
 
-julia> gram(GravitationalMetric) # hyl
-$(gram(GravitationalMetric))
+julia> gram(Gravitational) # hyl
+$(gram(Gravitational))
 ```
 """ gram
 
@@ -1144,8 +1144,8 @@ $(earthgram(English))
 julia> earthgram(British) # slug
 $(earthgram(British))
 
-julia> earthgram(GravitationalMetric) # hyl
-$(earthgram(GravitationalMetric))
+julia> earthgram(Gravitational) # hyl
+$(earthgram(Gravitational))
 ```
 """ earthgram
 
@@ -1166,8 +1166,8 @@ $(kilogram(English))
 julia> kilogram(British) # slug
 $(kilogram(British))
 
-julia> kilogram(GravitationalMetric) # hyl
-$(kilogram(GravitationalMetric))
+julia> kilogram(Gravitational) # hyl
+$(kilogram(Gravitational))
 ```
 """ kilogram
 
@@ -1188,8 +1188,8 @@ $(tonne(English))
 julia> tonne(British) # slug
 $(tonne(British))
 
-julia> tonne(GravitationalMetric) # hyl
-$(tonne(GravitationalMetric))
+julia> tonne(Gravitational) # hyl
+$(tonne(Gravitational))
 ```
 """ tonne
 
@@ -1210,8 +1210,8 @@ $(ton(English))
 julia> ton(British) # slug
 $(ton(British))
 
-julia> ton(GravitationalMetric) # hyl
-$(ton(GravitationalMetric))
+julia> ton(Gravitational) # hyl
+$(ton(Gravitational))
 ```
 """ ton
 
@@ -1232,8 +1232,8 @@ $(pound(English))
 julia> pound(British) # slug
 $(pound(British))
 
-julia> pound(GravitationalMetric) # hyl
-$(pound(GravitationalMetric))
+julia> pound(Gravitational) # hyl
+$(pound(Gravitational))
 ```
 """ pound
 
@@ -1254,8 +1254,8 @@ $(ounce(English))
 julia> ounce(British) # slug
 $(ounce(British))
 
-julia> ounce(GravitationalMetric) # hyl
-$(ounce(GravitationalMetric))
+julia> ounce(Gravitational) # hyl
+$(ounce(Gravitational))
 ```
 """ ounce
 
@@ -1276,8 +1276,8 @@ $(slug(English))
 julia> slug(British) # slug
 $(slug(British))
 
-julia> slug(GravitationalMetric) # hyl
-$(slug(GravitationalMetric))
+julia> slug(Gravitational) # hyl
+$(slug(Gravitational))
 ```
 """ slug
 
@@ -1298,13 +1298,13 @@ $(slinch(English))
 julia> slinch(British) # slug
 $(slinch(British))
 
-julia> slinch(GravitationalMetric) # hyl
-$(slinch(GravitationalMetric))
+julia> slinch(Gravitational) # hyl
+$(slinch(Gravitational))
 ```
 """ slinch
 
 @doc """
-$(unitext(:hyl,"mass(𝟏,U,GravitationalMetric)"))
+$(unitext(:hyl,"mass(𝟏,U,Gravitational)"))
 
 Gravitational Metric `hyl` unit of `mass` (kg or lb).
 ```Julia
@@ -1320,8 +1320,8 @@ $(hyl(English))
 julia> hyl(British) # slug
 $(hyl(British))
 
-julia> hyl(GravitationalMetric) # hyl
-$(hyl(GravitationalMetric))
+julia> hyl(Gravitational) # hyl
+$(hyl(Gravitational))
 ```
 """ hyl
 
@@ -1344,8 +1344,8 @@ $(dyne(English))
 julia> dyne(FPS) # pdl
 $(dyne(FPS))
 
-julia> dyne(MetricEngineering) # kp
-$(dyne(MetricEngineering))
+julia> dyne(Engineering) # kp
+$(dyne(Engineering))
 ```
 """ dyne
 
@@ -1366,8 +1366,8 @@ $(newton(English))
 julia> newton(FPS) # pdl
 $(newton(FPS))
 
-julia> newton(MetricEngineering) # kp
-$(newton(MetricEngineering))
+julia> newton(Engineering) # kp
+$(newton(Engineering))
 ```
 """ newton
 
@@ -1388,13 +1388,13 @@ $(poundal(English))
 julia> poundal(FPS) # pdl
 $(poundal(FPS))
 
-julia> poundal(MetricEngineering) # kp
-$(poundal(MetricEngineering))
+julia> poundal(Engineering) # kp
+$(poundal(Engineering))
 ```
 """ poundal
 
 @doc """
-$(unitext(:kilopond,"force(𝟏,U,MetricEngineering)"))
+$(unitext(:kilopond,"force(𝟏,U,Engineering)"))
 
 Gravitational `kilopond` unit of `force` used in engineering systems (N or lb).
 ```Julia
@@ -1410,8 +1410,8 @@ $(kilopond(English))
 julia> kilopond(FPS) # pdl
 $(kilopond(FPS))
 
-julia> kilopond(MetricEngineering) # kp
-$(kilopond(MetricEngineering))
+julia> kilopond(Engineering) # kp
+$(kilopond(Engineering))
 ```
 """ kilopond
 
@@ -1432,8 +1432,8 @@ $(poundforce(English))
 julia> poundforce(FPS) # pdl
 $(poundforce(FPS))
 
-julia> poundforce(MetricEngineering) # kp
-$(poundforce(MetricEngineering))
+julia> poundforce(Engineering) # kp
+$(poundforce(Engineering))
 ```
 """ poundforce
 
@@ -1764,8 +1764,8 @@ $(watt(Metric))
 julia> watt(English) # lb⋅ft⋅s⁻¹
 $(watt(English))
 
-julia> watt(MetricEngineering) # kgf⋅m⋅s⁻¹
-$(watt(MetricEngineering))
+julia> watt(Engineering) # kgf⋅m⋅s⁻¹
+$(watt(Engineering))
 ```
 """ watt
 
@@ -1780,8 +1780,8 @@ $(tonsrefrigeration(British))
 julia> tonsrefrigeration(Metric) # W
 $(tonsrefrigeration(Metric))
 
-julia> tonsrefrigeration(MetricEngineering) # kgf⋅m⋅s⁻¹
-$(tonsrefrigeration(MetricEngineering))
+julia> tonsrefrigeration(Engineering) # kgf⋅m⋅s⁻¹
+$(tonsrefrigeration(Engineering))
 ```
 """ tonsrefrigeration
 
@@ -1796,8 +1796,8 @@ $(boilerhorsepower(British))
 julia> boilerhorsepower(Metric) # W
 $(boilerhorsepower(Metric))
 
-julia> boilerhorsepower(MetricEngineering) # kgf⋅m⋅s⁻¹
-$(boilerhorsepower(MetricEngineering))
+julia> boilerhorsepower(Engineering) # kgf⋅m⋅s⁻¹
+$(boilerhorsepower(Engineering))
 ```
 """ boilerhorsepower
 
@@ -1812,8 +1812,8 @@ $(horsepower(British))
 julia> horsepower(Metric) # W
 $(horsepower(Metric))
 
-julia> horsepower(MetricEngineering) # kgf⋅m⋅s⁻¹
-$(horsepower(MetricEngineering))
+julia> horsepower(Engineering) # kgf⋅m⋅s⁻¹
+$(horsepower(Engineering))
 ```
 """ horsepower, HP
 
@@ -1828,13 +1828,13 @@ $(horsepowerwatt(British))
 julia> horsepowerwatt(Metric) # W
 $(horsepowerwatt(Metric))
 
-julia> horsepowerwatt(MetricEngineering) # kgf⋅m⋅s⁻¹
-$(horsepowerwatt(MetricEngineering))
+julia> horsepowerwatt(Engineering) # kgf⋅m⋅s⁻¹
+$(horsepowerwatt(Engineering))
 ```
 """ horsepowerwatt
 
 @doc """
-$(unitext(:horsepowermetric,"power(𝟑*𝟓^2,U,GravitationalMetric)"))
+$(unitext(:horsepowermetric,"power(𝟑*𝟓^2,U,Gravitational)"))
 
 Unit of `power` derived from raising 75 kp by 1 m in 1  in 1 s.
 ```Julia
@@ -1844,8 +1844,8 @@ $(horsepowermetric(British))
 julia> horsepowermetric(Metric) # W
 $(horsepowermetric(Metric))
 
-julia> horsepowermetric(MetricEngineering) # kgf⋅m⋅s⁻¹
-$(horsepowermetric(MetricEngineering))
+julia> horsepowermetric(Engineering) # kgf⋅m⋅s⁻¹
+$(horsepowermetric(Engineering))
 ```
 """ horsepowermetric
 
@@ -1860,8 +1860,8 @@ $(electricalhorsepower(British))
 julia> electricalhorsepower(Metric) # W
 $(electricalhorsepower(Metric))
 
-julia> electricalhorsepower(MetricEngineering) # kgf⋅m⋅s⁻¹
-$(electricalhorsepower(MetricEngineering))
+julia> electricalhorsepower(Engineering) # kgf⋅m⋅s⁻¹
+$(electricalhorsepower(Engineering))
 ```
 """ electricalhorsepower
 
@@ -2598,8 +2598,8 @@ $(unitext(:candela,"luminousintensity(𝟏,U,Metric)"))
 
 Common unit of `luminousintensity` (cd).
 ```Julia
-julia> candela(MetricEngineering) # lm⋅rad⁻²
-$(candela(MetricEngineering))
+julia> candela(Engineering) # lm⋅rad⁻²
+$(candela(Engineering))
 
 julia> candela(MetricDegree) # lm⋅deg⁻²
 $(candela(MetricDegree))
@@ -2668,8 +2668,8 @@ $(unitext(:nit,"luminance(𝟏,U,Metric)"))
 
 Metric unit of `luminance` (lx⋅rad⁻²).
 ```Julia
-julia> nit(MetricEngineering) # nt
-$(nit(MetricEngineering))
+julia> nit(Engineering) # nt
+$(nit(Engineering))
 
 julia> nit(MetricDegree) # lm⋅m⁻²deg⁻²
 $(nit(MetricDegree))
@@ -2690,8 +2690,8 @@ $(unitext(:apostilb,"luminance(𝟐/turn(U),U,Metric)"))
 
 Metric unit of `luminance` (lx⋅rad⁻²).
 ```Julia
-julia> apostilb(MetricEngineering) # nt
-$(apostilb(MetricEngineering))
+julia> apostilb(Engineering) # nt
+$(apostilb(Engineering))
 
 julia> apostilb(MetricDegree) # lm⋅m⁻²deg⁻²
 $(apostilb(MetricDegree))
@@ -2712,8 +2712,8 @@ $(unitext(:stilb,"luminance(𝟏,U,Gauss)"))
 
 Historic unit of `luminance` (lx⋅rad⁻²).
 ```Julia
-julia> stilb(MetricEngineering) # nt
-$(stilb(MetricEngineering))
+julia> stilb(Engineering) # nt
+$(stilb(Engineering))
 
 julia> stilb(MetricDegree) # lm⋅m⁻²deg⁻²
 $(stilb(MetricDegree))
@@ -2734,8 +2734,8 @@ $(unitext(:lambert,"luminance(𝟐/turn(U),U,Gauss)"))
 
 Historic unit of `luminance` (nt).
 ```Julia
-julia> lambert(MetricEngineering) # nt
-$(lambert(MetricEngineering))
+julia> lambert(Engineering) # nt
+$(lambert(Engineering))
 
 julia> lambert(MetricDegree) # lm⋅m⁻²deg⁻²
 $(lambert(MetricDegree))
@@ -2756,8 +2756,8 @@ $(unitext(:footlambert,"luminance(𝟐/turn(U),U,English)"))
 
 English unit of `luminance` (nt).
 ```Julia
-julia> footlambert(MetricEngineering) # nt
-$(footlambert(MetricEngineering))
+julia> footlambert(Engineering) # nt
+$(footlambert(Engineering))
 
 julia> footlambert(MetricDegree) # lm⋅m⁻²deg⁻²
 $(footlambert(MetricDegree))
@@ -2778,8 +2778,8 @@ $(unitext(:bril,"centi*nano*lambert(U)"))
 
 Reference unit of `luminance` (nt).
 ```Julia
-julia> bril(MetricEngineering) # nt
-$(bril(MetricEngineering))
+julia> bril(Engineering) # nt
+$(bril(Engineering))
 
 julia> bril(MetricDegree) # lm⋅m⁻²deg⁻²
 $(bril(MetricDegree))
@@ -2822,8 +2822,8 @@ $(unitext(:hertz,"𝟏/second(U)"))
 
 Metric unit of `frequency` (s⁻¹).
 ```Julia
-julia> hertz(MetricEngineering) # rad⋅s⁻¹
-$(hertz(MetricEngineering))
+julia> hertz(Engineering) # rad⋅s⁻¹
+$(hertz(Engineering))
 
 julia> hertz(IAU) # D⁻¹
 $(hertz(IAU))
@@ -2851,8 +2851,8 @@ $(unitext(:rpm,"turn(U)/minute(U)"))
 
 Revolutions per minute `rpm` unit of `angularfrequency` (rad⋅s⁻¹).
 ```Julia
-julia> rpm(MetricEngineering) # rad⋅s⁻¹
-$(rpm(MetricEngineering))
+julia> rpm(Engineering) # rad⋅s⁻¹
+$(rpm(Engineering))
 
 julia> rpm(MetricGradian) # gon⋅s⁻¹
 $(rpm(MetricGradian))

@@ -288,36 +288,36 @@ $(luminousefficacy(MetricGradian))
 """ MetricGradian
 
 @doc """
-$(systext(:MetricEngineering,"MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,g₀)"))
+$(systext(:Engineering,"MetricSystem(milli,𝟐*τ/𝟏𝟎^7,Rᵤ,g₀)"))
 
-Standard `MetricEngineering` system based on kilogram and kilopond (kilogram-force) units.
+Standard Metric `Engineering` system based on kilogram and kilopond (kilogram-force) units.
 
 ```Julia
-julia> boltzmann(MetricEngineering) # kgf⋅m⋅K⁻¹
-$(boltzmann(MetricEngineering))
+julia> boltzmann(Engineering) # kgf⋅m⋅K⁻¹
+$(boltzmann(Engineering))
 
-julia> planckreduced(MetricEngineering) # kgf⋅m⋅s⋅rad⁻¹
-$(planckreduced(MetricEngineering))
+julia> planckreduced(Engineering) # kgf⋅m⋅s⋅rad⁻¹
+$(planckreduced(Engineering))
 
-julia> lightspeed(MetricEngineering) # m⋅s⁻¹
-$(lightspeed(MetricEngineering))
+julia> lightspeed(Engineering) # m⋅s⁻¹
+$(lightspeed(Engineering))
 
-julia> vacuumpermeability(MetricEngineering) # kgf⋅s²⋅C⁻²
-$(vacuumpermeability(MetricEngineering))
+julia> vacuumpermeability(Engineering) # kgf⋅s²⋅C⁻²
+$(vacuumpermeability(Engineering))
 
-julia> electronmass(MetricEngineering) # kg
-$(electronmass(MetricEngineering))
+julia> electronmass(Engineering) # kg
+$(electronmass(Engineering))
 
-julia> molarmass(MetricEngineering) # kg⋅mol⁻¹
-$(molarmass(MetricEngineering))
+julia> molarmass(Engineering) # kg⋅mol⁻¹
+$(molarmass(Engineering))
 
-julia> luminousefficacy(MetricEngineering) # lm⋅s⋅m⁻¹⋅kgf⁻¹
-$(luminousefficacy(MetricEngineering))
+julia> luminousefficacy(Engineering) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(Engineering))
 
-julia> gravity(MetricEngineering) # kg⋅m⋅kgf⁻¹⋅s⁻²
-$(gravity(MetricEngineering))
+julia> gravity(Engineering) # kg⋅m⋅kgf⁻¹⋅s⁻²
+$(gravity(Engineering))
 ```
-""" MetricEngineering, ME
+""" Engineering, ME
 
 #=@doc """
 $(systext(:SI2019Engineering,"MetricSystem(Mᵤ,μ₀,Rᵤ,g₀)"))
@@ -553,7 +553,7 @@ $(luminousefficacy(Meridian))
 """ Meridian
 
 #=@doc """
-$(systext(:MeridianEngineering,"EntropySystem(MetricEngineering,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7/g₀^2,milli)"))
+$(systext(:MeridianEngineering,"EntropySystem(Engineering,𝟏,em,em^3,𝟏,τ/𝟐^6/𝟓^7/g₀^2,milli)"))
 
 Modern ideal engineering `UnitSystem` variant of the original French `Meridian` system.
 
@@ -773,33 +773,33 @@ $(rationalization(Kennelly))
 """ Kennelly=#
 
 @doc """
-$(systext(:GravitationalMetric,"EntropySystem(Metric,𝟏,𝟏,g₀)"))
+$(systext(:Gravitational,"EntropySystem(Metric,𝟏,𝟏,g₀)"))
 
-Standard `GravitationalMetric` system based on `hyl` and `kilopond` units.
+Standard `Gravitational` system based on `hyl` and `kilopond` units.
 
 ```Julia
-julia> boltzmann(GravitationalMetric) # kgf⋅m⋅K⁻¹
-$(boltzmann(GravitationalMetric))
+julia> boltzmann(Gravitational) # kgf⋅m⋅K⁻¹
+$(boltzmann(Gravitational))
 
-julia> planckreduced(GravitationalMetric) # kgf⋅m⋅s⋅rad⁻¹
-$(planckreduced(GravitationalMetric))
+julia> planckreduced(Gravitational) # kgf⋅m⋅s⋅rad⁻¹
+$(planckreduced(Gravitational))
 
-julia> lightspeed(GravitationalMetric) # m⋅s⁻¹
-$(lightspeed(GravitationalMetric))
+julia> lightspeed(Gravitational) # m⋅s⁻¹
+$(lightspeed(Gravitational))
 
-julia> vacuumpermeability(GravitationalMetric) # H⋅m⁻¹
-$(vacuumpermeability(GravitationalMetric))
+julia> vacuumpermeability(Gravitational) # H⋅m⁻¹
+$(vacuumpermeability(Gravitational))
 
-julia> electronmass(GravitationalMetric) # hyl
-$(electronmass(GravitationalMetric))
+julia> electronmass(Gravitational) # hyl
+$(electronmass(Gravitational))
 
-julia> molarmass(GravitationalMetric) # hyl⋅mol⁻¹
-$(molarmass(GravitationalMetric))
+julia> molarmass(Gravitational) # hyl⋅mol⁻¹
+$(molarmass(Gravitational))
 
-julia> luminousefficacy(GravitationalMetric) # lm⋅s⋅m⁻¹⋅kgf⁻¹
-$(luminousefficacy(GravitationalMetric))
+julia> luminousefficacy(Gravitational) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(Gravitational))
 ```
-""" GravitationalMetric, GM
+""" Gravitational, GM
 
 #=@doc """
 $(systext(:GraviationalSI2019,"EntropySystem(SI2019,𝟏,𝟏,g₀)"))
@@ -825,8 +825,8 @@ $(electronmass(GravitationalSI2019))
 julia> molarmass(GravitationalSI2019) # hyl⋅mol⁻¹
 $(molarmass(GravitationalSI2019))
 
-julia> luminousefficacy(GravitationalMetric) # lm⋅s⋅m⁻¹⋅kgf⁻¹
-$(luminousefficacy(GravitationalMetric))
+julia> luminousefficacy(Gravitational) # lm⋅s⋅m⁻¹⋅kgf⁻¹
+$(luminousefficacy(Gravitational))
 ```
 """ GravitationalSI2019, GSI, GSI2019=#
 

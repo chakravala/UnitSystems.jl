@@ -43,8 +43,8 @@ $(unitext(:turn,"2π/angle(U)"))
 
 Complete rotation `angle` of revolution from a full circle.
 ```Julia
-julia> turn(MetricEngineering) # rad
-$(turn(MetricEngineering))
+julia> turn(Engineering) # rad
+$(turn(Engineering))
 
 julia> turn(MetricDegree) # deg
 $(turn(MetricDegree))
@@ -65,8 +65,8 @@ $(unitext(:spat,"4π/solidangle(U)"))
 
 Complete spherical `solidangle` around point from a full sphere.
 ```Julia
-julia> spat(MetricEngineering) # rad²
-$(spat(MetricEngineering))
+julia> spat(Engineering) # rad²
+$(spat(Engineering))
 
 julia> spat(MetricDegree) # deg²
 $(spat(MetricDegree))
@@ -480,8 +480,8 @@ Gravitational force reference used in technical engineering units (kg⋅m⋅N⁻
 julia> gravity(Metric)
 $(gravity(Metric))
 
-julia> gravity(MetricEngineering) # m⋅kg⋅N⁻¹⋅s⁻²
-$(gravity(MetricEngineering))
+julia> gravity(Engineering) # m⋅kg⋅N⁻¹⋅s⁻²
+$(gravity(Engineering))
 
 julia> gravity(English) # ft⋅lbm⋅lbf⁻¹⋅s⁻²
 $(gravity(English))
@@ -1338,8 +1338,8 @@ $(unitext(:gaussgravitation,"sqrt(gravitation(U)*solarmass(U)/astronomicalunit(U
 
 Gaussian  gravitational constant `k` of Newton's laws (Hz or rad⋅D⁻¹).
 ```Julia
-julia> gaussgravitation(MetricEngineering)
-$(gaussgravitation(MetricEngineering))
+julia> gaussgravitation(Engineering)
+$(gaussgravitation(Engineering))
 
 julia> gaussgravitation(MetricGradian)
 $(gaussgravitation(MetricGradian))
